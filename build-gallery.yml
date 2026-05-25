@@ -1,0 +1,36 @@
+name: Galerij automatisch bijwerken
+
+on:
+  push:
+    paths:
+      - '20**/**'        # triggert op elke map die begint met 20 (2019, 2024, etc.)
+      - 'generate-gallery.js'
+
+  workflow_dispatch:     # ook handmatig te starten via GitHub UI
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write    # nodig om index.html terug te committen
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js instellen
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Galerij genereren
+        run: node generate-gallery.js
+
+      - name: Wijzigingen committen
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --staged --quiet || git commit -m "🖼️ Galerij automatisch bijgewerkt"
+          git push

@@ -692,19 +692,22 @@
 
   .photo.hidden { display: none; }
 
-  /* placeholder kleuren per jaar, donker met flame accents */
-  .y2019 .photo-inner { background: linear-gradient(135deg, #2a3220 0%, #0d100c 100%); }
-  .y2020 .photo-inner { background: linear-gradient(135deg, #1d2820 0%, #0d100c 100%); }
-  .y2021 .photo-inner { background: linear-gradient(135deg, #3a2418 0%, #0d100c 100%); }
-  .y2022 .photo-inner { background: linear-gradient(135deg, #2a3826 0%, #0d100c 100%); }
-  .y2023 .photo-inner { background: linear-gradient(135deg, #3a2e1a 0%, #0d100c 100%); }
-  .y2024 .photo-inner { background: linear-gradient(135deg, #1f2a2e 0%, #0d100c 100%); }
-  .y2025 .photo-inner { background: linear-gradient(135deg, #3a1d12 0%, #0d100c 100%); }
-  .y2026 .photo-inner {
-    background:
-      radial-gradient(circle at 70% 30%, rgba(255, 94, 31, 0.4), transparent 60%),
-      linear-gradient(135deg, #2a1a0e 0%, #0d100c 100%);
+  /* Als een foto een echte afbeelding heeft, toon die. Anders: placeholder kleur per jaar */
+  .photo-inner {
+    background-image: var(--photo-bg, none);
+    background-size: cover;
+    background-position: center;
   }
+  /* GALLERY-COLORS-START */
+  .y2019 .photo-inner { background-color: #2a3220; }
+  .y2020 .photo-inner { background-color: #1d2820; }
+  .y2021 .photo-inner { background-color: #3a2418; }
+  .y2022 .photo-inner { background-color: #2a3826; }
+  .y2023 .photo-inner { background-color: #3a2e1a; }
+  .y2024 .photo-inner { background-color: #1f2a2e; }
+  .y2025 .photo-inner { background-color: #3a1d12; }
+  .y2026 .photo-inner { background-color: #2a1a0e; }
+  /* GALLERY-COLORS-END */
 
   /* FOOTER */
   footer {
@@ -1026,6 +1029,7 @@
   </div>
 
   <div class="filter-bar" id="filterBar">
+    <!-- GALLERY-FILTERS-START -->
     <button class="filter-btn active" data-filter="all">Alles</button>
     <button class="filter-btn" data-filter="2019">'19</button>
     <button class="filter-btn" data-filter="2020">'20</button>
@@ -1035,40 +1039,53 @@
     <button class="filter-btn" data-filter="2024">'24</button>
     <button class="filter-btn" data-filter="2025">'25</button>
     <button class="filter-btn" data-filter="2026">'26</button>
+    <!-- GALLERY-FILTERS-END -->
   </div>
 
   <div class="gallery" id="gallery">
+    <!-- GALLERY-ITEMS-START -->
+
+    <!-- 2019 -->
     <div class="photo y2019 large" data-year="2019"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2019 / 01</div><div class="photo-caption">De eerste editie, waar het allemaal begon</div></div></div></div>
     <div class="photo y2019" data-year="2019"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2019 / 02</div><div class="photo-caption">Eerste avond</div></div></div></div>
     <div class="photo y2019 tall" data-year="2019"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2019 / 03</div><div class="photo-caption">Het bos</div></div></div></div>
 
+    <!-- 2020 -->
     <div class="photo y2020" data-year="2020"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2020 / 01</div><div class="photo-caption">Coronaproof weekend</div></div></div></div>
     <div class="photo y2020 wide" data-year="2020"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2020 / 02</div><div class="photo-caption">Buiten was beter</div></div></div></div>
     <div class="photo y2020" data-year="2020"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2020 / 03</div><div class="photo-caption">Kampvuur</div></div></div></div>
 
+    <!-- 2021 -->
     <div class="photo y2021" data-year="2021"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2021 / 01</div><div class="photo-caption">Eindelijk weer normaal</div></div></div></div>
     <div class="photo y2021 tall" data-year="2021"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2021 / 02</div><div class="photo-caption">De berghut</div></div></div></div>
     <div class="photo y2021" data-year="2021"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2021 / 03</div><div class="photo-caption">Wandeling</div></div></div></div>
 
+    <!-- 2022 -->
     <div class="photo y2022 large" data-year="2022"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2022 / 01</div><div class="photo-caption">Het legendarische bbq weekend</div></div></div></div>
     <div class="photo y2022" data-year="2022"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2022 / 02</div><div class="photo-caption">Spelletjesavond</div></div></div></div>
     <div class="photo y2022" data-year="2022"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2022 / 03</div><div class="photo-caption">Brunch</div></div></div></div>
 
+    <!-- 2023 -->
     <div class="photo y2023" data-year="2023"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2023 / 01</div><div class="photo-caption">Ardennen</div></div></div></div>
     <div class="photo y2023 wide" data-year="2023"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2023 / 02</div><div class="photo-caption">De groep, compleet</div></div></div></div>
     <div class="photo y2023" data-year="2023"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2023 / 03</div><div class="photo-caption">Avondprogramma</div></div></div></div>
 
+    <!-- 2024 -->
     <div class="photo y2024 tall" data-year="2024"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2024 / 01</div><div class="photo-caption">Het strand</div></div></div></div>
     <div class="photo y2024" data-year="2024"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2024 / 02</div><div class="photo-caption">Diner</div></div></div></div>
     <div class="photo y2024" data-year="2024"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2024 / 03</div><div class="photo-caption">Zonsondergang</div></div></div></div>
 
+    <!-- 2025 -->
     <div class="photo y2025" data-year="2025"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2025 / 01</div><div class="photo-caption">Vorig jaar</div></div></div></div>
     <div class="photo y2025 large" data-year="2025"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2025 / 02</div><div class="photo-caption">Met zijn allen</div></div></div></div>
     <div class="photo y2025" data-year="2025"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2025 / 03</div><div class="photo-caption">Op pad</div></div></div></div>
 
+    <!-- 2026 -->
     <div class="photo y2026 wide" data-year="2026"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2026 / 01</div><div class="photo-caption">Komt nog, het beste moet nog gemaakt worden</div></div></div></div>
     <div class="photo y2026" data-year="2026"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2026 / 02</div><div class="photo-caption">Binnenkort</div></div></div></div>
     <div class="photo y2026" data-year="2026"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2026 / 03</div><div class="photo-caption">Binnenkort</div></div></div></div>
+
+    <!-- GALLERY-ITEMS-END -->
   </div>
 </section>
 
