@@ -595,15 +595,26 @@
         headers: { 'Accept': 'application/json' },
         body: formData
       });
-      const data = await response.json();
 
-      if (response.ok && (data.success === 'true' || data.success === true)) {
+      // Probeer JSON te parsen, val anders terug op tekst
+      let data = {};
+      try { data = await response.json(); } catch (e) { data = {}; }
+
+      const isSuccess = response.ok && (data.success === 'true' || data.success === true);
+      const msg = (data.message || '').toLowerCase();
+      const needsActivation = /confirm|activat|verif/i.test(msg);
+
+      if (isSuccess) {
         showStatus('success', 'Bericht verzonden. Bedankt, je hoort snel van ons.');
         form.reset();
+      } else if (needsActivation) {
+        showStatus('error', 'Eenmalige activatie nodig. Check de inbox van info@weekendjeweg.info voor een mail van FormSubmit en klik op de bevestigingslink.');
       } else {
+        console.warn('FormSubmit response:', response.status, data);
         showStatus('error', 'Er ging iets mis. Probeer het opnieuw of mail direct.');
       }
     } catch (err) {
+      console.error('Verzendfout:', err);
       showStatus('error', 'Geen verbinding. Probeer het opnieuw of mail direct.');
     } finally {
       btn.disabled = false;
