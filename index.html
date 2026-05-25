@@ -692,6 +692,33 @@
 
   .photo.hidden { display: none; }
 
+  /* VIDEO in galerij */
+  .photo-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 0;
+  }
+  .photo.has-video:hover .photo-video { opacity: 1; }
+  .photo.has-video:hover .photo-inner { opacity: 0; }
+  .video-badge {
+    position: absolute;
+    top: 12px; right: 12px;
+    z-index: 3;
+    width: 28px; height: 28px;
+    background: rgba(255, 94, 31, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba(255, 94, 31, 0.5);
+  }
+  .video-badge svg { width: 12px; height: 12px; fill: #fff; margin-left: 1px; }
+
   /* Als een foto een echte afbeelding heeft, toon die. Anders: placeholder kleur per jaar */
   .photo-inner {
     background-image: var(--photo-bg, none);
@@ -1144,6 +1171,14 @@
         p.classList.add('hidden');
       }
     });
+  });
+
+  // VIDEO: afspelen op hover, pauzeren als muis weggaat
+  document.querySelectorAll('.photo.has-video').forEach(card => {
+    const vid = card.querySelector('.photo-video');
+    if (!vid) return;
+    card.addEventListener('mouseenter', () => { vid.currentTime = 0; vid.play(); });
+    card.addEventListener('mouseleave', () => { vid.pause(); });
   });
 
   // TIJDLIJN MET BUSJE OP BASIS VAN ECHTE TIJD

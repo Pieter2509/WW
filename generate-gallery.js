@@ -17,6 +17,7 @@ const path = require('path');
 const ROOT       = __dirname;
 const INDEX_PATH = path.join(ROOT, 'index.html');
 const IMG_EXTS   = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif']);
+const VID_EXTS   = new Set(['.mp4', '.mov', '.webm', '.m4v']);
 
 // Achtergrondkleuren per jaar (hetzelfde palet als de originele CSS).
 // Voeg hier een nieuwe regel toe voor een nieuw jaar als je een eigen kleur wilt.
@@ -41,11 +42,14 @@ const LAYOUT_CYCLE = ['large', '', 'tall', '', 'wide', '', '', 'wide', 'tall', '
 
 // ─── Hulpfuncties ────────────────────────────────────────────────────────────
 
-/** Geeft alle afbeeldingsbestanden in een map, gesorteerd op naam. */
+/** Geeft alle media-bestanden (afbeeldingen + video's) in een map, gesorteerd op naam. */
 function getImages(dir) {
   try {
     return fs.readdirSync(dir)
-      .filter(f => IMG_EXTS.has(path.extname(f).toLowerCase()))
+      .filter(f => {
+        const ext = path.extname(f).toLowerCase();
+        return IMG_EXTS.has(ext) || VID_EXTS.has(ext);
+      })
       .sort();
   } catch {
     return [];
@@ -60,22 +64,35 @@ function getYearDirs() {
     .sort();
 }
 
-/** Bouwt één <div class="photo …"> element. */
+/** Bouwt één <div class="photo …"> element (afbeelding of video). */
 function buildPhotoDiv(year, index, filename, layout) {
-  const num     = String(index + 1).padStart(2, '0');
-  const imgPath = `${year}/${filename}`;
-  const cls     = ['photo', `y${year}`, layout].filter(Boolean).join(' ');
-  const label   = `${year} / ${num}`;
-  // Bestandsnaam zonder extensie als caption-fallback
-  const caption = path.basename(filename, path.extname(filename))
+  const num      = String(index + 1).padStart(2, '0');
+  const filePath = `${year}/${filename}`;
+  const ext      = path.extname(filename).toLowerCase();
+  const isVideo  = VID_EXTS.has(ext);
+  const caption  = path.basename(filename, ext)
     .replace(/[-_]/g, ' ')
-    .replace(/^\d+\s*/, '');
+    .replace(/^\d+\s*/, '') || 'Weekendje Weg';
+  const label    = `${year} / ${num}`;
+  const cls      = ['photo', `y${year}`, layout, isVideo ? 'has-video' : ''].filter(Boolean).join(' ');
 
-  return `    <div class="${cls}" data-year="${year}" style="--photo-bg: url('${imgPath}')">` +
+  if (isVideo) {
+    // Video: thumbnail via poster optioneel, video speelt op hover
+    return `    <div class="${cls}" data-year="${year}">` +
+      `<video class="photo-video" src="${filePath}" muted playsinline preload="none"></video>` +
+      `<div class="video-badge"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>` +
+      `<div class="photo-inner"><div class="photo-overlay">` +
+      `<div class="photo-year">${label}</div>` +
+      `<div class="photo-caption">${caption}</div>` +
+      `</div></div></div>`;
+  }
+
+  // Afbeelding
+  return `    <div class="${cls}" data-year="${year}" style="--photo-bg: url('${filePath}')">` +
     `<div class="photo-inner">` +
     `<div class="photo-overlay">` +
     `<div class="photo-year">${label}</div>` +
-    `<div class="photo-caption">${caption || 'Weekendje Weg'}</div>` +
+    `<div class="photo-caption">${caption}</div>` +
     `</div></div></div>`;
 }
 
