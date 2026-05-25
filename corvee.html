@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corvee / Weekendje Weg '26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d100c;
+    --bg-elevated: #161a13;
+    --bg-lift: #1d2218;
+    --ink: #f0ebe0;
+    --ink-soft: #a8a294;
+    --ink-muted: #6a6557;
+    --flame: #ff5e1f;
+    --flame-deep: #d94715;
+    --lime: #c4f04a;
+    --moss: #4a8a6a;
+    --line: rgba(240, 235, 224, 0.08);
+    --line-strong: rgba(240, 235, 224, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    z-index: 1;
+    mix-blend-mode: screen;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(16px);
+    background: rgba(13, 16, 12, 0.7);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+  }
+  .logo .dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--flame);
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+    box-shadow: 0 0 12px var(--flame);
+    animation: pulse 2s infinite;
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--flame); }
+  .nav-links a.active { color: var(--flame); }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.3); }
+  }
+
+  /* HERO */
+  .page-hero {
+    padding: 140px 48px 60px;
+    position: relative;
+    z-index: 2;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--flame);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    animation: fadeUp 0.8s 0.1s both;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 40px; height: 1px;
+    background: var(--flame);
+  }
+  .page-hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(3rem, 10vw, 7.5rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.2s both;
+  }
+  .page-hero h1 .accent { color: var(--flame); }
+  .page-hero .subtitle {
+    max-width: 680px;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    animation: fadeUp 0.8s 0.3s both;
+  }
+  .page-hero .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 6px 14px;
+    border: 1px solid var(--flame);
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--flame);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    animation: fadeUp 0.8s 0.4s both;
+  }
+  .page-hero .badge::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--flame);
+    box-shadow: 0 0 8px var(--flame);
+  }
+
+  /* CORVEE */
+  section.corvee {
+    padding: 60px 48px 140px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .corvee-grid {
+    display: grid;
+    grid-template-columns: 220px repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line-strong);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    overflow: hidden;
+    animation: fadeUp 0.8s 0.5s both;
+  }
+  .corvee-cell {
+    background: var(--bg);
+    padding: 28px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: background 0.3s;
+    min-height: 80px;
+  }
+  .corvee-cell.header-corner {
+    background: var(--bg-elevated);
+  }
+  .corvee-cell.day-header {
+    background: var(--bg-elevated);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--flame);
+    padding: 22px 20px;
+    min-height: 60px;
+  }
+  .corvee-cell.task-label {
+    background: var(--bg-elevated);
+    justify-content: flex-start;
+    text-align: left;
+    padding: 28px 24px;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--ink);
+    gap: 14px;
+  }
+  .task-icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    color: var(--flame);
+    opacity: 0.85;
+  }
+  .corvee-cell.names {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1rem;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .corvee-cell.names:hover {
+    background: rgba(255, 94, 31, 0.06);
+  }
+  .corvee-cell.muted {
+    color: var(--ink-muted);
+    font-style: italic;
+    font-size: 0.85rem;
+    font-weight: 400;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .corvee-cell.muted:hover { background: var(--bg); }
+
+  .corvee-notes {
+    margin-top: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    animation: fadeUp 0.8s 0.7s both;
+  }
+  .corvee-note {
+    color: var(--ink-soft);
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    max-width: 720px;
+    line-height: 1.5;
+  }
+  .corvee-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-muted);
+  }
+  .corvee-tag span { color: var(--flame); }
+
+  /* FOOTER */
+  footer {
+    padding: 80px 48px 32px;
+    border-top: 1px solid var(--line-strong);
+    color: var(--ink-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer .footer-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--ink);
+    text-transform: none;
+    letter-spacing: -0.01em;
+  }
+  footer .footer-title em { color: var(--flame); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: 0.7rem; }
+    .page-hero, section.corvee { padding-left: 24px; padding-right: 24px; }
+    .page-hero { padding-top: 110px; }
+    section.corvee { padding-top: 40px; padding-bottom: 80px; }
+
+    .corvee-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+      background: transparent;
+      border: none;
+    }
+    .corvee-cell {
+      padding: 16px 20px;
+      min-height: 0;
+      justify-content: flex-start;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+    .corvee-cell.header-corner,
+    .corvee-cell.day-header { display: none; }
+    .corvee-cell.task-label {
+      background: transparent;
+      border-top: 1px solid var(--flame);
+      margin-top: 24px;
+      padding: 20px 0 8px;
+      font-size: 1.3rem;
+      color: var(--flame);
+      border-bottom: none;
+    }
+    .corvee-cell.task-label:first-of-type {
+      margin-top: 0;
+    }
+    .corvee-cell.names {
+      background: transparent;
+      padding: 14px 0;
+      font-size: 0.95rem;
+    }
+    .corvee-cell.names:hover { background: transparent; }
+    .corvee-cell.names::before {
+      content: attr(data-day);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--ink-muted);
+      margin-right: 16px;
+      font-weight: 500;
+      min-width: 32px;
+      display: inline-block;
+    }
+    .corvee-cell.muted { font-size: 0.8rem; }
+    footer { padding: 60px 24px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="dot"></span>Weekendje / Weg</div>
+  <div class="nav-links">
+    <a href="index.html#agenda">Agenda</a>
+    <a href="index.html#gallerij">Archief</a>
+    <a href="corvee.html" class="active">Corvee</a>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="eyebrow">03 // De Planning</div>
+  <h1>Wie kookt, <span class="accent">wie ruimt</span>?</h1>
+  <p class="subtitle">Pieter regelt elke ochtend ontbijt en lunch en krijgt per dienst één wisselende helper. De avonden worden eerlijk verdeeld tussen koks en opruimers.</p>
+  <span class="badge">voor de mannen</span>
+</header>
+
+<section class="corvee">
+  <div class="corvee-grid">
+    <div class="corvee-cell header-corner"></div>
+    <div class="corvee-cell day-header">Donderdag</div>
+    <div class="corvee-cell day-header">Vrijdag</div>
+    <div class="corvee-cell day-header">Zaterdag</div>
+    <div class="corvee-cell day-header">Zondag</div>
+
+    <div class="corvee-cell task-label">
+      <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 9h11v8a3 3 0 01-3 3H7a3 3 0 01-3-3V9z"/>
+        <path d="M15 11h2.5a2.5 2.5 0 010 5H15"/>
+        <path d="M7 3v3M10 3v3M13 3v3"/>
+      </svg>
+      Ontbijt
+    </div>
+    <div class="corvee-cell names muted" data-day="Do">aankomst 16:00</div>
+    <div class="corvee-cell names" data-day="Vr">Pieter &amp; Max</div>
+    <div class="corvee-cell names" data-day="Za">Pieter &amp; Vince</div>
+    <div class="corvee-cell names" data-day="Zo">Pieter &amp; Jip</div>
+
+    <div class="corvee-cell task-label">
+      <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12h20a10 10 0 01-10 10A10 10 0 012 12z"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M11 8c0-1.5 1-2 1-3.5"/>
+        <path d="M14 8c0-1.5 1-2 1-3.5"/>
+      </svg>
+      Lunch
+    </div>
+    <div class="corvee-cell names muted" data-day="Do">aankomst 16:00</div>
+    <div class="corvee-cell names" data-day="Vr">Pieter &amp; Daan</div>
+    <div class="corvee-cell names" data-day="Za">Pieter &amp; Jip</div>
+    <div class="corvee-cell names" data-day="Zo">Pieter &amp; Roel</div>
+
+    <div class="corvee-cell task-label">
+      <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="9" width="16" height="11" rx="1.5"/>
+        <line x1="2" y1="9" x2="22" y2="9"/>
+        <line x1="8" y1="4" x2="8" y2="6"/>
+        <line x1="12" y1="3" x2="12" y2="6"/>
+        <line x1="16" y1="4" x2="16" y2="6"/>
+      </svg>
+      Koken avond
+    </div>
+    <div class="corvee-cell names" data-day="Do">Jip &amp; Vince</div>
+    <div class="corvee-cell names" data-day="Vr">Vince &amp; Roel</div>
+    <div class="corvee-cell names" data-day="Za">Max &amp; Daan</div>
+    <div class="corvee-cell names muted" data-day="Zo">vertrek</div>
+
+    <div class="corvee-cell task-label">
+      <svg class="task-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 4l5 5"/>
+        <path d="M11 8l5 5-1 7-9-1 5-11z"/>
+        <line x1="7" y1="17" x2="3" y2="21"/>
+        <line x1="10" y1="19" x2="6" y2="22"/>
+      </svg>
+      Opruimen avond
+    </div>
+    <div class="corvee-cell names" data-day="Do">Daan &amp; Roel</div>
+    <div class="corvee-cell names" data-day="Vr">Daan &amp; Jip</div>
+    <div class="corvee-cell names" data-day="Za">Max &amp; Vince</div>
+    <div class="corvee-cell names muted" data-day="Zo">vertrek</div>
+  </div>
+
+  <div class="corvee-notes">
+    <div class="corvee-note">Iedereen draait minstens één avond koken en één avond opruimen. Pieter is permanent ontbijt en lunch hoofd, met telkens een wisselende helper.</div>
+    <div class="corvee-tag">// crew of <span>six</span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-title">Tot in <em>november</em>.</div>
+  <div>WKD-WG / EST. 2019 / V8.0</div>
+</footer>
+
+</body>
+</html>
