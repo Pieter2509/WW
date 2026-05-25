@@ -77,23 +77,20 @@ function buildPhotoDiv(year, index, filename, layout) {
   const cls      = ['photo', `y${year}`, layout, isVideo ? 'has-video' : ''].filter(Boolean).join(' ');
 
   if (isVideo) {
-    // Video: thumbnail via poster optioneel, video speelt op hover
     return `    <div class="${cls}" data-year="${year}">` +
-      `<video class="photo-video" src="${filePath}" muted playsinline preload="none"></video>` +
+      `<div class="photo-inner">` +
+      `<video class="photo-video" src="${filePath}" muted playsinline preload="metadata"></video>` +
+      `<div class="photo-overlay"><div class="photo-year">${label}</div><div class="photo-caption">${caption}</div></div>` +
+      `</div>` +
       `<div class="video-badge"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>` +
-      `<div class="photo-inner"><div class="photo-overlay">` +
-      `<div class="photo-year">${label}</div>` +
-      `<div class="photo-caption">${caption}</div>` +
-      `</div></div></div>`;
+      `</div>`;
   }
 
-  // Afbeelding
-  return `    <div class="${cls}" data-year="${year}" style="--photo-bg: url('${filePath}')">` +
+  return `    <div class="${cls}" data-year="${year}">` +
     `<div class="photo-inner">` +
-    `<div class="photo-overlay">` +
-    `<div class="photo-year">${label}</div>` +
-    `<div class="photo-caption">${caption}</div>` +
-    `</div></div></div>`;
+    `<img class="photo-img" src="${filePath}" alt="${caption}" loading="lazy">` +
+    `<div class="photo-overlay"><div class="photo-year">${label}</div><div class="photo-caption">${caption}</div></div>` +
+    `</div></div>`;
 }
 
 /** Bouwt de volledige galerij-HTML voor alle jaren. */

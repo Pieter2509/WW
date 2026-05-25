@@ -630,7 +630,7 @@
 
   .gallery {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
   }
   .photo {
@@ -638,33 +638,36 @@
     overflow: hidden;
     border-radius: 2px;
     cursor: pointer;
-    transition: transform 0.4s, opacity 0.4s, box-shadow 0.4s;
-    grid-column: span 4;
+    transition: box-shadow 0.4s;
     border: 1px solid var(--line);
-    aspect-ratio: 16 / 9;
+    background: var(--bg-elevated);
+  }
+  .photo img.photo-img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
   .photo:hover {
     border-color: var(--flame);
     box-shadow: 0 0 32px rgba(255, 94, 31, 0.2);
   }
-  .photo.tall { grid-column: span 4; aspect-ratio: 9 / 16; }
-  .photo.wide { grid-column: span 6; aspect-ratio: 16 / 9; }
-  .photo.large { grid-column: span 6; aspect-ratio: 16 / 9; }
+  .photo.tall { }
+  .photo.wide { grid-column: span 2; }
+  .photo.large { grid-column: span 2; }
 
   .photo-inner {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: flex-end;
-    padding: 20px;
-    transition: transform 0.6s ease;
+    position: relative;
+    width: 100%;
   }
-  .photo:hover .photo-inner { transform: scale(1.06); }
+  .photo:hover .photo-inner { opacity: 0.85; transition: opacity 0.3s; }
 
   .photo-overlay {
-    position: relative;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
     z-index: 2;
     color: var(--ink);
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
   }
   .photo-year {
     font-family: 'JetBrains Mono', monospace;
@@ -681,29 +684,12 @@
     color: var(--ink);
     line-height: 1.2;
   }
-  .photo::after {
-    content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 50%, transparent 100%);
-    z-index: 1;
-    transition: opacity 0.3s;
-  }
-
   .photo.hidden { display: none; }
-
-  /* VIDEO in galerij */
   .photo-video {
-    position: absolute;
-    inset: 0;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.4s;
-    z-index: 0;
+    height: auto;
+    display: block;
   }
-  .photo.has-video:hover .photo-video { opacity: 1; }
-  .photo.has-video:hover .photo-inner { opacity: 0; }
   .video-badge {
     position: absolute;
     top: 12px; right: 12px;
@@ -718,24 +704,7 @@
   }
   .video-badge svg { width: 12px; height: 12px; fill: #fff; margin-left: 1px; }
 
-  /* Als een foto een echte afbeelding heeft, toon die. Anders: placeholder kleur per jaar */
-  .photo-inner {
-    background-image: var(--photo-bg, none);
-    background-size: cover;
-    background-position: center;
-    background-color: transparent;
-  }
-  /* Toon alleen foto's met echte afbeelding of video — lege tegels verbergen */
-  .photo:not([style]):not(.has-video) { display: none; }
   /* GALLERY-COLORS-START */
-  .y2019 .photo-inner { background-color: transparent; }
-  .y2020 .photo-inner { background-color: transparent; }
-  .y2021 .photo-inner { background-color: transparent; }
-  .y2022 .photo-inner { background-color: transparent; }
-  .y2023 .photo-inner { background-color: transparent; }
-  .y2024 .photo-inner { background-color: transparent; }
-  .y2025 .photo-inner { background-color: transparent; }
-  .y2026 .photo-inner { background-color: transparent; }
   /* GALLERY-COLORS-END */
 
   /* FOOTER */
@@ -793,8 +762,7 @@
     .section-header { flex-wrap: wrap; }
     .section-sub { margin-left: 0; width: 100%; }
     .gallery { grid-template-columns: repeat(2, 1fr); }
-    .photo, .photo.tall, .photo.wide, .photo.large { grid-column: span 1; aspect-ratio: 16 / 9; }
-    .photo.tall { aspect-ratio: 9 / 16; }
+    .photo, .photo.tall, .photo.wide, .photo.large { grid-column: span 1; aspect-ratio: unset; }
   }
   @media (max-width: 520px) {
     .countdown { grid-template-columns: repeat(2, 1fr); gap: 32px; }
