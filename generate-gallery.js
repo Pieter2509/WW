@@ -129,12 +129,9 @@ function buildFilterHTML(years) {
   return buttons.join('\n');
 }
 
-/** Bouwt de CSS-blokken voor jaren die nog geen kleur hebben in de HTML. */
+/** Bouwt de CSS-blokken — transparant, geen placeholders meer. */
 function buildColorCSS(years) {
-  return years.map(year => {
-    const color = YEAR_COLORS[year] || DEFAULT_COLOR;
-    return `.y${year} .photo-inner { background: ${color}; }`;
-  }).join('\n  ');
+  return years.map(year => `.y${year} .photo-inner { background-color: transparent; }`).join('\n  ');
 }
 
 // ─── Hoofd ───────────────────────────────────────────────────────────────────
