@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Het Huisje / Weekendje Weg '26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d100c;
+    --bg-elevated: #161a13;
+    --bg-lift: #1d2218;
+    --ink: #f0ebe0;
+    --ink-soft: #a8a294;
+    --ink-muted: #6a6557;
+    --flame: #ff5e1f;
+    --flame-deep: #d94715;
+    --lime: #c4f04a;
+    --moss: #4a8a6a;
+    --line: rgba(240, 235, 224, 0.08);
+    --line-strong: rgba(240, 235, 224, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    z-index: 1;
+    mix-blend-mode: screen;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(16px);
+    background: rgba(13, 16, 12, 0.7);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .logo img {
+    height: 44px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 94, 31, 0.35));
+    transition: filter 0.3s, transform 0.3s;
+  }
+  .logo img:hover {
+    filter: drop-shadow(0 0 18px rgba(255, 94, 31, 0.6));
+    transform: scale(1.04);
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--flame); }
+  .nav-links a.active { color: var(--flame); }
+
+  /* HERO */
+  .page-hero {
+    padding: 140px 48px 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--flame);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    animation: fadeUp 0.8s 0.1s both;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 40px; height: 1px;
+    background: var(--flame);
+  }
+  .eyebrow .coords {
+    margin-left: auto;
+    color: var(--ink-muted);
+    letter-spacing: 0.15em;
+  }
+  .page-hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(3rem, 10vw, 7.5rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.2s both;
+  }
+  .page-hero h1 .accent { color: var(--flame); }
+  .page-hero .subtitle {
+    max-width: 720px;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.3s both;
+  }
+
+  /* STATS STRIP */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line-strong);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 24px;
+    animation: fadeUp 0.8s 0.4s both;
+  }
+  .stat {
+    background: var(--bg-elevated);
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .stat .v {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat .v .small {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.1em;
+    margin-left: 4px;
+  }
+  .stat .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-muted);
+  }
+  .stat.rating .v { color: var(--lime); }
+
+  /* HERO IMAGE */
+  .hero-image {
+    padding: 16px 48px 80px;
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 0.8s 0.5s both;
+  }
+  .hero-image-inner {
+    position: relative;
+    aspect-ratio: 16 / 8;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .hero-image-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-image-tag {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    padding: 8px 14px;
+    background: rgba(13, 16, 12, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line-strong);
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-image-tag::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 8px var(--lime);
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    padding: 0 48px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--flame);
+  }
+  .section-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    color: var(--ink);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .section-sub {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-muted);
+  }
+
+  /* GALLERY */
+  section.gallery {
+    padding: 0 48px 100px;
+    position: relative;
+    z-index: 2;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .gallery-item {
+    aspect-ratio: 4 / 3;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s;
+  }
+  .gallery-item:hover { transform: translateY(-3px); }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s;
+  }
+  .gallery-item:hover img { transform: scale(1.05); }
+  .gallery-item .label {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    padding: 4px 10px;
+    background: rgba(13, 16, 12, 0.85);
+    backdrop-filter: blur(10px);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    border-radius: 100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .gallery-item:hover .label { opacity: 1; }
+
+  /* AMENITIES */
+  section.amenities {
+    padding: 0 48px 100px;
+    position: relative;
+    z-index: 2;
+  }
+  .amen-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line-strong);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .amen {
+    background: var(--bg);
+    padding: 36px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: background 0.3s;
+  }
+  .amen:hover { background: var(--bg-elevated); }
+  .amen-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--flame);
+    opacity: 0.85;
+  }
+  .amen-name {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .amen-desc {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* INFO BLOCK */
+  section.info {
+    padding: 0 48px 100px;
+    position: relative;
+    z-index: 2;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 32px;
+  }
+  .info-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    padding: 36px;
+  }
+  .info-card-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--flame);
+    margin-bottom: 20px;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    gap: 16px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-muted);
+  }
+  .info-row .v {
+    color: var(--ink);
+    font-weight: 500;
+    text-align: right;
+  }
+  .info-row .v.lime { color: var(--lime); }
+
+  .info-quote {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--flame);
+    border-radius: 4px;
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .quote-text {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--ink);
+    line-height: 1.45;
+    letter-spacing: -0.005em;
+  }
+  .quote-attr {
+    margin-top: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-muted);
+  }
+  .quote-attr span { color: var(--lime); }
+
+  /* CTA */
+  section.cta {
+    padding: 0 48px 120px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-box {
+    background: linear-gradient(135deg, rgba(255, 94, 31, 0.08), rgba(255, 94, 31, 0.02));
+    border: 1px solid rgba(255, 94, 31, 0.25);
+    border-radius: 6px;
+    padding: 56px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .cta-text {
+    flex: 1;
+    min-width: 280px;
+  }
+  .cta-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .cta-sub {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--flame);
+    color: var(--bg);
+    padding: 16px 26px;
+    border-radius: 3px;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    white-space: nowrap;
+  }
+  .cta-link:hover {
+    background: var(--flame-deep);
+    box-shadow: 0 8px 24px rgba(255, 94, 31, 0.35);
+  }
+  .cta-link svg { width: 14px; height: 14px; }
+
+  /* FOOTER */
+  footer {
+    padding: 80px 48px 32px;
+    border-top: 1px solid var(--line-strong);
+    color: var(--ink-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer .footer-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--ink);
+    text-transform: none;
+    letter-spacing: -0.01em;
+  }
+  footer .footer-title em { color: var(--flame); }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 16, 12, 0.95);
+    backdrop-filter: blur(20px);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    cursor: zoom-out;
+  }
+  .lightbox.show { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    background: var(--bg-elevated);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.2rem;
+  }
+  .lightbox-close:hover { color: var(--flame); border-color: var(--flame); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 0.68rem; letter-spacing: 0.1em; }
+    .page-hero,
+    .hero-image,
+    .section-header,
+    section.gallery,
+    section.amenities,
+    section.info,
+    section.cta { padding-left: 24px; padding-right: 24px; }
+    .page-hero { padding-top: 110px; }
+    .eyebrow .coords { display: none; }
+
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { padding: 18px 18px; }
+    .stat .v { font-size: 1.6rem; }
+
+    .hero-image-inner { aspect-ratio: 4 / 3; }
+
+    .gallery-grid { grid-template-columns: 1fr; gap: 10px; }
+    .gallery-item { aspect-ratio: 16 / 11; }
+    .gallery-item .label { opacity: 1; }
+
+    .amen-grid { grid-template-columns: repeat(2, 1fr); }
+    .amen { padding: 26px 18px; }
+
+    .info-grid { grid-template-columns: 1fr; gap: 16px; }
+    .info-card, .info-quote { padding: 26px; }
+    .quote-text { font-size: 1.15rem; }
+
+    .cta-box { padding: 32px 24px; gap: 24px; }
+
+    .section-header { flex-wrap: wrap; }
+    .section-sub { margin-left: 0; width: 100%; }
+
+    footer { padding: 60px 24px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo"><img src="logo.png" alt="Weekendje Weg"></a>
+  <div class="nav-links">
+    <a href="index.html#agenda">Agenda</a>
+    <a href="index.html#gallerij">Archief</a>
+    <a href="huisje.html" class="active">Huisje</a>
+    <a href="corvee.html">Corvee</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="eyebrow">
+    03 // De Bestemming
+    <span class="coords">Ciney, BE / Ref. 107841-01</span>
+  </div>
+  <h1>Le Nid de <span class="accent">Barcenal</span>.</h1>
+  <p class="subtitle">Het hoofdkwartier voor editie acht. Een gerenoveerd vakantiehuis op het Waalse platteland, omringd door weiden en bos, met alles wat een groep van zes mannen vier dagen lang nodig kan hebben (en nog wat extra).</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="v">8<span class="small">/8</span></div>
+      <div class="k">Capaciteit</div>
+    </div>
+    <div class="stat">
+      <div class="v">3<span class="small">kamers</span></div>
+      <div class="k">Slaapruimte</div>
+    </div>
+    <div class="stat">
+      <div class="v">100<span class="small">m²</span></div>
+      <div class="k">Op 3 niveaus</div>
+    </div>
+    <div class="stat rating">
+      <div class="v">9.6</div>
+      <div class="k">Reviewscore</div>
+    </div>
+  </div>
+</header>
+
+<section class="hero-image">
+  <div class="hero-image-inner">
+    <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2-Maisons-de-vacances-107841-01-Ciney-1606313-1L.jpg" alt="Vooraanzicht van Le Nid de Barcenal" loading="lazy">
+    <div class="hero-image-tag">Geboekt / 12 november 2026</div>
+  </div>
+</section>
+
+<div class="section-header">
+  <span class="section-num">// gallerij</span>
+  <h2 class="section-title">een rondleiding</h2>
+  <span class="section-sub">klik voor groot</span>
+</div>
+
+<section class="gallery">
+  <div class="gallery-grid">
+    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606310-1L.jpg">
+      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606310-1L.jpg" alt="Interieur" loading="lazy">
+      <div class="label">Het huis</div>
+    </div>
+    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1608648-1L.jpg">
+      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1608648-1L.jpg" alt="Zwembad" loading="lazy">
+      <div class="label">Het zwembad</div>
+    </div>
+    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606281-1L.jpg">
+      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606281-1L.jpg" alt="Leefruimte" loading="lazy">
+      <div class="label">De leefruimte</div>
+    </div>
+    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606308-1L.jpg">
+      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606308-1L.jpg" alt="Buitenkant" loading="lazy">
+      <div class="label">Buitenruimte</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-header">
+  <span class="section-num">// inbegrepen</span>
+  <h2 class="section-title">wat zit erin</h2>
+  <span class="section-sub">8 hoogtepunten</span>
+</div>
+
+<section class="amenities">
+  <div class="amen-grid">
+    <div class="amen">
+      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 14c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/>
+        <path d="M2 18c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/>
+        <path d="M5 10V6a2 2 0 012-2h2"/>
+        <path d="M19 10V6a2 2 0 00-2-2h-2"/>
+      </svg>
+      <div class="amen-name">Binnenzwembad</div>
+      <div class="amen-desc">Verwarmd tot 30°C, 6 bij 3 meter, het hele jaar door beschikbaar.</div>
+    </div>
+    <div class="amen">
+      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2s4 5 4 9a4 4 0 01-8 0c0-4 4-9 4-9z"/>
+        <path d="M12 18v3"/>
+        <path d="M9 22h6"/>
+      </svg>
+      <div class="amen-name">Sauna &amp; infrarood</div>
+      <div class="amen-desc">Eigen wellnessruimte met sauna, infraroodcabine en ligstoelen.</div>
+    </div>
+    <div class="amen">
+      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="6" cy="10" r="1.5"/>
+        <circle cx="12" cy="6" r="1.5"/>
+        <circle cx="18" cy="10" r="1.5"/>
+        <circle cx="9" cy="14" r="1.2"/>
+        <circle cx="15" cy="14" r="1.2"/>
+        <path d="M3 18c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1"/>
+        <path d="M3 21c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1"/>
+      </svg>
+      <div class="amen-name">Jacuzzi</div>
+      <div class="amen-desc">Bubbelbad in dezelfde ruimte. Perfect na een dag paintball.</div>
+    </div>
+    <div class="amen">
+      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="9" width="18" height="8" rx="1"/>
+        <circle cx="12" cy="13" r="1"/>
+        <line x1="3" y1="17" x2="5" y2="20"/>
+        <line x1="21" y1="17" x2="19" y2="20"/>
+        <line x1="3" y1="9" x2="5" y2="6"/>
+        <line x1="21" y1="9" x2="19" y2="6"/>
+      </svg>
+      <div class="amen-name">Biljart</div>
+      <div class="amen-desc">Eigen tafel in de speelkamer, naast een houtpelletkachel.</div>
+    </div>
+    <div class="amen">
+      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="7" width="18" height="11" rx="1.5"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <circle cx="8" cy="12" r="0.7" fill="currentColor"/>
+        <circle cx="16" cy="12" r="0.7" fill="currentColor"/>
+        <path d="M7 4l2 3M17 4l-2 3"/>
+      </svg>
+      <div class="amen-name">Tafelvoetbal &amp; darts</div>
+      <div class="amen-desc">Tweede speelkamer met kicker, TV en een dartbord.</div>
+    </div>
+    <div class="amen">
+      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 21c-3 0-5-2-5-5 0-3 5-12 5-12s5 9 5 12c0 3-2 5-5 5z"/>
+        <path d="M12 14c-1 0-2 1-2 2"/>
+      </svg>
+      <div class="amen-name">Houtgestookte BBQ</div>
+      <div class="amen-desc">Buiten op het terras, naast tuinmeubilair en een petanquebaan.</div>
+    </div>
+    <div class="amen">
+      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 14c4-3 14-3 18 0"/>
+        <path d="M6 10c3-2 9-2 12 0"/>
+        <path d="M9 6c2-1 4-1 6 0"/>
+        <circle cx="12" cy="18" r="1.5" fill="currentColor"/>
+      </svg>
+      <div class="amen-name">Wifi</div>
+      <div class="amen-desc">Gratis en zonder limieten. Voor wie het even nodig heeft.</div>
+    </div>
+    <div class="amen">
+      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 21V10l9-7 9 7v11"/>
+        <path d="M9 21v-7h6v7"/>
+        <path d="M3 21h18"/>
+      </svg>
+      <div class="amen-name">Privétuin 1000 m²</div>
+      <div class="amen-desc">Eigen tuin met uitzicht op weiden, plus bosrijk perceel ernaast.</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-header">
+  <span class="section-num">// dossier</span>
+  <h2 class="section-title">de feiten</h2>
+  <span class="section-sub">in één oogopslag</span>
+</div>
+
+<section class="info">
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-title">// specs</div>
+      <div class="info-row"><span class="k">Locatie</span><span class="v">Ciney, Belgische Ardennen</span></div>
+      <div class="info-row"><span class="k">Type</span><span class="v">Vrijstaand, op het platteland</span></div>
+      <div class="info-row"><span class="k">Uitzicht</span><span class="v">Weiden &amp; bos</span></div>
+      <div class="info-row"><span class="k">Oriëntatie</span><span class="v">Zuid</span></div>
+      <div class="info-row"><span class="k">Slaapkamers</span><span class="v">3 (3p / 3p / 2p)</span></div>
+      <div class="info-row"><span class="k">Badkamers</span><span class="v">2</span></div>
+      <div class="info-row"><span class="k">Parkeerplaatsen</span><span class="v">4 op privéparking</span></div>
+      <div class="info-row"><span class="k">Gerenoveerd</span><span class="v">2025</span></div>
+      <div class="info-row"><span class="k">Aankomst</span><span class="v">Do 12 nov, vanaf 16:00</span></div>
+      <div class="info-row"><span class="k">Vertrek</span><span class="v">Zo 15 nov, voor 20:00</span></div>
+      <div class="info-row"><span class="k">Status</span><span class="v lime">Geboekt &amp; bevestigd</span></div>
+    </div>
+
+    <div class="info-quote">
+      <div>
+        <div class="quote-text">"Het is een geweldig huis. Meer dan genoeg ruimte. Het zwembad, sauna en bubbelbad waren heerlijk. De pooltafel is veelvuldig gebruikt. Het uitzicht is mooi en rustgevend."</div>
+      </div>
+      <div class="quote-attr">// B. Bennie, <span>9.9 / 10</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-box">
+    <div class="cta-text">
+      <div class="cta-title">Meer foto's, plattegrond, of alles tot in detail?</div>
+      <div class="cta-sub">De volledige listing op Ardennes-étape, met alle voorzieningen, alle slaapkamers en de exacte plattegrond.</div>
+    </div>
+    <a class="cta-link" href="https://www.ardennes-etape.be/vakantiehuizen-ardennen/Ciney/Vakantiehuis-Sauna-Jacuzzi-Zwembad-107841-01/?stay=Weekend-0_1-20261030" target="_blank" rel="noopener">
+      Bekijk de listing
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7"/>
+        <polyline points="7 7 17 7 17 17"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-title">Tot in <em>november</em>.</div>
+  <div>WKD-WG / EST. 2019 / V8.0</div>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Sluiten">×</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+  // Lightbox voor de gallery
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const src = item.dataset.full || item.querySelector('img').src;
+      lightboxImg.src = src;
+      lightbox.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || e.target === lightboxImg) closeLightbox();
+  });
+  lightboxClose.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('show')) closeLightbox();
+  });
+</script>
+
+</body>
+</html>
