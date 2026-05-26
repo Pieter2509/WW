@@ -675,34 +675,12 @@
   }
   .photo:hover .photo-inner { transform: scale(1.06); }
 
-  .photo-overlay {
-    position: relative;
-    z-index: 2;
-    color: var(--ink);
-  }
+  .photo-overlay { display: none; }
   .photo-year {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    color: var(--flame);
-    margin-bottom: 4px;
-  }
-  .photo-caption {
-    font-family: 'Instrument Serif', serif;
-    font-style: italic;
     font-size: 1.1rem;
     color: var(--ink);
     line-height: 1.2;
   }
-  .photo::after {
-    content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 50%, transparent 100%);
-    z-index: 1;
-    transition: opacity 0.3s;
-  }
-
   .photo.hidden { display: none; }
 
   /* placeholder kleuren per jaar, donker met flame accents */
