@@ -63,19 +63,21 @@
     border-bottom: 1px solid var(--line);
   }
   .logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 500;
   }
-  .logo img {
-    height: 44px;
-    width: auto;
-    filter: drop-shadow(0 0 10px rgba(255, 94, 31, 0.35));
-    transition: filter 0.3s, transform 0.3s;
-  }
-  .logo img:hover {
-    filter: drop-shadow(0 0 18px rgba(255, 94, 31, 0.6));
-    transform: scale(1.04);
+  .logo .dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--flame);
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+    box-shadow: 0 0 12px var(--flame);
+    animation: pulse 2s infinite;
   }
   .nav-links { display: flex; gap: 32px; }
   .nav-links a {
@@ -90,16 +92,6 @@
     position: relative;
   }
   .nav-links a:hover { color: var(--flame); }
-
-  /* HERO LOGO */
-  .hero-logo {
-    width: clamp(100px, 14vw, 180px);
-    height: auto;
-    margin-bottom: 40px;
-    filter: drop-shadow(0 0 32px rgba(255, 94, 31, 0.45));
-    animation: fadeUp 1s 0.15s both;
-    display: block;
-  }
 
   /* HERO */
   .hero {
@@ -424,7 +416,7 @@
     transform: translateX(-50%);
     text-align: center;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     color: var(--ink-muted);
     letter-spacing: 0.05em;
     line-height: 1.3;
@@ -433,13 +425,15 @@
   }
   .stop-label .day {
     display: block;
-    font-size: 0.55rem;
+    font-size: 0.5rem;
     letter-spacing: 0.18em;
     margin-bottom: 2px;
     opacity: 0.7;
   }
   .stop.passed .stop-label { color: var(--ink-soft); }
   .stop.active .stop-label { color: var(--flame); font-weight: 600; }
+  /* eerste stop (Kaufland) iets onderscheiden */
+  .stop[data-i="0"] .stop-label .day { color: var(--lime); opacity: 1; }
   .van-marker {
     position: absolute;
     top: 18px;
@@ -525,6 +519,12 @@
     position: relative;
   }
   .agenda-item:last-child { border-bottom: 1px solid var(--line); }
+  .agenda-item.pre-week {
+    background: linear-gradient(90deg, rgba(196, 240, 74, 0.04) 0%, transparent 60%);
+    border-top: 1px solid rgba(196, 240, 74, 0.3);
+  }
+  .agenda-item.pre-week .ag-day span { color: var(--lime); }
+  .agenda-item.pre-week .ag-time { color: var(--lime); }
   .agenda-item::before {
     content: "";
     position: absolute;
@@ -630,7 +630,8 @@
 
   .gallery {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 180px;
     gap: 12px;
   }
   .photo {
@@ -638,45 +639,37 @@
     overflow: hidden;
     border-radius: 2px;
     cursor: pointer;
-    transition: box-shadow 0.4s;
+    transition: transform 0.4s, opacity 0.4s, box-shadow 0.4s;
+    grid-column: span 4;
+    grid-row: span 1;
     border: 1px solid var(--line);
-    background: var(--bg-elevated);
-    height: 220px;
   }
-  .photo img.photo-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    transition: transform 0.4s ease;
-  }
-  .photo:hover img.photo-img { transform: scale(1.04); }
   .photo:hover {
     border-color: var(--flame);
     box-shadow: 0 0 32px rgba(255, 94, 31, 0.2);
   }
-  .photo.tall { height: 340px; }
-  .photo.wide { grid-column: span 2; height: 220px; }
-  .photo.large { grid-column: span 2; height: 340px; }
+  .photo.tall { grid-row: span 2; }
+  .photo.wide { grid-column: span 6; }
+  .photo.large { grid-column: span 6; grid-row: span 2; }
 
   .photo-inner {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    transition: transform 0.6s ease;
   }
+  .photo:hover .photo-inner { transform: scale(1.06); }
+
   .photo-overlay {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
+    position: relative;
     z-index: 2;
     color: var(--ink);
-    padding: 16px 20px;
-    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
   }
   .photo-year {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     color: var(--flame);
@@ -685,40 +678,33 @@
   .photo-caption {
     font-family: 'Instrument Serif', serif;
     font-style: italic;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--ink);
     line-height: 1.2;
   }
-  .photo.hidden { display: none; }
-  .photo-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  .photo::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 50%, transparent 100%);
+    z-index: 1;
+    transition: opacity 0.3s;
   }
-  .video-badge {
-    position: absolute;
-    top: 12px; right: 12px;
-    z-index: 3;
-    width: 28px; height: 28px;
-    background: rgba(255, 94, 31, 0.9);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 12px rgba(255, 94, 31, 0.5);
-  }
-  .video-badge svg { width: 12px; height: 12px; fill: #fff; margin-left: 1px; }
 
-  /* GALLERY-COLORS-START */
-  .y2019 .photo-inner { background-color: transparent; }
-  .y2020 .photo-inner { background-color: transparent; }
-  .y2021 .photo-inner { background-color: transparent; }
-  .y2022 .photo-inner { background-color: transparent; }
-  .y2023 .photo-inner { background-color: transparent; }
-  .y2024 .photo-inner { background-color: transparent; }
-  .y2025 .photo-inner { background-color: transparent; }
-  /* GALLERY-COLORS-END */
+  .photo.hidden { display: none; }
+
+  /* placeholder kleuren per jaar, donker met flame accents */
+  .y2019 .photo-inner { background: linear-gradient(135deg, #2a3220 0%, #0d100c 100%); }
+  .y2020 .photo-inner { background: linear-gradient(135deg, #1d2820 0%, #0d100c 100%); }
+  .y2021 .photo-inner { background: linear-gradient(135deg, #3a2418 0%, #0d100c 100%); }
+  .y2022 .photo-inner { background: linear-gradient(135deg, #2a3826 0%, #0d100c 100%); }
+  .y2023 .photo-inner { background: linear-gradient(135deg, #3a2e1a 0%, #0d100c 100%); }
+  .y2024 .photo-inner { background: linear-gradient(135deg, #1f2a2e 0%, #0d100c 100%); }
+  .y2025 .photo-inner { background: linear-gradient(135deg, #3a1d12 0%, #0d100c 100%); }
+  .y2026 .photo-inner {
+    background:
+      radial-gradient(circle at 70% 30%, rgba(255, 94, 31, 0.4), transparent 60%),
+      linear-gradient(135deg, #2a1a0e 0%, #0d100c 100%);
+  }
 
   /* FOOTER */
   footer {
@@ -761,7 +747,7 @@
     .hero, section.block { padding-left: 24px; padding-right: 24px; }
     section.block { padding-top: 80px; padding-bottom: 80px; }
     .timeline { padding: 60px 20px 50px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .stops { min-width: 620px; }
+    .stops { min-width: 820px; }
     .timeline-track, .timeline-progress { left: 20px; }
     .timeline-track { right: 20px; }
     .van-marker { left: 27px; }
@@ -774,9 +760,9 @@
     .ag-tag { justify-self: start; }
     .section-header { flex-wrap: wrap; }
     .section-sub { margin-left: 0; width: 100%; }
-    .gallery { grid-template-columns: repeat(2, 1fr); }
-    .photo, .photo.wide, .photo.large { grid-column: span 1; height: 160px; }
-    .photo.tall { height: 260px; }
+    .gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
+    .photo, .photo.tall, .photo.wide, .photo.large { grid-column: span 1; grid-row: span 1; }
+    .photo.large, .photo.tall { grid-row: span 2; }
   }
   @media (max-width: 520px) {
     .countdown { grid-template-columns: repeat(2, 1fr); gap: 32px; }
@@ -787,13 +773,11 @@
 <body>
 
 <nav>
-  <a href="#" class="logo"><img src="logo.png" alt="Weekendje Weg"></a>
+  <div class="logo"><span class="dot"></span>Weekendje / Weg</div>
   <div class="nav-links">
     <a href="#agenda">Agenda</a>
     <a href="#gallerij">Archief</a>
-    <a href="huisje.html">Huisje</a>
     <a href="corvee.html">Corvee</a>
-    <a href="contact.html">Contact</a>
   </div>
 </nav>
 
@@ -825,8 +809,6 @@
     Editie acht / Sinds 2019
     <span class="coords">N 50.85 / E 5.97</span>
   </div>
-
-  <img src="logo.png" alt="Weekendje Weg" class="hero-logo">
 
   <h1 class="hero-title">
     Week<span class="stroke">end</span>je<br>
@@ -864,7 +846,7 @@
   <div class="journey">
     <div class="journey-meta">
       <strong>De Reis</strong>
-      <span>vier dagen / twaalf stops</span>
+      <span>vier dagen / vijftien stops</span>
       <span class="live">live tracking</span>
     </div>
     <div class="timeline">
@@ -892,18 +874,21 @@
         </svg>
       </div>
       <div class="stops" id="stops">
-        <div class="stop" data-i="0"><div class="stop-dot"></div><div class="stop-label"><span class="day">DO</span>14:00</div></div>
-        <div class="stop" data-i="1"><div class="stop-dot"></div><div class="stop-label"><span class="day">DO</span>16:00</div></div>
-        <div class="stop" data-i="2"><div class="stop-dot"></div><div class="stop-label"><span class="day">DO</span>19:00</div></div>
-        <div class="stop" data-i="3"><div class="stop-dot"></div><div class="stop-label"><span class="day">VR</span>10:00</div></div>
-        <div class="stop" data-i="4"><div class="stop-dot"></div><div class="stop-label"><span class="day">VR</span>12:00</div></div>
-        <div class="stop" data-i="5"><div class="stop-dot"></div><div class="stop-label"><span class="day">VR</span>13:00</div></div>
-        <div class="stop" data-i="6"><div class="stop-dot"></div><div class="stop-label"><span class="day">VR</span>19:00</div></div>
-        <div class="stop" data-i="7"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZA</span>10:00</div></div>
-        <div class="stop" data-i="8"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZA</span>13:00</div></div>
-        <div class="stop" data-i="9"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZA</span>19:00</div></div>
-        <div class="stop" data-i="10"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZO</span>10:00</div></div>
-        <div class="stop" data-i="11"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZO</span>16:00</div></div>
+        <div class="stop" data-i="0"><div class="stop-dot"></div><div class="stop-label"><span class="day">VOORAF</span>19:00</div></div>
+        <div class="stop" data-i="1"><div class="stop-dot"></div><div class="stop-label"><span class="day">DO</span>13:00</div></div>
+        <div class="stop" data-i="2"><div class="stop-dot"></div><div class="stop-label"><span class="day">DO</span>16:00</div></div>
+        <div class="stop" data-i="3"><div class="stop-dot"></div><div class="stop-label"><span class="day">DO</span>19:00</div></div>
+        <div class="stop" data-i="4"><div class="stop-dot"></div><div class="stop-label"><span class="day">DO</span>21:00</div></div>
+        <div class="stop" data-i="5"><div class="stop-dot"></div><div class="stop-label"><span class="day">VR</span>10:00</div></div>
+        <div class="stop" data-i="6"><div class="stop-dot"></div><div class="stop-label"><span class="day">VR</span>12:00</div></div>
+        <div class="stop" data-i="7"><div class="stop-dot"></div><div class="stop-label"><span class="day">VR</span>15:00</div></div>
+        <div class="stop" data-i="8"><div class="stop-dot"></div><div class="stop-label"><span class="day">VR</span>19:00</div></div>
+        <div class="stop" data-i="9"><div class="stop-dot"></div><div class="stop-label"><span class="day">VR</span>20:00</div></div>
+        <div class="stop" data-i="10"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZA</span>10:00</div></div>
+        <div class="stop" data-i="11"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZA</span>13:00</div></div>
+        <div class="stop" data-i="12"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZA</span>19:00</div></div>
+        <div class="stop" data-i="13"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZO</span>10:00</div></div>
+        <div class="stop" data-i="14"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZO</span>16:00</div></div>
       </div>
     </div>
     <div class="status-bar" id="statusBar">
@@ -912,9 +897,19 @@
   </div>
 
   <div class="agenda">
+    <div class="agenda-item pre-week">
+      <div class="ag-day">Donderdag<span>WEEK ERVOOR</span></div>
+      <div class="ag-time">19:00</div>
+      <div>
+        <div class="ag-title">Inkopen Kaufland</div>
+        <div class="ag-desc">De week ervoor de boodschappen halen. Lijstje af, kar volladen, klaar voor het weekend.</div>
+      </div>
+      <div class="ag-tag chill">Vooraf</div>
+    </div>
+
     <div class="agenda-item">
       <div class="ag-day">Donderdag<span>DAG 01</span></div>
-      <div class="ag-time">14:00</div>
+      <div class="ag-time">13:00</div>
       <div>
         <div class="ag-title">Lunch</div>
         <div class="ag-desc">Eerst de magen vullen voor de aftrap.</div>
@@ -935,6 +930,16 @@
     <div class="agenda-item">
       <div class="ag-day">Donderdag<span>DAG 01</span></div>
       <div class="ag-time">19:00</div>
+      <div>
+        <div class="ag-title">Avondeten</div>
+        <div class="ag-desc">Na een drukke dag tijd om bij te tanken.</div>
+      </div>
+      <div class="ag-tag eet">Eten</div>
+    </div>
+
+    <div class="agenda-item">
+      <div class="ag-day">Donderdag<span>DAG 01</span></div>
+      <div class="ag-time">21:00</div>
       <div>
         <div class="ag-title">Bier Olympics</div>
         <div class="ag-desc">De officiële opening. Disciplines worden geheim gehouden tot aanvang.</div>
@@ -964,7 +969,7 @@
 
     <div class="agenda-item">
       <div class="ag-day">Vrijdag<span>DAG 02</span></div>
-      <div class="ag-time">13:00</div>
+      <div class="ag-time">15:00</div>
       <div>
         <div class="ag-title">Bezoek Leffe</div>
         <div class="ag-desc">Rondleiding bij de bron. Proeven verplicht.</div>
@@ -977,9 +982,19 @@
       <div class="ag-time">19:00</div>
       <div>
         <div class="ag-title">Avondeten</div>
-        <div class="ag-desc">Tijd om het opgelopen tempo bij te tanken.</div>
+        <div class="ag-desc">Na een drukke dag tijd om bij te tanken.</div>
       </div>
       <div class="ag-tag eet">Eten</div>
+    </div>
+
+    <div class="agenda-item">
+      <div class="ag-day">Vrijdag<span>DAG 02</span></div>
+      <div class="ag-time">20:00</div>
+      <div>
+        <div class="ag-title">Biljarttournooi</div>
+        <div class="ag-desc">Keu in de hand, krijt op de tip, eer op het spel.</div>
+      </div>
+      <div class="ag-tag activiteit">Activiteit</div>
     </div>
 
     <div class="agenda-item">
@@ -1007,7 +1022,7 @@
       <div class="ag-time">19:00</div>
       <div>
         <div class="ag-title">Avondeten</div>
-        <div class="ag-desc">Laatste echte avond, laatste dineren met de hele groep.</div>
+        <div class="ag-desc">Laatste echte avond, dineren met de hele groep.</div>
       </div>
       <div class="ag-tag eet">Eten</div>
     </div>
@@ -1042,7 +1057,6 @@
   </div>
 
   <div class="filter-bar" id="filterBar">
-    <!-- GALLERY-FILTERS-START -->
     <button class="filter-btn active" data-filter="all">Alles</button>
     <button class="filter-btn" data-filter="2019">'19</button>
     <button class="filter-btn" data-filter="2020">'20</button>
@@ -1051,19 +1065,41 @@
     <button class="filter-btn" data-filter="2023">'23</button>
     <button class="filter-btn" data-filter="2024">'24</button>
     <button class="filter-btn" data-filter="2025">'25</button>
-  <!-- GALLERY-FILTERS-END -->
+    <button class="filter-btn" data-filter="2026">'26</button>
   </div>
 
   <div class="gallery" id="gallery">
-    <!-- GALLERY-ITEMS-START -->
+    <div class="photo y2019 large" data-year="2019"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2019 / 01</div><div class="photo-caption">De eerste editie, waar het allemaal begon</div></div></div></div>
+    <div class="photo y2019" data-year="2019"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2019 / 02</div><div class="photo-caption">Eerste avond</div></div></div></div>
+    <div class="photo y2019 tall" data-year="2019"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2019 / 03</div><div class="photo-caption">Het bos</div></div></div></div>
 
-    <!-- 2025 -->
-    <div class="photo y2025 large has-video" data-year="2025"><div class="photo-inner"><video class="photo-video" src="2025/A6077CEC-8F7A-45D7-B6BC-CC1F60422F19.mp4" muted playsinline preload="metadata"></video><div class="photo-overlay"><div class="photo-year">2025 / 01</div><div class="photo-caption">A6077CEC 8F7A 45D7 B6BC CC1F60422F19</div></div></div><div class="video-badge"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div></div>
-    <div class="photo y2025" data-year="2025"><div class="photo-inner"><img class="photo-img" src="2025/B3806954-E563-40C0-A174-F496F273EEAE.jpg" alt="B3806954 E563 40C0 A174 F496F273EEAE" loading="lazy"><div class="photo-overlay"><div class="photo-year">2025 / 02</div><div class="photo-caption">B3806954 E563 40C0 A174 F496F273EEAE</div></div></div></div>
-    <div class="photo y2025 tall" data-year="2025"><div class="photo-inner"><img class="photo-img" src="2025/IMG_1176.jpg" alt="IMG 1176" loading="lazy"><div class="photo-overlay"><div class="photo-year">2025 / 03</div><div class="photo-caption">IMG 1176</div></div></div></div>
-    <div class="photo y2025 has-video" data-year="2025"><div class="photo-inner"><video class="photo-video" src="2025/IMG_1176.mov" muted playsinline preload="metadata"></video><div class="photo-overlay"><div class="photo-year">2025 / 04</div><div class="photo-caption">IMG 1176</div></div></div><div class="video-badge"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div></div>
+    <div class="photo y2020" data-year="2020"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2020 / 01</div><div class="photo-caption">Coronaproof weekend</div></div></div></div>
+    <div class="photo y2020 wide" data-year="2020"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2020 / 02</div><div class="photo-caption">Buiten was beter</div></div></div></div>
+    <div class="photo y2020" data-year="2020"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2020 / 03</div><div class="photo-caption">Kampvuur</div></div></div></div>
 
-  <!-- GALLERY-ITEMS-END -->
+    <div class="photo y2021" data-year="2021"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2021 / 01</div><div class="photo-caption">Eindelijk weer normaal</div></div></div></div>
+    <div class="photo y2021 tall" data-year="2021"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2021 / 02</div><div class="photo-caption">De berghut</div></div></div></div>
+    <div class="photo y2021" data-year="2021"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2021 / 03</div><div class="photo-caption">Wandeling</div></div></div></div>
+
+    <div class="photo y2022 large" data-year="2022"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2022 / 01</div><div class="photo-caption">Het legendarische bbq weekend</div></div></div></div>
+    <div class="photo y2022" data-year="2022"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2022 / 02</div><div class="photo-caption">Spelletjesavond</div></div></div></div>
+    <div class="photo y2022" data-year="2022"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2022 / 03</div><div class="photo-caption">Brunch</div></div></div></div>
+
+    <div class="photo y2023" data-year="2023"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2023 / 01</div><div class="photo-caption">Ardennen</div></div></div></div>
+    <div class="photo y2023 wide" data-year="2023"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2023 / 02</div><div class="photo-caption">De groep, compleet</div></div></div></div>
+    <div class="photo y2023" data-year="2023"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2023 / 03</div><div class="photo-caption">Avondprogramma</div></div></div></div>
+
+    <div class="photo y2024 tall" data-year="2024"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2024 / 01</div><div class="photo-caption">Het strand</div></div></div></div>
+    <div class="photo y2024" data-year="2024"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2024 / 02</div><div class="photo-caption">Diner</div></div></div></div>
+    <div class="photo y2024" data-year="2024"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2024 / 03</div><div class="photo-caption">Zonsondergang</div></div></div></div>
+
+    <div class="photo y2025" data-year="2025"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2025 / 01</div><div class="photo-caption">Vorig jaar</div></div></div></div>
+    <div class="photo y2025 large" data-year="2025"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2025 / 02</div><div class="photo-caption">Met zijn allen</div></div></div></div>
+    <div class="photo y2025" data-year="2025"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2025 / 03</div><div class="photo-caption">Op pad</div></div></div></div>
+
+    <div class="photo y2026 wide" data-year="2026"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2026 / 01</div><div class="photo-caption">Komt nog, het beste moet nog gemaakt worden</div></div></div></div>
+    <div class="photo y2026" data-year="2026"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2026 / 02</div><div class="photo-caption">Binnenkort</div></div></div></div>
+    <div class="photo y2026" data-year="2026"><div class="photo-inner"><div class="photo-overlay"><div class="photo-year">2026 / 03</div><div class="photo-caption">Binnenkort</div></div></div></div>
   </div>
 </section>
 
@@ -1108,14 +1144,13 @@
   setInterval(tick, 1000);
 
   const filterBar = document.getElementById('filterBar');
-  const photos = document.querySelectorAll('.photo');
 
   filterBar.addEventListener('click', (e) => {
     if (!e.target.matches('.filter-btn')) return;
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     e.target.classList.add('active');
     const filter = e.target.dataset.filter;
-    photos.forEach(p => {
+    document.querySelectorAll('#gallery .photo').forEach(p => {
       if (filter === 'all' || p.dataset.year === filter) {
         p.classList.remove('hidden');
       } else {
@@ -1124,29 +1159,24 @@
     });
   });
 
-  // VIDEO: afspelen op hover, pauzeren als muis weggaat
-  document.querySelectorAll('.photo.has-video').forEach(card => {
-    const vid = card.querySelector('.photo-video');
-    if (!vid) return;
-    card.addEventListener('mouseenter', () => { vid.currentTime = 0; vid.play(); });
-    card.addEventListener('mouseleave', () => { vid.pause(); });
-  });
-
   // TIJDLIJN MET BUSJE OP BASIS VAN ECHTE TIJD
   (function() {
     const events = [
-      { day: 'Donderdag', time: '14:00', title: 'Lunch',          date: new Date('2026-11-12T14:00:00') },
-      { day: 'Donderdag', time: '16:00', title: 'Aankomst huisje', date: new Date('2026-11-12T16:00:00') },
-      { day: 'Donderdag', time: '19:00', title: 'Bier Olympics',  date: new Date('2026-11-12T19:00:00') },
-      { day: 'Vrijdag',   time: '10:00', title: 'Ontbijt',         date: new Date('2026-11-13T10:00:00') },
-      { day: 'Vrijdag',   time: '12:00', title: 'Paintball',       date: new Date('2026-11-13T12:00:00') },
-      { day: 'Vrijdag',   time: '13:00', title: 'Bezoek Leffe',    date: new Date('2026-11-13T13:00:00') },
-      { day: 'Vrijdag',   time: '19:00', title: 'Avondeten',       date: new Date('2026-11-13T19:00:00') },
-      { day: 'Zaterdag',  time: '10:00', title: 'Ontbijt',         date: new Date('2026-11-14T10:00:00') },
-      { day: 'Zaterdag',  time: '13:00', title: 'Bierspeurtocht',  date: new Date('2026-11-14T13:00:00') },
-      { day: 'Zaterdag',  time: '19:00', title: 'Avondeten',       date: new Date('2026-11-14T19:00:00') },
-      { day: 'Zondag',    time: '10:00', title: 'Ontbijt',         date: new Date('2026-11-15T10:00:00') },
-      { day: 'Zondag',    time: '16:00', title: 'Vertrek',         date: new Date('2026-11-15T16:00:00') }
+      { day: 'Donderdag', time: '19:00', title: 'Inkopen Kaufland', date: new Date('2026-11-05T19:00:00') },
+      { day: 'Donderdag', time: '13:00', title: 'Lunch',             date: new Date('2026-11-12T13:00:00') },
+      { day: 'Donderdag', time: '16:00', title: 'Aankomst huisje',    date: new Date('2026-11-12T16:00:00') },
+      { day: 'Donderdag', time: '19:00', title: 'Avondeten',          date: new Date('2026-11-12T19:00:00') },
+      { day: 'Donderdag', time: '21:00', title: 'Bier Olympics',      date: new Date('2026-11-12T21:00:00') },
+      { day: 'Vrijdag',   time: '10:00', title: 'Ontbijt',            date: new Date('2026-11-13T10:00:00') },
+      { day: 'Vrijdag',   time: '12:00', title: 'Paintball',          date: new Date('2026-11-13T12:00:00') },
+      { day: 'Vrijdag',   time: '15:00', title: 'Bezoek Leffe',       date: new Date('2026-11-13T15:00:00') },
+      { day: 'Vrijdag',   time: '19:00', title: 'Avondeten',          date: new Date('2026-11-13T19:00:00') },
+      { day: 'Vrijdag',   time: '20:00', title: 'Biljarttournooi',    date: new Date('2026-11-13T20:00:00') },
+      { day: 'Zaterdag',  time: '10:00', title: 'Ontbijt',            date: new Date('2026-11-14T10:00:00') },
+      { day: 'Zaterdag',  time: '13:00', title: 'Bierspeurtocht',     date: new Date('2026-11-14T13:00:00') },
+      { day: 'Zaterdag',  time: '19:00', title: 'Avondeten',          date: new Date('2026-11-14T19:00:00') },
+      { day: 'Zondag',    time: '10:00', title: 'Ontbijt',            date: new Date('2026-11-15T10:00:00') },
+      { day: 'Zondag',    time: '16:00', title: 'Vertrek',            date: new Date('2026-11-15T16:00:00') }
     ];
 
     const stops = document.querySelectorAll('.stop');
