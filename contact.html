@@ -480,7 +480,7 @@
 <section class="contact">
   <div class="contact-grid">
 
-    <form class="contact-form" id="contactForm" action="https://formsubmit.co/pieterhollanders2509@gmail.com" method="POST" novalidate>
+    <form class="contact-form" id="contactForm" action="https://formsubmit.co/info@weekendjeweg.info" method="POST" novalidate>
       <div class="form-title">Het formulier</div>
       <div class="form-intro">// vul in <span>en verzend</span></div>
 
@@ -509,7 +509,7 @@
       <input type="hidden" name="_subject" value="Nieuw bericht via weekendjeweg.info">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_cc" value="info@weekendjeweg.info">
+      <input type="hidden" name="_cc" value="pieterhollanders2509@gmail.com">
       <!-- Honeypot tegen spam -->
       <div class="hp-field" aria-hidden="true">
         <label>Laat dit veld leeg<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label>
@@ -591,7 +591,7 @@
 
     try {
       const formData = new FormData(form);
-      const response = await fetch('https://formsubmit.co/ajax/pieterhollanders2509@gmail.com', {
+      const response = await fetch('https://formsubmit.co/ajax/info@weekendjeweg.info', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
         body: formData
@@ -609,7 +609,7 @@
         showStatus('success', 'Bericht verzonden. Bedankt, je hoort snel van ons.');
         form.reset();
       } else if (needsActivation) {
-        showStatus('error', 'Eenmalige activatie nodig. Check je inbox voor een mail van FormSubmit en klik op de bevestigingslink.');
+        showStatus('error', 'Eenmalige activatie nodig. Check de inbox van info@weekendjeweg.info voor een mail van FormSubmit en klik op de bevestigingslink.');
       } else {
         console.warn('FormSubmit response:', response.status, data);
         showStatus('error', 'Er ging iets mis. Probeer het opnieuw of mail direct.');
