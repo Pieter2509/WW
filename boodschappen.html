@@ -6,7 +6,7 @@
 <title>Boodschappenlijst — Weekendje Weg '26</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0d100c;
@@ -18,14 +18,11 @@
     --flame: #ff5e1f;
     --flame-deep: #d94715;
     --lime: #c4f04a;
-    --moss: #4a8a6a;
     --line: rgba(240, 235, 224, 0.08);
     --line-strong: rgba(240, 235, 224, 0.18);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-
   body {
     background: var(--bg);
     color: var(--ink);
@@ -35,7 +32,6 @@
     overflow-x: hidden;
     min-height: 100vh;
   }
-
   body::before {
     content: "";
     position: fixed;
@@ -46,370 +42,275 @@
     z-index: 1;
     mix-blend-mode: screen;
   }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  @keyframes slideIn { from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)} }
 
-  /* NAV */
   nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
+    position: fixed; top:0; left:0; right:0; z-index:100;
     padding: 20px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
     backdrop-filter: blur(16px);
-    background: rgba(13, 16, 12, 0.7);
+    background: rgba(13,16,12,0.7);
     border-bottom: 1px solid var(--line);
   }
   .logo {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: var(--ink);
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 500;
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--ink);
   }
-  .logo img {
-    height: 28px;
-    width: auto;
-    border-radius: 4px;
-  }
+  .logo img { height: 28px; width: auto; border-radius: 4px; }
   .logo .dot {
-    display: inline-block;
-    width: 6px; height: 6px;
-    background: var(--flame);
-    border-radius: 50%;
-    flex-shrink: 0;
-    box-shadow: 0 0 12px var(--flame);
-    animation: pulse 2s infinite;
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--flame); border-radius: 50%; flex-shrink: 0;
+    box-shadow: 0 0 12px var(--flame); animation: pulse 2s infinite;
   }
   .nav-links { display: flex; gap: 32px; }
   .nav-links a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 500;
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    transition: color 0.2s;
+    color: var(--ink-soft); text-decoration: none; font-size: 0.8rem; font-weight: 500;
+    font-family: 'JetBrains Mono', monospace; text-transform: uppercase;
+    letter-spacing: 0.15em; transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--flame); }
   .nav-links a.active { color: var(--lime); }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* MAIN */
   main {
     padding: 120px 48px 80px;
-    max-width: 800px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
+    max-width: 760px; margin: 0 auto;
+    position: relative; z-index: 2;
   }
 
   .page-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: var(--flame);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.3em; color: var(--flame);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 16px;
     animation: fadeUp 0.8s 0.1s both;
   }
-  .page-eyebrow::before {
-    content: "";
-    width: 40px; height: 1px;
-    background: var(--flame);
-  }
+  .page-eyebrow::before { content:""; width:40px; height:1px; background:var(--flame); }
 
   .page-title {
-    font-family: 'Manrope', sans-serif;
-    font-size: clamp(2.2rem, 6vw, 4rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    animation: fadeUp 0.8s 0.15s both;
+    font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800;
+    letter-spacing: -0.03em; line-height: 1; text-transform: uppercase;
+    margin-bottom: 8px; animation: fadeUp 0.8s 0.15s both;
+  }
+  .page-sub {
+    font-size: 0.9rem; color: var(--ink-soft);
+    margin-bottom: 36px; animation: fadeUp 0.8s 0.2s both;
   }
 
-  .page-sub {
-    font-size: 0.95rem;
-    color: var(--ink-soft);
-    margin-bottom: 48px;
-    animation: fadeUp 0.8s 0.2s both;
+  /* SYNC STATUS */
+  .sync-bar {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-muted); margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.22s both;
+  }
+  .sync-dot {
+    width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  .sync-dot.live { background: var(--lime); box-shadow: 0 0 8px rgba(196,240,74,0.5); animation: pulse 2s infinite; }
+  .sync-dot.loading { background: var(--flame); animation: pulse 0.6s infinite; }
+  .sync-dot.offline { background: var(--ink-muted); }
+  .sync-spinner {
+    width: 12px; height: 12px;
+    border: 2px solid var(--line-strong);
+    border-top-color: var(--flame);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
   }
 
   /* ADD FORM */
-  .boodschappen-add {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+  .add-form {
+    display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
     animation: fadeUp 0.8s 0.25s both;
   }
-
-  .boodschap-input {
-    flex: 1;
-    min-width: 200px;
+  .input-naam {
+    flex: 1; min-width: 180px;
     background: var(--bg-elevated);
     border: 1px solid var(--line-strong);
-    color: var(--ink);
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.9rem;
-    padding: 14px 16px;
-    border-radius: 8px;
-    outline: none;
+    color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 0.9rem;
+    padding: 13px 16px; border-radius: 8px; outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .boodschap-input:focus {
-    border-color: var(--flame);
-    box-shadow: 0 0 0 3px rgba(255, 94, 31, 0.12);
-  }
-  .boodschap-input::placeholder { color: var(--ink-muted); }
-
-  .boodschap-qty {
-    width: 140px;
+  .input-naam:focus { border-color: var(--flame); box-shadow: 0 0 0 3px rgba(255,94,31,0.1); }
+  .input-naam::placeholder { color: var(--ink-muted); }
+  .input-qty {
+    width: 130px;
     background: var(--bg-elevated);
     border: 1px solid var(--line-strong);
-    color: var(--ink);
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.9rem;
-    padding: 14px 16px;
-    border-radius: 8px;
-    outline: none;
+    color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 0.9rem;
+    padding: 13px 16px; border-radius: 8px; outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .boodschap-qty:focus {
-    border-color: var(--flame);
-    box-shadow: 0 0 0 3px rgba(255, 94, 31, 0.12);
+  .input-qty:focus { border-color: var(--flame); box-shadow: 0 0 0 3px rgba(255,94,31,0.1); }
+  .input-qty::placeholder { color: var(--ink-muted); }
+  .btn-add {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--flame); color: #0d100c; border: none;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 13px 20px; border-radius: 8px; cursor: pointer;
+    transition: background 0.2s, transform 0.1s; white-space: nowrap;
   }
-  .boodschap-qty::placeholder { color: var(--ink-muted); }
+  .btn-add:hover:not(:disabled) { background: var(--flame-deep); }
+  .btn-add:active:not(:disabled) { transform: scale(0.97); }
+  .btn-add:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  .boodschap-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--flame);
-    color: #0d100c;
-    border: none;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 14px 22px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    white-space: nowrap;
+  /* STATS */
+  .stats-row {
+    display: flex; align-items: center; gap: 0;
+    margin-bottom: 10px; animation: fadeUp 0.8s 0.3s both;
   }
-  .boodschap-btn:hover { background: var(--flame-deep); }
-  .boodschap-btn:active { transform: scale(0.97); }
-
-  /* STATS + PROGRESS */
-  .boodschappen-meta {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    margin-bottom: 10px;
-    animation: fadeUp 0.8s 0.3s both;
+  .stats {
+    flex: 1; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-muted);
+    display: flex; gap: 6px; align-items: center;
   }
-  .boodschappen-stats {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--ink-muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    flex: 1;
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-  .boodschappen-stats .sep { color: var(--line-strong); }
-  .stat-gedaan { color: var(--lime) !important; }
-
-  .clear-btn {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink-muted);
-    background: none;
-    border: 1px solid var(--line);
-    padding: 5px 12px;
-    border-radius: 4px;
-    cursor: pointer;
+  .stats .sep { color: var(--line-strong); }
+  .stat-gedaan { color: var(--lime); }
+  .btn-clear {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--ink-muted); background: none;
+    border: 1px solid var(--line); padding: 5px 12px;
+    border-radius: 4px; cursor: pointer;
     transition: color 0.2s, border-color 0.2s;
   }
-  .clear-btn:hover { color: #ff5e5e; border-color: rgba(255, 94, 94, 0.4); }
+  .btn-clear:hover { color: #ff5e5e; border-color: rgba(255,94,94,0.4); }
 
-  .boodschappen-progressbar-wrap {
-    height: 3px;
-    background: var(--line-strong);
-    border-radius: 99px;
-    margin-bottom: 28px;
-    overflow: hidden;
+  .progress-wrap {
+    height: 3px; background: var(--line-strong); border-radius: 99px;
+    margin-bottom: 28px; overflow: hidden;
     animation: fadeUp 0.8s 0.3s both;
   }
-  .boodschappen-progressbar {
-    height: 100%;
-    background: var(--lime);
-    border-radius: 99px;
+  .progress-bar {
+    height: 100%; background: var(--lime); border-radius: 99px;
     transition: width 0.4s cubic-bezier(.4,0,.2,1);
   }
 
   /* LIST */
-  .boodschappen-lijst {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    animation: fadeUp 0.8s 0.35s both;
-  }
+  .lijst { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 
-  .boodschap-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--bg-elevated);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 16px 18px;
-    transition: all 0.25s ease;
-    cursor: pointer;
-    user-select: none;
+  .item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--bg-elevated); border: 1px solid var(--line);
+    border-radius: 10px; padding: 15px 18px;
+    transition: all 0.22s ease; cursor: pointer; user-select: none;
+    animation: slideIn 0.25s both;
   }
-  .boodschap-item:hover { border-color: var(--line-strong); background: var(--bg-lift); }
+  .item:hover { border-color: var(--line-strong); background: var(--bg-lift); }
+  .item.gedaan { background: rgba(196,240,74,0.05); border-color: rgba(196,240,74,0.2); }
+  .item.gedaan:hover { background: rgba(196,240,74,0.08); border-color: rgba(196,240,74,0.3); }
 
-  .boodschap-item.gedaan {
-    background: rgba(196, 240, 74, 0.05);
-    border-color: rgba(196, 240, 74, 0.2);
-  }
-  .boodschap-item.gedaan:hover {
-    background: rgba(196, 240, 74, 0.08);
-    border-color: rgba(196, 240, 74, 0.3);
-  }
-
-  .boodschap-check {
-    width: 24px;
-    height: 24px;
-    border: 2px solid var(--ink-muted);
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .check {
+    width: 24px; height: 24px; border: 2px solid var(--ink-muted);
+    border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
     transition: all 0.2s;
   }
-  .boodschap-item.gedaan .boodschap-check {
-    background: var(--lime);
-    border-color: var(--lime);
-    box-shadow: 0 0 12px rgba(196, 240, 74, 0.35);
+  .item.gedaan .check {
+    background: var(--lime); border-color: var(--lime);
+    box-shadow: 0 0 10px rgba(196,240,74,0.3);
   }
-  .boodschap-check svg { opacity: 0; transition: opacity 0.15s; }
-  .boodschap-item.gedaan .boodschap-check svg { opacity: 1; }
+  .check svg { opacity: 0; transition: opacity 0.15s; }
+  .item.gedaan .check svg { opacity: 1; }
 
-  .boodschap-naam {
-    flex: 1;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: color 0.2s;
+  .naam {
+    flex: 1; font-size: 0.95rem; font-weight: 500; transition: color 0.2s;
   }
-  .boodschap-item.gedaan .boodschap-naam {
+  .item.gedaan .naam {
     color: var(--lime);
     text-decoration: line-through;
-    text-decoration-color: rgba(196, 240, 74, 0.4);
+    text-decoration-color: rgba(196,240,74,0.4);
   }
 
-  .boodschap-hoeveelheid {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--ink-muted);
-    background: var(--bg-lift);
-    border: 1px solid var(--line);
-    padding: 3px 10px;
-    border-radius: 5px;
-    white-space: nowrap;
+  .qty {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.73rem;
+    color: var(--ink-muted); background: var(--bg-lift);
+    border: 1px solid var(--line); padding: 3px 10px;
+    border-radius: 5px; white-space: nowrap;
   }
-  .boodschap-item.gedaan .boodschap-hoeveelheid {
-    color: rgba(196, 240, 74, 0.5);
-    border-color: rgba(196, 240, 74, 0.15);
-    background: rgba(196, 240, 74, 0.05);
+  .item.gedaan .qty {
+    color: rgba(196,240,74,0.5); border-color: rgba(196,240,74,0.15);
+    background: rgba(196,240,74,0.04);
   }
 
-  .boodschap-delete {
-    background: none;
-    border: none;
-    color: var(--ink-muted);
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 5px;
-    opacity: 0;
-    transition: opacity 0.2s, color 0.2s, background 0.2s;
-    display: flex;
-    align-items: center;
+  .who {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+    color: var(--ink-muted); white-space: nowrap;
   }
-  .boodschap-item:hover .boodschap-delete { opacity: 1; }
-  .boodschap-delete:hover { color: #ff5e5e; background: rgba(255,94,94,0.1); }
+  .item.gedaan .who { color: rgba(196,240,74,0.45); }
 
-  /* EMPTY STATE */
-  .boodschappen-empty {
-    text-align: center;
-    padding: 64px 24px;
-    color: var(--ink-muted);
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    font-size: 0.9rem;
-    border: 1px dashed var(--line-strong);
-    border-radius: 12px;
-    animation: fadeUp 0.6s both;
+  .btn-del {
+    background: none; border: none; color: var(--ink-muted);
+    cursor: pointer; padding: 4px; border-radius: 4px;
+    opacity: 0; transition: opacity 0.2s, color 0.2s, background 0.2s;
+    display: flex; align-items: center;
   }
-  .boodschappen-empty.zichtbaar { display: flex; }
-  .boodschappen-empty p { max-width: 280px; line-height: 1.6; }
+  .item:hover .btn-del { opacity: 1; }
+  .btn-del:hover { color: #ff5e5e; background: rgba(255,94,94,0.1); }
 
-  /* DIVIDER */
-  .gedaan-divider {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--ink-muted);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 16px 0 8px;
+  .divider {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.67rem;
+    text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-muted);
+    display: flex; align-items: center; gap: 12px; margin: 16px 0 8px;
   }
-  .gedaan-divider::before, .gedaan-divider::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--line);
+  .divider::before,.divider::after { content:""; flex:1; height:1px; background:var(--line); }
+
+  .empty {
+    text-align: center; padding: 60px 24px; color: var(--ink-muted);
+    display: none; flex-direction: column; align-items: center; gap: 16px;
+    font-size: 0.88rem; border: 1px dashed var(--line-strong); border-radius: 12px;
   }
+  .empty.zichtbaar { display: flex; }
+  .empty p { max-width: 260px; line-height: 1.6; }
+
+  /* NAME MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px); z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    animation: fadeUp 0.2s both;
+  }
+  .modal {
+    background: var(--bg-elevated); border: 1px solid var(--line-strong);
+    border-radius: 16px; padding: 36px; max-width: 380px; width: 90%;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+  }
+  .modal h2 {
+    font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .modal p { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 24px; }
+  .modal input {
+    width: 100%; background: var(--bg-lift); border: 1px solid var(--line-strong);
+    color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 0.95rem;
+    padding: 13px 16px; border-radius: 8px; outline: none; margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .modal input:focus { border-color: var(--flame); }
+  .modal input::placeholder { color: var(--ink-muted); }
+  .btn-modal {
+    width: 100%; background: var(--flame); color: #0d100c; border: none;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 14px; border-radius: 8px; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-modal:hover { background: var(--flame-deep); }
 
   @media (max-width: 640px) {
-    nav { padding: 16px 20px; }
-    .nav-links { gap: 18px; }
-    .nav-links a { font-size: 0.7rem; }
-    main { padding: 100px 20px 60px; }
-    .boodschappen-add { flex-direction: column; }
-    .boodschap-qty { width: 100%; }
+    nav { padding: 14px 18px; }
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: 0.68rem; }
+    main { padding: 90px 18px 60px; }
+    .add-form { flex-direction: column; }
+    .input-qty { width: 100%; }
   }
 </style>
 </head>
@@ -435,167 +336,243 @@
   <h1 class="page-title">Boodschappenlijst</h1>
   <p class="page-sub">Lijstje af, kar volladen, klaar voor het weekend.</p>
 
-  <div class="boodschappen-add">
-    <input type="text" id="boodschapInput" class="boodschap-input" placeholder="Product toevoegen..." autocomplete="off">
-    <input type="text" id="boodschapHoeveelheid" class="boodschap-qty" placeholder="Hoeveel?">
-    <button class="boodschap-btn" onclick="voegToe()">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+  <div class="sync-bar" id="syncBar">
+    <div class="sync-dot loading" id="syncDot"></div>
+    <span id="syncText">Verbinden...</span>
+  </div>
+
+  <div class="add-form">
+    <input type="text" id="inputNaam" class="input-naam" placeholder="Product toevoegen..." autocomplete="off">
+    <input type="text" id="inputQty" class="input-qty" placeholder="Hoeveel?">
+    <button class="btn-add" id="btnAdd" onclick="voegToe()" disabled>
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <path d="M6.5 1v11M1 6.5h11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
       </svg>
       Toevoegen
     </button>
   </div>
 
-  <div class="boodschappen-meta">
-    <div class="boodschappen-stats">
-      <span id="statTotaal">0 producten</span>
+  <div class="stats-row">
+    <div class="stats">
+      <span id="statTotaal">—</span>
       <span class="sep">/</span>
-      <span id="statGedaan" class="stat-gedaan">0 gehaald</span>
+      <span id="statGedaan" class="stat-gedaan">—</span>
     </div>
-    <button class="clear-btn" onclick="clearGedaan()" title="Verwijder afgevinkte items">Afgevinkt wissen</button>
+    <button class="btn-clear" onclick="clearGedaan()">Afgevinkt wissen</button>
   </div>
 
-  <div class="boodschappen-progressbar-wrap">
-    <div class="boodschappen-progressbar" id="boodschapProgress" style="width:0%"></div>
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progressBar" style="width:0%"></div>
   </div>
 
-  <ul class="boodschappen-lijst" id="boodschappenLijst"></ul>
-
-  <div class="boodschappen-empty" id="boodschapEmpty">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M8 14h5l6 22h16l5-16H16" stroke="#6a6557" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="22" cy="40" r="2.5" fill="#6a6557"/>
-      <circle cx="33" cy="40" r="2.5" fill="#6a6557"/>
+  <ul class="lijst" id="lijst"></ul>
+  <div class="empty" id="empty">
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+      <path d="M7 13h5l5.5 21h15l4.5-15H15" stroke="#6a6557" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="20.5" cy="38" r="2.5" fill="#6a6557"/>
+      <circle cx="31" cy="38" r="2.5" fill="#6a6557"/>
     </svg>
     <p>Lijst is nog leeg — voeg hierboven producten toe.</p>
   </div>
 </main>
 
+<!-- Name modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h2>Wie ben jij?</h2>
+    <p>Zo zien de anderen wie wat heeft toegevoegd of afgevinkt.</p>
+    <input type="text" id="modalNaam" placeholder="Jouw naam..." maxlength="20" autocomplete="off">
+    <button class="btn-modal" onclick="slaNaamOp()">Doorgaan</button>
+  </div>
+</div>
+
 <script>
-  const STORAGE_KEY = 'ww26_boodschappen';
+  const SHARED_KEY = 'ww26_boodschappen_v2';
+  const NAAM_KEY   = 'ww26_gebruiker';
+  const POLL_MS    = 4000;
 
-  function laadLijst() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-    catch(e) { return []; }
+  let gebruiker = localStorage.getItem(NAAM_KEY) || '';
+  let polling   = null;
+  let lastHash  = '';
+
+  // ── Modal ──────────────────────────────────────
+  const overlay = document.getElementById('modalOverlay');
+  const modalInput = document.getElementById('modalNaam');
+
+  if (gebruiker) {
+    overlay.style.display = 'none';
+    init();
+  } else {
+    modalInput.focus();
+    modalInput.addEventListener('keydown', e => { if (e.key === 'Enter') slaNaamOp(); });
   }
 
-  function slaOp(lijst) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(lijst));
+  function slaNaamOp() {
+    const v = modalInput.value.trim();
+    if (!v) { modalInput.focus(); return; }
+    gebruiker = v;
+    localStorage.setItem(NAAM_KEY, gebruiker);
+    overlay.style.display = 'none';
+    init();
   }
 
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+  // ── Init ───────────────────────────────────────
+  function init() {
+    document.getElementById('inputNaam').addEventListener('keydown', e => { if (e.key === 'Enter') voegToe(); });
+    document.getElementById('inputQty').addEventListener('keydown',  e => { if (e.key === 'Enter') voegToe(); });
+    laadVanServer();
+    polling = setInterval(laadVanServer, POLL_MS);
   }
 
-  function renderLijst() {
-    const lijst = laadLijst();
-    const ul = document.getElementById('boodschappenLijst');
-    const empty = document.getElementById('boodschapEmpty');
-    const statTotaal = document.getElementById('statTotaal');
-    const statGedaan = document.getElementById('statGedaan');
-    const progress = document.getElementById('boodschapProgress');
+  // ── Storage helpers ────────────────────────────
+  async function leesLijst() {
+    try {
+      const r = await window.storage.get(SHARED_KEY, true); // shared=true
+      return r ? JSON.parse(r.value) : [];
+    } catch { return []; }
+  }
 
+  async function schrijfLijst(lijst) {
+    await window.storage.set(SHARED_KEY, JSON.stringify(lijst), true); // shared=true
+  }
+
+  // ── Server sync ────────────────────────────────
+  async function laadVanServer() {
+    setSyncStatus('loading');
+    try {
+      const lijst = await leesLijst();
+      const hash = JSON.stringify(lijst);
+      if (hash !== lastHash) {
+        lastHash = hash;
+        render(lijst);
+      }
+      setSyncStatus('live');
+      document.getElementById('btnAdd').disabled = false;
+    } catch(e) {
+      setSyncStatus('offline');
+    }
+  }
+
+  function setSyncStatus(state) {
+    const dot  = document.getElementById('syncDot');
+    const text = document.getElementById('syncText');
+    dot.className = 'sync-dot ' + state;
+    if (state === 'live')    text.textContent = 'Gesynchroniseerd — iedereen ziet dezelfde lijst';
+    if (state === 'loading') text.textContent = 'Synchroniseren...';
+    if (state === 'offline') text.textContent = 'Verbinding verbroken — probeer opnieuw';
+  }
+
+  // ── Render ─────────────────────────────────────
+  function render(lijst) {
+    const ul    = document.getElementById('lijst');
+    const empty = document.getElementById('empty');
+    const prog  = document.getElementById('progressBar');
+
+    const open   = lijst.filter(i => !i.gedaan);
+    const gedaan = lijst.filter(i =>  i.gedaan);
+
+    document.getElementById('statTotaal').textContent =
+      lijst.length + ' ' + (lijst.length === 1 ? 'product' : 'producten');
+    document.getElementById('statGedaan').textContent =
+      gedaan.length + ' gehaald';
+    prog.style.width = lijst.length > 0
+      ? Math.round(gedaan.length / lijst.length * 100) + '%'
+      : '0%';
+
+    empty.classList.toggle('zichtbaar', lijst.length === 0);
     ul.innerHTML = '';
 
-    const open = lijst.filter(i => !i.gedaan);
-    const gedaan = lijst.filter(i => i.gedaan);
+    open.forEach(item => ul.appendChild(maakLi(item, lijst.indexOf(item))));
 
-    if (lijst.length === 0) {
-      empty.classList.add('zichtbaar');
-    } else {
-      empty.classList.remove('zichtbaar');
-    }
-
-    statTotaal.textContent = lijst.length + ' ' + (lijst.length === 1 ? 'product' : 'producten');
-    statGedaan.textContent = gedaan.length + ' gehaald';
-    progress.style.width = lijst.length > 0 ? Math.round(gedaan.length / lijst.length * 100) + '%' : '0%';
-
-    // Render open items first
-    open.forEach((item) => {
-      const idx = lijst.indexOf(item);
-      ul.appendChild(maakItem(item, idx));
-    });
-
-    // Divider + gedaan items
     if (gedaan.length > 0 && open.length > 0) {
       const div = document.createElement('li');
-      div.className = 'gedaan-divider';
+      div.className = 'divider';
       div.textContent = 'Gehaald (' + gedaan.length + ')';
       ul.appendChild(div);
     }
-    gedaan.forEach((item) => {
-      const idx = lijst.indexOf(item);
-      ul.appendChild(maakItem(item, idx));
-    });
+    gedaan.forEach(item => ul.appendChild(maakLi(item, lijst.indexOf(item))));
   }
 
-  function maakItem(item, idx) {
+  function maakLi(item, idx) {
     const li = document.createElement('li');
-    li.className = 'boodschap-item' + (item.gedaan ? ' gedaan' : '');
+    li.className = 'item' + (item.gedaan ? ' gedaan' : '');
     li.innerHTML = `
-      <div class="boodschap-check">
+      <div class="check">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
           <path d="M2 6l3 3 5-5" stroke="#0d100c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <span class="boodschap-naam">${escapeHtml(item.naam)}</span>
-      ${item.hoeveelheid ? `<span class="boodschap-hoeveelheid">${escapeHtml(item.hoeveelheid)}</span>` : ''}
-      <button class="boodschap-delete" onclick="verwijder(${idx})" title="Verwijderen">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <path d="M1.5 1.5l10 10M11.5 1.5l-10 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <span class="naam">${esc(item.naam)}</span>
+      ${item.hoeveelheid ? `<span class="qty">${esc(item.hoeveelheid)}</span>` : ''}
+      <span class="who">${esc(item.door || '')}</span>
+      <button class="btn-del" onclick="verwijder(${idx})" title="Verwijderen">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </button>
     `;
-    li.addEventListener('click', (e) => {
-      if (e.target.closest('.boodschap-delete')) return;
-      toggleItem(idx);
+    li.addEventListener('click', e => {
+      if (e.target.closest('.btn-del')) return;
+      toggle(idx);
     });
     return li;
   }
 
-  function voegToe() {
-    const input = document.getElementById('boodschapInput');
-    const qty = document.getElementById('boodschapHoeveelheid');
-    const naam = input.value.trim();
-    if (!naam) { input.focus(); return; }
-    const lijst = laadLijst();
-    lijst.push({ naam, hoeveelheid: qty.value.trim(), gedaan: false });
-    slaOp(lijst);
-    input.value = '';
-    qty.value = '';
-    input.focus();
-    renderLijst();
+  function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  function toggleItem(idx) {
-    const lijst = laadLijst();
-    lijst[idx].gedaan = !lijst[idx].gedaan;
-    slaOp(lijst);
-    renderLijst();
+  // ── Actions ────────────────────────────────────
+  async function voegToe() {
+    const naam = document.getElementById('inputNaam').value.trim();
+    const qty  = document.getElementById('inputQty').value.trim();
+    if (!naam) { document.getElementById('inputNaam').focus(); return; }
+
+    document.getElementById('btnAdd').disabled = true;
+    try {
+      const lijst = await leesLijst();
+      lijst.unshift({ id: Date.now(), naam, hoeveelheid: qty, gedaan: false, door: gebruiker });
+      await schrijfLijst(lijst);
+      document.getElementById('inputNaam').value = '';
+      document.getElementById('inputQty').value  = '';
+      document.getElementById('inputNaam').focus();
+      lastHash = JSON.stringify(lijst);
+      render(lijst);
+    } finally {
+      document.getElementById('btnAdd').disabled = false;
+    }
   }
 
-  function verwijder(idx) {
-    const lijst = laadLijst();
-    lijst.splice(idx, 1);
-    slaOp(lijst);
-    renderLijst();
+  async function toggle(idx) {
+    try {
+      const lijst = await leesLijst();
+      if (!lijst[idx]) return;
+      lijst[idx].gedaan = !lijst[idx].gedaan;
+      if (lijst[idx].gedaan) lijst[idx].gehaaldDoor = gebruiker;
+      await schrijfLijst(lijst);
+      lastHash = JSON.stringify(lijst);
+      render(lijst);
+    } catch(e) { await laadVanServer(); }
   }
 
-  function clearGedaan() {
-    const lijst = laadLijst().filter(i => !i.gedaan);
-    slaOp(lijst);
-    renderLijst();
+  async function verwijder(idx) {
+    try {
+      const lijst = await leesLijst();
+      lijst.splice(idx, 1);
+      await schrijfLijst(lijst);
+      lastHash = JSON.stringify(lijst);
+      render(lijst);
+    } catch(e) { await laadVanServer(); }
   }
 
-  // Enter key
-  document.getElementById('boodschapInput').addEventListener('keydown', e => { if (e.key === 'Enter') voegToe(); });
-  document.getElementById('boodschapHoeveelheid').addEventListener('keydown', e => { if (e.key === 'Enter') voegToe(); });
-
-  renderLijst();
+  async function clearGedaan() {
+    try {
+      const lijst = (await leesLijst()).filter(i => !i.gedaan);
+      await schrijfLijst(lijst);
+      lastHash = JSON.stringify(lijst);
+      render(lijst);
+    } catch(e) { await laadVanServer(); }
+  }
 </script>
 </body>
 </html>
