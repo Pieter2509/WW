@@ -807,6 +807,75 @@
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
 
+
+  /* ── HAMBURGER MENU (mobiel) ─────────────────────────────────────── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 110;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: all 0.3s;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-drawer {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(13,16,12,0.97);
+    backdrop-filter: blur(20px);
+    z-index: 105;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a {
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    transition: color 0.2s;
+  }
+  .nav-drawer a:hover { color: var(--flame); }
+
+  @media (max-width: 700px) {
+    .hamburger { display: flex; }
+    .nav-links  { display: none; }
+    nav { padding: 14px 20px; }
+    .hero, section.block { padding-left: 20px; padding-right: 20px; }
+    section.block { padding-top: 70px; padding-bottom: 70px; }
+  }
+
+
+  @media (max-width: 700px) {
+    .van-pin {
+      font-size: 0.52rem;
+      padding: 3px 7px;
+      max-width: 90px;
+      white-space: normal;
+      text-align: center;
+      line-height: 1.3;
+    }
+  }
 </style>
 </head>
 <body>
@@ -821,7 +890,19 @@
     <a href="huisje.html">Huisje</a>
     <a href="contact.html">Contact</a>
   </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <a href="#agenda"          onclick="sluitMenu()">Agenda</a>
+  <a href="#gallerij"        onclick="sluitMenu()">Archief</a>
+  <a href="boodschappen.html" onclick="sluitMenu()">Boodschappen</a>
+  <a href="corvee.html"      onclick="sluitMenu()">Corvee</a>
+  <a href="huisje.html"      onclick="sluitMenu()">Huisje</a>
+  <a href="contact.html"     onclick="sluitMenu()">Contact</a>
+</div>
 
 <header class="hero">
   <div class="topo">
@@ -1429,6 +1510,22 @@
   document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
 })();
+</script>
+
+
+<script>
+  function toggleMenu() {
+    const btn    = document.getElementById('hamburger');
+    const drawer = document.getElementById('navDrawer');
+    btn.classList.toggle('open');
+    drawer.classList.toggle('open');
+    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+  }
+  function sluitMenu() {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('navDrawer').classList.remove('open');
+    document.body.style.overflow = '';
+  }
 </script>
 
 </body>
