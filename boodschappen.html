@@ -9,63 +9,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d100c;
-    --bg-elevated: #161a13;
-    --bg-lift: #1d2218;
-    --ink: #f0ebe0;
-    --ink-soft: #a8a294;
-    --ink-muted: #6a6557;
-    --flame: #ff5e1f;
-    --flame-deep: #d94715;
-    --lime: #c4f04a;
-    --line: rgba(240, 235, 224, 0.08);
-    --line-strong: rgba(240, 235, 224, 0.18);
+    --bg: #0d100c; --bg-elevated: #161a13; --bg-lift: #1d2218;
+    --ink: #f0ebe0; --ink-soft: #a8a294; --ink-muted: #6a6557;
+    --flame: #ff5e1f; --flame-deep: #d94715; --lime: #c4f04a;
+    --line: rgba(240,235,224,0.08); --line-strong: rgba(240,235,224,0.18);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
   body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Manrope', sans-serif;
-    font-weight: 400;
-    line-height: 1.6;
-    overflow-x: hidden;
-    min-height: 100vh;
+    background: var(--bg); color: var(--ink);
+    font-family: 'Manrope', sans-serif; font-weight: 400;
+    line-height: 1.6; min-height: 100vh; overflow-x: hidden;
   }
   body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
+    content: ""; position: fixed; inset: 0; pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
-    opacity: 0.06;
-    z-index: 1;
-    mix-blend-mode: screen;
+    opacity: 0.06; z-index: 1; mix-blend-mode: screen;
   }
   @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
   @keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
   @keyframes spin { to{transform:rotate(360deg)} }
-  @keyframes slideIn { from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)} }
+  @keyframes slideIn { from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)} }
 
   nav {
     position: fixed; top:0; left:0; right:0; z-index:100;
-    padding: 20px 48px;
-    display: flex; justify-content: space-between; align-items: center;
-    backdrop-filter: blur(16px);
-    background: rgba(13,16,12,0.7);
+    padding: 20px 48px; display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(16px); background: rgba(13,16,12,0.7);
     border-bottom: 1px solid var(--line);
   }
   .logo {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 500;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 0.2em; font-weight: 500;
     display: flex; align-items: center; gap: 10px;
     text-decoration: none; color: var(--ink);
   }
   .logo img { height: 28px; width: auto; border-radius: 4px; }
   .logo .dot {
-    display: inline-block; width: 6px; height: 6px;
-    background: var(--flame); border-radius: 50%; flex-shrink: 0;
-    box-shadow: 0 0 12px var(--flame); animation: pulse 2s infinite;
+    width: 6px; height: 6px; background: var(--flame); border-radius: 50%;
+    box-shadow: 0 0 12px var(--flame); animation: pulse 2s infinite; flex-shrink: 0;
   }
   .nav-links { display: flex; gap: 32px; }
   .nav-links a {
@@ -76,11 +56,7 @@
   .nav-links a:hover { color: var(--flame); }
   .nav-links a.active { color: var(--lime); }
 
-  main {
-    padding: 120px 48px 80px;
-    max-width: 760px; margin: 0 auto;
-    position: relative; z-index: 2;
-  }
+  main { padding: 120px 48px 80px; max-width: 760px; margin: 0 auto; position: relative; z-index: 2; }
 
   .page-eyebrow {
     font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
@@ -89,61 +65,38 @@
     animation: fadeUp 0.8s 0.1s both;
   }
   .page-eyebrow::before { content:""; width:40px; height:1px; background:var(--flame); }
-
   .page-title {
     font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800;
     letter-spacing: -0.03em; line-height: 1; text-transform: uppercase;
     margin-bottom: 8px; animation: fadeUp 0.8s 0.15s both;
   }
-  .page-sub {
-    font-size: 0.9rem; color: var(--ink-soft);
-    margin-bottom: 36px; animation: fadeUp 0.8s 0.2s both;
-  }
+  .page-sub { font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 32px; animation: fadeUp 0.8s 0.2s both; }
 
-  /* SYNC STATUS */
   .sync-bar {
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 8px; margin-bottom: 24px;
     font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
-    text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--ink-muted); margin-bottom: 24px;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-muted);
     animation: fadeUp 0.8s 0.22s both;
   }
-  .sync-dot {
-    width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
-    transition: background 0.3s, box-shadow 0.3s;
-  }
+  .sync-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; transition: all 0.3s; }
   .sync-dot.live { background: var(--lime); box-shadow: 0 0 8px rgba(196,240,74,0.5); animation: pulse 2s infinite; }
   .sync-dot.loading { background: var(--flame); animation: pulse 0.6s infinite; }
-  .sync-dot.offline { background: var(--ink-muted); }
-  .sync-spinner {
-    width: 12px; height: 12px;
-    border: 2px solid var(--line-strong);
-    border-top-color: var(--flame);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    flex-shrink: 0;
-  }
+  .sync-dot.offline { background: #ff5e5e; }
 
-  /* ADD FORM */
-  .add-form {
-    display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
-    animation: fadeUp 0.8s 0.25s both;
-  }
+  .add-form { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; animation: fadeUp 0.8s 0.25s both; }
   .input-naam {
-    flex: 1; min-width: 180px;
-    background: var(--bg-elevated);
-    border: 1px solid var(--line-strong);
-    color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 0.9rem;
+    flex: 1; min-width: 180px; background: var(--bg-elevated);
+    border: 1px solid var(--line-strong); color: var(--ink);
+    font-family: 'Manrope', sans-serif; font-size: 0.9rem;
     padding: 13px 16px; border-radius: 8px; outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
   .input-naam:focus { border-color: var(--flame); box-shadow: 0 0 0 3px rgba(255,94,31,0.1); }
   .input-naam::placeholder { color: var(--ink-muted); }
   .input-qty {
-    width: 130px;
-    background: var(--bg-elevated);
-    border: 1px solid var(--line-strong);
-    color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 0.9rem;
+    width: 130px; background: var(--bg-elevated);
+    border: 1px solid var(--line-strong); color: var(--ink);
+    font-family: 'Manrope', sans-serif; font-size: 0.9rem;
     padding: 13px 16px; border-radius: 8px; outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
@@ -152,20 +105,15 @@
   .btn-add {
     display: flex; align-items: center; gap: 8px;
     background: var(--flame); color: #0d100c; border: none;
-    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
-    font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
     padding: 13px 20px; border-radius: 8px; cursor: pointer;
     transition: background 0.2s, transform 0.1s; white-space: nowrap;
   }
-  .btn-add:hover:not(:disabled) { background: var(--flame-deep); }
-  .btn-add:active:not(:disabled) { transform: scale(0.97); }
-  .btn-add:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-add:hover { background: var(--flame-deep); }
+  .btn-add:active { transform: scale(0.97); }
 
-  /* STATS */
-  .stats-row {
-    display: flex; align-items: center; gap: 0;
-    margin-bottom: 10px; animation: fadeUp 0.8s 0.3s both;
-  }
+  .stats-row { display: flex; align-items: center; margin-bottom: 10px; animation: fadeUp 0.8s 0.3s both; }
   .stats {
     flex: 1; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
     text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-muted);
@@ -175,82 +123,58 @@
   .stat-gedaan { color: var(--lime); }
   .btn-clear {
     font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
-    text-transform: uppercase; letter-spacing: 0.1em;
-    color: var(--ink-muted); background: none;
-    border: 1px solid var(--line); padding: 5px 12px;
-    border-radius: 4px; cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-muted);
+    background: none; border: 1px solid var(--line); padding: 5px 12px;
+    border-radius: 4px; cursor: pointer; transition: color 0.2s, border-color 0.2s;
   }
   .btn-clear:hover { color: #ff5e5e; border-color: rgba(255,94,94,0.4); }
 
   .progress-wrap {
     height: 3px; background: var(--line-strong); border-radius: 99px;
-    margin-bottom: 28px; overflow: hidden;
-    animation: fadeUp 0.8s 0.3s both;
+    margin-bottom: 28px; overflow: hidden; animation: fadeUp 0.8s 0.3s both;
   }
-  .progress-bar {
-    height: 100%; background: var(--lime); border-radius: 99px;
-    transition: width 0.4s cubic-bezier(.4,0,.2,1);
-  }
+  .progress-bar { height: 100%; background: var(--lime); border-radius: 99px; transition: width 0.4s cubic-bezier(.4,0,.2,1); }
 
-  /* LIST */
   .lijst { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-
   .item {
     display: flex; align-items: center; gap: 14px;
     background: var(--bg-elevated); border: 1px solid var(--line);
     border-radius: 10px; padding: 15px 18px;
-    transition: all 0.22s ease; cursor: pointer; user-select: none;
-    animation: slideIn 0.25s both;
+    transition: all 0.22s; cursor: pointer; user-select: none;
+    animation: slideIn 0.2s both;
   }
   .item:hover { border-color: var(--line-strong); background: var(--bg-lift); }
   .item.gedaan { background: rgba(196,240,74,0.05); border-color: rgba(196,240,74,0.2); }
-  .item.gedaan:hover { background: rgba(196,240,74,0.08); border-color: rgba(196,240,74,0.3); }
+  .item.gedaan:hover { background: rgba(196,240,74,0.08); }
 
   .check {
-    width: 24px; height: 24px; border: 2px solid var(--ink-muted);
-    border-radius: 50%; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
+    width: 24px; height: 24px; border: 2px solid var(--ink-muted); border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
   }
-  .item.gedaan .check {
-    background: var(--lime); border-color: var(--lime);
-    box-shadow: 0 0 10px rgba(196,240,74,0.3);
-  }
+  .item.gedaan .check { background: var(--lime); border-color: var(--lime); box-shadow: 0 0 10px rgba(196,240,74,0.3); }
   .check svg { opacity: 0; transition: opacity 0.15s; }
   .item.gedaan .check svg { opacity: 1; }
 
-  .naam {
-    flex: 1; font-size: 0.95rem; font-weight: 500; transition: color 0.2s;
-  }
-  .item.gedaan .naam {
-    color: var(--lime);
-    text-decoration: line-through;
-    text-decoration-color: rgba(196,240,74,0.4);
-  }
+  .naam { flex: 1; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+  .item.gedaan .naam { color: var(--lime); text-decoration: line-through; text-decoration-color: rgba(196,240,74,0.4); }
 
   .qty {
     font-family: 'JetBrains Mono', monospace; font-size: 0.73rem;
     color: var(--ink-muted); background: var(--bg-lift);
-    border: 1px solid var(--line); padding: 3px 10px;
-    border-radius: 5px; white-space: nowrap;
+    border: 1px solid var(--line); padding: 3px 10px; border-radius: 5px; white-space: nowrap;
   }
-  .item.gedaan .qty {
-    color: rgba(196,240,74,0.5); border-color: rgba(196,240,74,0.15);
-    background: rgba(196,240,74,0.04);
-  }
+  .item.gedaan .qty { color: rgba(196,240,74,0.5); border-color: rgba(196,240,74,0.15); }
 
-  .who {
-    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+  .door {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.63rem;
     color: var(--ink-muted); white-space: nowrap;
   }
-  .item.gedaan .who { color: rgba(196,240,74,0.45); }
+  .item.gedaan .door { color: rgba(196,240,74,0.4); }
 
   .btn-del {
-    background: none; border: none; color: var(--ink-muted);
-    cursor: pointer; padding: 4px; border-radius: 4px;
-    opacity: 0; transition: opacity 0.2s, color 0.2s, background 0.2s;
-    display: flex; align-items: center;
+    background: none; border: none; color: var(--ink-muted); cursor: pointer;
+    padding: 4px; border-radius: 4px; opacity: 0;
+    transition: opacity 0.2s, color 0.2s, background 0.2s; display: flex; align-items: center;
   }
   .item:hover .btn-del { opacity: 1; }
   .btn-del:hover { color: #ff5e5e; background: rgba(255,94,94,0.1); }
@@ -268,24 +192,19 @@
     font-size: 0.88rem; border: 1px dashed var(--line-strong); border-radius: 12px;
   }
   .empty.zichtbaar { display: flex; }
-  .empty p { max-width: 260px; line-height: 1.6; }
 
-  /* NAME MODAL */
+  /* Modal */
   .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    position: fixed; inset: 0; background: rgba(0,0,0,0.65);
     backdrop-filter: blur(6px); z-index: 200;
     display: flex; align-items: center; justify-content: center;
-    animation: fadeUp 0.2s both;
   }
   .modal {
     background: var(--bg-elevated); border: 1px solid var(--line-strong);
     border-radius: 16px; padding: 36px; max-width: 380px; width: 90%;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5); animation: fadeUp 0.3s both;
   }
-  .modal h2 {
-    font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em;
-    text-transform: uppercase; margin-bottom: 8px;
-  }
+  .modal h2 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 8px; }
   .modal p { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 24px; }
   .modal input {
     width: 100%; background: var(--bg-lift); border: 1px solid var(--line-strong);
@@ -298,16 +217,15 @@
   .btn-modal {
     width: 100%; background: var(--flame); color: #0d100c; border: none;
     font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.1em;
-    padding: 14px; border-radius: 8px; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 0.1em; padding: 14px; border-radius: 8px; cursor: pointer;
     transition: background 0.2s;
   }
   .btn-modal:hover { background: var(--flame-deep); }
 
   @media (max-width: 640px) {
     nav { padding: 14px 18px; }
-    .nav-links { gap: 16px; }
-    .nav-links a { font-size: 0.68rem; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 0.65rem; }
     main { padding: 90px 18px 60px; }
     .add-form { flex-direction: column; }
     .input-qty { width: 100%; }
@@ -336,15 +254,15 @@
   <h1 class="page-title">Boodschappenlijst</h1>
   <p class="page-sub">Lijstje af, kar volladen, klaar voor het weekend.</p>
 
-  <div class="sync-bar" id="syncBar">
+  <div class="sync-bar">
     <div class="sync-dot loading" id="syncDot"></div>
-    <span id="syncText">Verbinden...</span>
+    <span id="syncText">Verbinden met database...</span>
   </div>
 
   <div class="add-form">
     <input type="text" id="inputNaam" class="input-naam" placeholder="Product toevoegen..." autocomplete="off">
     <input type="text" id="inputQty" class="input-qty" placeholder="Hoeveel?">
-    <button class="btn-add" id="btnAdd" onclick="voegToe()" disabled>
+    <button class="btn-add" onclick="voegToe()">
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
         <path d="M6.5 1v11M1 6.5h11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
       </svg>
@@ -354,9 +272,9 @@
 
   <div class="stats-row">
     <div class="stats">
-      <span id="statTotaal">—</span>
+      <span id="statTotaal">0 producten</span>
       <span class="sep">/</span>
-      <span id="statGedaan" class="stat-gedaan">—</span>
+      <span id="statGedaan" class="stat-gedaan">0 gehaald</span>
     </div>
     <button class="btn-clear" onclick="clearGedaan()">Afgevinkt wissen</button>
   </div>
@@ -366,7 +284,7 @@
   </div>
 
   <ul class="lijst" id="lijst"></ul>
-  <div class="empty" id="empty">
+  <div class="empty zichtbaar" id="empty">
     <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
       <path d="M7 13h5l5.5 21h15l4.5-15H15" stroke="#6a6557" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       <circle cx="20.5" cy="38" r="2.5" fill="#6a6557"/>
@@ -376,124 +294,97 @@
   </div>
 </main>
 
-<!-- Name modal -->
+<!-- Naam modal -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h2>Wie ben jij?</h2>
     <p>Zo zien de anderen wie wat heeft toegevoegd of afgevinkt.</p>
     <input type="text" id="modalNaam" placeholder="Jouw naam..." maxlength="20" autocomplete="off">
-    <button class="btn-modal" onclick="slaNaamOp()">Doorgaan</button>
+    <button class="btn-modal" onclick="slaNaamOp()">Doorgaan →</button>
   </div>
 </div>
 
-<script>
-  const SHARED_KEY = 'ww26_boodschappen_v2';
-  const NAAM_KEY   = 'ww26_gebruiker';
-  const POLL_MS    = 4000;
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
+  const firebaseConfig = {
+    databaseURL: "https://ebsite-c081e-default-rtdb.europe-west1.firebasedatabase.app"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+  const lijstRef = ref(db, 'boodschappen');
+
+  const NAAM_KEY = 'ww26_gebruiker';
   let gebruiker = localStorage.getItem(NAAM_KEY) || '';
-  let polling   = null;
-  let lastHash  = '';
 
   // ── Modal ──────────────────────────────────────
-  const overlay = document.getElementById('modalOverlay');
+  const overlay   = document.getElementById('modalOverlay');
   const modalInput = document.getElementById('modalNaam');
 
-  if (gebruiker) {
-    overlay.style.display = 'none';
-    init();
-  } else {
-    modalInput.focus();
-    modalInput.addEventListener('keydown', e => { if (e.key === 'Enter') slaNaamOp(); });
-  }
-
-  function slaNaamOp() {
+  window.slaNaamOp = function() {
     const v = modalInput.value.trim();
     if (!v) { modalInput.focus(); return; }
     gebruiker = v;
     localStorage.setItem(NAAM_KEY, gebruiker);
     overlay.style.display = 'none';
-    init();
-  }
+  };
+  modalInput.addEventListener('keydown', e => { if (e.key === 'Enter') window.slaNaamOp(); });
 
-  // ── Init ───────────────────────────────────────
-  function init() {
-    document.getElementById('inputNaam').addEventListener('keydown', e => { if (e.key === 'Enter') voegToe(); });
-    document.getElementById('inputQty').addEventListener('keydown',  e => { if (e.key === 'Enter') voegToe(); });
-    laadVanServer();
-    polling = setInterval(laadVanServer, POLL_MS);
-  }
+  if (gebruiker) overlay.style.display = 'none';
+  else modalInput.focus();
 
-  // ── Storage helpers ────────────────────────────
-  async function leesLijst() {
-    try {
-      const r = await window.storage.get(SHARED_KEY, true); // shared=true
-      return r ? JSON.parse(r.value) : [];
-    } catch { return []; }
-  }
+  // ── Enter keys ─────────────────────────────────
+  document.getElementById('inputNaam').addEventListener('keydown', e => { if (e.key === 'Enter') window.voegToe(); });
+  document.getElementById('inputQty').addEventListener('keydown',  e => { if (e.key === 'Enter') window.voegToe(); });
 
-  async function schrijfLijst(lijst) {
-    await window.storage.set(SHARED_KEY, JSON.stringify(lijst), true); // shared=true
-  }
-
-  // ── Server sync ────────────────────────────────
-  async function laadVanServer() {
-    setSyncStatus('loading');
-    try {
-      const lijst = await leesLijst();
-      const hash = JSON.stringify(lijst);
-      if (hash !== lastHash) {
-        lastHash = hash;
-        render(lijst);
-      }
-      setSyncStatus('live');
-      document.getElementById('btnAdd').disabled = false;
-    } catch(e) {
-      setSyncStatus('offline');
-    }
-  }
-
-  function setSyncStatus(state) {
-    const dot  = document.getElementById('syncDot');
-    const text = document.getElementById('syncText');
-    dot.className = 'sync-dot ' + state;
-    if (state === 'live')    text.textContent = 'Gesynchroniseerd — iedereen ziet dezelfde lijst';
-    if (state === 'loading') text.textContent = 'Synchroniseren...';
-    if (state === 'offline') text.textContent = 'Verbinding verbroken — probeer opnieuw';
-  }
+  // ── Realtime listener ──────────────────────────
+  onValue(lijstRef, snapshot => {
+    const data = snapshot.val();
+    const lijst = data ? Object.values(data) : [];
+    // Sort: open first, then gedaan, both by timestamp
+    lijst.sort((a, b) => {
+      if (a.gedaan !== b.gedaan) return a.gedaan ? 1 : -1;
+      return (a.ts || 0) - (b.ts || 0);
+    });
+    render(lijst);
+    document.getElementById('syncDot').className = 'sync-dot live';
+    document.getElementById('syncText').textContent = 'Live gesynchroniseerd — iedereen ziet dezelfde lijst';
+  }, err => {
+    document.getElementById('syncDot').className = 'sync-dot offline';
+    document.getElementById('syncText').textContent = 'Verbindingsfout — controleer je internetverbinding';
+  });
 
   // ── Render ─────────────────────────────────────
   function render(lijst) {
     const ul    = document.getElementById('lijst');
     const empty = document.getElementById('empty');
-    const prog  = document.getElementById('progressBar');
 
     const open   = lijst.filter(i => !i.gedaan);
     const gedaan = lijst.filter(i =>  i.gedaan);
 
     document.getElementById('statTotaal').textContent =
       lijst.length + ' ' + (lijst.length === 1 ? 'product' : 'producten');
-    document.getElementById('statGedaan').textContent =
-      gedaan.length + ' gehaald';
-    prog.style.width = lijst.length > 0
-      ? Math.round(gedaan.length / lijst.length * 100) + '%'
-      : '0%';
+    document.getElementById('statGedaan').textContent = gedaan.length + ' gehaald';
+    document.getElementById('progressBar').style.width =
+      lijst.length > 0 ? Math.round(gedaan.length / lijst.length * 100) + '%' : '0%';
 
     empty.classList.toggle('zichtbaar', lijst.length === 0);
     ul.innerHTML = '';
 
-    open.forEach(item => ul.appendChild(maakLi(item, lijst.indexOf(item))));
-
+    open.forEach(item   => ul.appendChild(maakLi(item)));
     if (gedaan.length > 0 && open.length > 0) {
-      const div = document.createElement('li');
-      div.className = 'divider';
-      div.textContent = 'Gehaald (' + gedaan.length + ')';
-      ul.appendChild(div);
+      const d = document.createElement('li');
+      d.className = 'divider';
+      d.textContent = 'Gehaald (' + gedaan.length + ')';
+      ul.appendChild(d);
     }
-    gedaan.forEach(item => ul.appendChild(maakLi(item, lijst.indexOf(item))));
+    gedaan.forEach(item => ul.appendChild(maakLi(item)));
   }
 
-  function maakLi(item, idx) {
+  function maakLi(item) {
     const li = document.createElement('li');
     li.className = 'item' + (item.gedaan ? ' gedaan' : '');
     li.innerHTML = `
@@ -504,8 +395,8 @@
       </div>
       <span class="naam">${esc(item.naam)}</span>
       ${item.hoeveelheid ? `<span class="qty">${esc(item.hoeveelheid)}</span>` : ''}
-      <span class="who">${esc(item.door || '')}</span>
-      <button class="btn-del" onclick="verwijder(${idx})" title="Verwijderen">
+      <span class="door">${esc(item.door || '')}</span>
+      <button class="btn-del" onclick="verwijderItem('${esc(item.id)}')" title="Verwijderen">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
           <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
@@ -513,7 +404,7 @@
     `;
     li.addEventListener('click', e => {
       if (e.target.closest('.btn-del')) return;
-      toggle(idx);
+      toggleItem(item.id, item.gedaan);
     });
     return li;
   }
@@ -523,56 +414,46 @@
   }
 
   // ── Actions ────────────────────────────────────
-  async function voegToe() {
+  window.voegToe = async function() {
     const naam = document.getElementById('inputNaam').value.trim();
     const qty  = document.getElementById('inputQty').value.trim();
     if (!naam) { document.getElementById('inputNaam').focus(); return; }
 
-    document.getElementById('btnAdd').disabled = true;
-    try {
-      const lijst = await leesLijst();
-      lijst.unshift({ id: Date.now(), naam, hoeveelheid: qty, gedaan: false, door: gebruiker });
-      await schrijfLijst(lijst);
-      document.getElementById('inputNaam').value = '';
-      document.getElementById('inputQty').value  = '';
-      document.getElementById('inputNaam').focus();
-      lastHash = JSON.stringify(lijst);
-      render(lijst);
-    } finally {
-      document.getElementById('btnAdd').disabled = false;
+    const id = 'item_' + Date.now();
+    const itemRef = ref(db, 'boodschappen/' + id);
+    await set(itemRef, { id, naam, hoeveelheid: qty, gedaan: false, door: gebruiker, ts: Date.now() });
+
+    document.getElementById('inputNaam').value = '';
+    document.getElementById('inputQty').value  = '';
+    document.getElementById('inputNaam').focus();
+  };
+
+  async function toggleItem(id, wasGedaan) {
+    const itemRef = ref(db, 'boodschappen/' + id);
+    const snap = await get(itemRef);
+    if (!snap.exists()) return;
+    const item = snap.val();
+    await set(itemRef, { ...item, gedaan: !wasGedaan });
+  }
+
+  window.verwijderItem = async function(id) {
+    const itemRef = ref(db, 'boodschappen/' + id);
+    await set(itemRef, null);
+  };
+
+  window.clearGedaan = async function() {
+    const snap = await get(lijstRef);
+    if (!snap.exists()) return;
+    const data = snap.val();
+    const updates = {};
+    Object.keys(data).forEach(k => {
+      if (data[k].gedaan) updates[k] = null;
+    });
+    // Apply all deletes
+    for (const k of Object.keys(updates)) {
+      await set(ref(db, 'boodschappen/' + k), null);
     }
-  }
-
-  async function toggle(idx) {
-    try {
-      const lijst = await leesLijst();
-      if (!lijst[idx]) return;
-      lijst[idx].gedaan = !lijst[idx].gedaan;
-      if (lijst[idx].gedaan) lijst[idx].gehaaldDoor = gebruiker;
-      await schrijfLijst(lijst);
-      lastHash = JSON.stringify(lijst);
-      render(lijst);
-    } catch(e) { await laadVanServer(); }
-  }
-
-  async function verwijder(idx) {
-    try {
-      const lijst = await leesLijst();
-      lijst.splice(idx, 1);
-      await schrijfLijst(lijst);
-      lastHash = JSON.stringify(lijst);
-      render(lijst);
-    } catch(e) { await laadVanServer(); }
-  }
-
-  async function clearGedaan() {
-    try {
-      const lijst = (await leesLijst()).filter(i => !i.gedaan);
-      await schrijfLijst(lijst);
-      lastHash = JSON.stringify(lijst);
-      render(lijst);
-    } catch(e) { await laadVanServer(); }
-  }
+  };
 </script>
 </body>
 </html>
