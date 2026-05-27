@@ -737,7 +737,7 @@
     .nav-links a { font-size: 0.7rem; }
     .hero, section.block { padding-left: 24px; padding-right: 24px; }
     section.block { padding-top: 80px; padding-bottom: 80px; }
-    .timeline { padding: 60px 20px 50px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .timeline { padding: 60px 20px 50px; overflow: visible; }
     .stops { min-width: 820px; }
     .timeline-track, .timeline-progress { left: 20px; }
     .timeline-track { right: 20px; }
@@ -866,16 +866,32 @@
   }
 
 
-  @media (max-width: 700px) {
-    .van-pin {
-      font-size: 0.52rem;
-      padding: 3px 7px;
-      max-width: 90px;
-      white-space: normal;
-      text-align: center;
-      line-height: 1.3;
-    }
+
+  /* Timeline scroll wrapper — keeps pin visible above */
+  .timeline-scroll {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 56px;   /* ruimte voor de pin boven de tijdlijn */
+    margin-top: -56px;   /* compenseer zodat layout niet verschuift */
   }
+  .timeline-scroll .timeline {
+    min-width: 640px;
+    overflow: visible;
+  }
+
+
+  .fallen-link {
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: rgba(240,235,224,0.1);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.4s;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .fallen-link:hover { color: rgba(255, 94, 31, 0.5); }
+
 </style>
 </head>
 <body>
@@ -976,7 +992,7 @@
       <span>vier dagen / vijftien stops</span>
       <span class="live">live tracking</span>
     </div>
-    <div class="timeline">
+    <div class="timeline-scroll"><div class="timeline">
       <div class="timeline-track"></div>
       <div class="timeline-progress" id="timelineProgress"></div>
       <div class="van-marker" id="vanMarker">
@@ -1017,7 +1033,7 @@
         <div class="stop" data-i="13"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZO</span>10:00</div></div>
         <div class="stop" data-i="14"><div class="stop-dot"></div><div class="stop-label"><span class="day">ZO</span>16:00</div></div>
       </div>
-    </div>
+    </div></div>
     <div class="status-bar" id="statusBar">
       Status<span class="sep">/</span><strong>Laden</strong>
     </div>
@@ -1259,9 +1275,7 @@
     <div class="photo y2023" data-year="2023"><div class="photo-inner"><img class="photo-img" src="2023/WhatsApp Image 2026-05-26 at 10.25.04 (4).jpeg" alt="WhatsApp Image 2026 05 26 at 10.25.04 (4)" loading="lazy"><div class="photo-overlay"><div class="photo-year">2023 / 04</div><div class="photo-caption">WhatsApp Image 2026 05 26 at 10.25.04 (4)</div></div></div></div>
     <div class="photo y2023 wide" data-year="2023"><div class="photo-inner"><img class="photo-img" src="2023/WhatsApp Image 2026-05-26 at 10.25.04.jpeg" alt="WhatsApp Image 2026 05 26 at 10.25.04" loading="lazy"><div class="photo-overlay"><div class="photo-year">2023 / 05</div><div class="photo-caption">WhatsApp Image 2026 05 26 at 10.25.04</div></div></div></div>
     <div class="photo y2023" data-year="2023"><div class="photo-inner"><img class="photo-img" src="2023/WhatsApp Image 2026-05-26 at 10.25.05.jpeg" alt="WhatsApp Image 2026 05 26 at 10.25.05" loading="lazy"><div class="photo-overlay"><div class="photo-year">2023 / 06</div><div class="photo-caption">WhatsApp Image 2026 05 26 at 10.25.05</div></div></div></div>
-    <div class="photo y2023" data-year="2023"><div class="photo-inner"><img class="photo-img" src="2023/WhatsApp Image 2026-05-27 at 11.59.00.jpeg" alt="WhatsApp Image 2026 05 27 at 11.59.00" loading="lazy"><div class="photo-overlay"><div class="photo-year">2023 / 07</div><div class="photo-caption">WhatsApp Image 2026 05 27 at 11.59.00</div></div></div></div>
-    <div class="photo y2023 wide has-video" data-year="2023"><div class="photo-inner"><video class="photo-video" src="2023/WhatsApp Video 2026-05-26 at 10.25.06.mp4" muted playsinline preload="metadata"></video><div class="photo-overlay"><div class="photo-year">2023 / 08</div><div class="photo-caption">WhatsApp Video 2026 05 26 at 10.25.06</div></div></div><div class="video-badge"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div></div>
-    <div class="photo y2023 tall has-video" data-year="2023"><div class="photo-inner"><video class="photo-video" src="2023/WhatsApp Video 2026-05-27 at 11.58.59.mp4" muted playsinline preload="metadata"></video><div class="photo-overlay"><div class="photo-year">2023 / 09</div><div class="photo-caption">WhatsApp Video 2026 05 27 at 11.58.59</div></div></div><div class="video-badge"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div></div>
+    <div class="photo y2023 has-video" data-year="2023"><div class="photo-inner"><video class="photo-video" src="2023/WhatsApp Video 2026-05-26 at 10.25.06.mp4" muted playsinline preload="metadata"></video><div class="photo-overlay"><div class="photo-year">2023 / 07</div><div class="photo-caption">WhatsApp Video 2026 05 26 at 10.25.06</div></div></div><div class="video-badge"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div></div>
 
 
     <!-- 2024 -->
@@ -1318,7 +1332,10 @@
 
 <footer>
   <div class="footer-title">Tot in <em>november</em>.</div>
-  <div>WKD-WG / EST. 2019 / V8.0</div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
+    <div>WKD-WG / EST. 2019 / V8.0</div>
+    <a href="fallen.html" target="_blank" class="fallen-link">&#8224; The Fallen Soldier</a>
+  </div>
 </footer>
 
 <script>
