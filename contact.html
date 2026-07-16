@@ -552,7 +552,7 @@
 <section class="contact">
   <div class="contact-grid">
 
-    <form class="contact-form" id="contactForm" action="https://formsubmit.co/info@weekendjeweg.info" method="POST" novalidate>
+    <form class="contact-form" id="contactForm" action="https://formsubmit.co/info@weekendjeweg.fun" method="POST" novalidate>
       <div class="form-title">Het formulier</div>
       <div class="form-intro">// vul in <span>en verzend</span></div>
 
@@ -603,12 +603,12 @@
         <span class="side-num">// direct</span>
         <div class="side-title">Liever direct mailen?</div>
         <p class="side-text">Geen zin in formulieren? Stuur gewoon een mailtje, dat komt op hetzelfde adres binnen.</p>
-        <a class="side-mail" href="mailto:info@weekendjeweg.info">
+        <a class="side-mail" href="mailto:info@weekendjeweg.fun">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="5" width="18" height="14" rx="2"/>
             <polyline points="3 7 12 13 21 7"/>
           </svg>
-          info@weekendjeweg.info
+          info@weekendjeweg.fun
         </a>
       </div>
 
@@ -663,7 +663,7 @@
 
     try {
       const formData = new FormData(form);
-      const response = await fetch('https://formsubmit.co/ajax/info@weekendjeweg.info', {
+      const response = await fetch('https://formsubmit.co/ajax/info@weekendjeweg.fun', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
         body: formData
@@ -681,7 +681,7 @@
         showStatus('success', 'Bericht verzonden. Bedankt, je hoort snel van ons.');
         form.reset();
       } else if (needsActivation) {
-        showStatus('error', 'Eenmalige activatie nodig. Check de inbox van info@weekendjeweg.info voor een mail van FormSubmit en klik op de bevestigingslink.');
+        showStatus('error', 'Eenmalige activatie nodig. Check de inbox van info@weekendjeweg.fun voor een mail van FormSubmit en klik op de bevestigingslink.');
       } else {
         console.warn('FormSubmit response:', response.status, data);
         showStatus('error', 'Er ging iets mis. Probeer het opnieuw of mail direct.');
