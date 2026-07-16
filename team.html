@@ -166,33 +166,41 @@
   }
   .team-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
   }
   .member {
+    display: flex;
+    align-items: flex-start;
+    gap: 22px;
     background: var(--bg-elevated);
     border: 1px solid var(--line-strong);
     border-radius: 6px;
     overflow: hidden;
+    padding: 26px;
     transition: transform 0.3s, border-color 0.3s;
     animation: fadeUp 0.7s both;
   }
   .member:hover { transform: translateY(-4px); border-color: rgba(255, 94, 31, 0.4); }
   .member-photo {
     position: relative;
-    aspect-ratio: 1 / 1;
+    flex: 0 0 108px;
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
     background: var(--bg-lift);
     overflow: hidden;
+    border: 1px solid var(--line-strong);
   }
   .member-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    filter: grayscale(0.5) contrast(1.05);
+    filter: grayscale(0.4) contrast(1.05);
     transition: filter 0.4s, transform 0.5s;
   }
-  .member:hover .member-photo img { filter: grayscale(0); transform: scale(1.04); }
+  .member:hover .member-photo img { filter: grayscale(0); transform: scale(1.05); }
   .member-photo .initials {
     position: absolute;
     inset: 0;
@@ -201,7 +209,7 @@
     justify-content: center;
     font-family: 'Instrument Serif', serif;
     font-style: italic;
-    font-size: 3.4rem;
+    font-size: 2.1rem;
     color: var(--ink-muted);
     background:
       radial-gradient(circle at 30% 20%, rgba(255,94,31,0.16), transparent 55%),
@@ -209,35 +217,36 @@
   }
   .member-num {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    padding: 4px 10px;
-    background: rgba(13, 16, 12, 0.75);
+    bottom: -2px;
+    right: -2px;
+    padding: 3px 8px;
+    background: rgba(13, 16, 12, 0.85);
     backdrop-filter: blur(10px);
     border-radius: 100px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
     color: var(--ink-soft);
+    border: 1px solid var(--line-strong);
   }
-  .member-body { padding: 22px 24px 26px; }
+  .member-body { flex: 1; padding-top: 4px; }
   .member-name {
     font-family: 'Instrument Serif', serif;
     font-style: italic;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     color: var(--ink);
     letter-spacing: -0.01em;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
   .member-tag {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     color: var(--flame);
     margin-bottom: 14px;
   }
-  .member-desc { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.6; }
+  .member-desc { font-size: 1rem; color: var(--ink-soft); line-height: 1.65; }
 
   /* FOOTER */
   footer {
@@ -279,11 +288,12 @@
     .page-hero, .section-header, section.team { padding-left: 24px; padding-right: 24px; }
     .page-hero { padding-top: 110px; }
     .eyebrow .coords { display: none; }
-    .team-grid { grid-template-columns: repeat(2, 1fr); }
+    .team-grid { grid-template-columns: 1fr; }
     footer { padding: 60px 24px 28px; }
   }
-  @media (max-width: 560px) {
-    .team-grid { grid-template-columns: 1fr; }
+  @media (max-width: 480px) {
+    .member { flex-direction: column; align-items: center; text-align: center; }
+    .member-body { padding-top: 0; }
   }
 
   /* HAMBURGER MENU (mobiel) */
@@ -392,7 +402,7 @@
 
     <div class="member" style="animation-delay:0.05s">
       <div class="member-photo">
-        <img src="team/jip.jpg" alt="Jip Götschenberg" loading="lazy"
+        <img src="team/jip.png" alt="Jip Götschenberg" loading="lazy"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="initials" style="display:none">JG</div>
         <div class="member-num">01</div>
@@ -406,7 +416,7 @@
 
     <div class="member" style="animation-delay:0.1s">
       <div class="member-photo">
-        <img src="team/daan.jpg" alt="Daan van Ommen" loading="lazy"
+        <img src="team/Daan.png" alt="Daan van Ommen" loading="lazy"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="initials" style="display:none">DO</div>
         <div class="member-num">02</div>
@@ -420,7 +430,7 @@
 
     <div class="member" style="animation-delay:0.15s">
       <div class="member-photo">
-        <img src="team/max.jpg" alt="Max Beenkens" loading="lazy"
+        <img src="team/Max.jpeg" alt="Max Beenkens" loading="lazy"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="initials" style="display:none">MB</div>
         <div class="member-num">03</div>
@@ -434,7 +444,7 @@
 
     <div class="member" style="animation-delay:0.2s">
       <div class="member-photo">
-        <img src="team/vince.jpg" alt="Vince Vaessen" loading="lazy"
+        <img src="team/Vince.png" alt="Vince Vaessen" loading="lazy"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="initials" style="display:none">VV</div>
         <div class="member-num">04</div>
@@ -448,7 +458,7 @@
 
     <div class="member" style="animation-delay:0.25s">
       <div class="member-photo">
-        <img src="team/roel.jpg" alt="Roel Lemmens" loading="lazy"
+        <img src="team/Roel.jpg" alt="Roel Lemmens" loading="lazy"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="initials" style="display:none">RL</div>
         <div class="member-num">05</div>
