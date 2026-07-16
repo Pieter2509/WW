@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload / Weekendje Weg '26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d100c;
+    --bg-elevated: #161a13;
+    --bg-lift: #1d2218;
+    --ink: #f0ebe0;
+    --ink-soft: #a8a294;
+    --ink-muted: #6a6557;
+    --flame: #ff5e1f;
+    --flame-deep: #d94715;
+    --lime: #c4f04a;
+    --moss: #4a8a6a;
+    --line: rgba(240, 235, 224, 0.08);
+    --line-strong: rgba(240, 235, 224, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    z-index: 1;
+    mix-blend-mode: screen;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(16px);
+    background: rgba(13, 16, 12, 0.7);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo { display: flex; align-items: center; text-decoration: none; }
+  .logo img {
+    height: 44px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 94, 31, 0.35));
+    transition: filter 0.3s, transform 0.3s;
+  }
+  .logo img:hover {
+    filter: drop-shadow(0 0 18px rgba(255, 94, 31, 0.6));
+    transform: scale(1.04);
+  }
+  .nav-links { display: flex; gap: 26px; }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--flame); }
+  .nav-links a.active { color: var(--flame); }
+
+  /* HERO */
+  .page-hero { padding: 140px 48px 40px; position: relative; z-index: 2; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--flame);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    animation: fadeUp 0.8s 0.1s both;
+  }
+  .eyebrow::before { content: ""; width: 40px; height: 1px; background: var(--flame); }
+  .page-hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(3rem, 10vw, 7.5rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.2s both;
+  }
+  .page-hero h1 .accent { color: var(--flame); }
+  .page-hero .subtitle {
+    max-width: 680px;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    animation: fadeUp 0.8s 0.3s both;
+  }
+
+  /* FORM SECTION */
+  section.upload-section {
+    padding: 20px 48px 120px;
+    position: relative;
+    z-index: 2;
+  }
+  .upload-card {
+    max-width: 720px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    padding: 40px;
+    animation: fadeUp 0.8s 0.4s both;
+  }
+
+  .field { margin-bottom: 24px; }
+  .field label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+  .field input[type="text"],
+  .field select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    padding: 13px 16px;
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field input[type="text"]:focus,
+  .field select:focus { border-color: var(--flame); }
+  .field select { appearance: none; cursor: pointer; }
+  .year-row { display: flex; gap: 12px; }
+  .year-row select { flex: 1; }
+  .year-row input { flex: 1; display: none; }
+
+  /* DROPZONE */
+  .dropzone {
+    border: 1.5px dashed var(--line-strong);
+    border-radius: 6px;
+    padding: 40px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 24px;
+  }
+  .dropzone:hover, .dropzone.drag { border-color: var(--flame); background: rgba(255, 94, 31, 0.04); }
+  .dropzone-icon { color: var(--flame); margin-bottom: 12px; }
+  .dropzone-icon svg { width: 34px; height: 34px; }
+  .dropzone-text { font-size: 0.95rem; color: var(--ink); margin-bottom: 4px; }
+  .dropzone-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+  }
+  #fileInput { display: none; }
+
+  /* FILE LIST */
+  .file-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .file-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 12px 16px;
+  }
+  .file-row .name {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .file-row .bar-track {
+    width: 100px;
+    height: 4px;
+    background: var(--line-strong);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .file-row .bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--flame);
+    transition: width 0.2s;
+  }
+  .file-row .status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    min-width: 64px;
+    text-align: right;
+  }
+  .file-row.done .status { color: var(--lime); }
+  .file-row.error .status { color: var(--flame); }
+
+  .btn-upload {
+    width: 100%;
+    background: var(--flame);
+    color: var(--bg);
+    border: none;
+    padding: 16px 26px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s, opacity 0.2s;
+  }
+  .btn-upload:hover:not(:disabled) { background: var(--flame-deep); box-shadow: 0 8px 24px rgba(255, 94, 31, 0.35); }
+  .btn-upload:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .banner {
+    margin-top: 20px;
+    padding: 14px 18px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    display: none;
+  }
+  .banner.show { display: block; }
+  .banner.success { background: rgba(196, 240, 74, 0.1); border: 1px solid rgba(196, 240, 74, 0.35); color: var(--lime); }
+  .banner.error { background: rgba(255, 94, 31, 0.1); border: 1px solid rgba(255, 94, 31, 0.35); color: var(--flame); }
+
+  .hint {
+    margin-top: 28px;
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 80px 48px 32px;
+    border-top: 1px solid var(--line-strong);
+    color: var(--ink-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer .footer-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--ink);
+    text-transform: none;
+    letter-spacing: -0.01em;
+  }
+  footer .footer-title em { color: var(--flame); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 0.68rem; letter-spacing: 0.1em; }
+    .page-hero, section.upload-section { padding-left: 24px; padding-right: 24px; }
+    .page-hero { padding-top: 110px; }
+    .upload-card { padding: 28px 22px; }
+    footer { padding: 60px 24px 28px; }
+  }
+
+  /* HAMBURGER MENU (mobiel) */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 110;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: all 0.3s;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-drawer {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(13,16,12,0.97);
+    backdrop-filter: blur(20px);
+    z-index: 105;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a {
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    transition: color 0.2s;
+  }
+  .nav-drawer a:hover { color: var(--flame); }
+  .nav-drawer a.active { color: var(--flame); }
+
+  @media (max-width: 700px) {
+    .hamburger { display: flex; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo"><img src="logo.png" alt="Weekendje Weg"></a>
+  <div class="nav-links">
+    <a href="index.html#agenda">Agenda</a>
+    <a href="index.html#gallerij">Archief</a>
+    <a href="boodschappen.html">Boodschappen</a>
+    <a href="corvee.html">Corvee</a>
+    <a href="huisje.html">Huisje</a>
+    <a href="team.html">Team</a>
+    <a href="upload.html" class="active">Upload</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <a href="index.html#agenda"   onclick="sluitMenu()">Agenda</a>
+  <a href="index.html#gallerij" onclick="sluitMenu()">Archief</a>
+  <a href="boodschappen.html"   onclick="sluitMenu()">Boodschappen</a>
+  <a href="corvee.html"         onclick="sluitMenu()">Corvee</a>
+  <a href="huisje.html"         onclick="sluitMenu()">Huisje</a>
+  <a href="team.html"           onclick="sluitMenu()">Team</a>
+  <a href="upload.html"         class="active" onclick="sluitMenu()">Upload</a>
+  <a href="contact.html"        onclick="sluitMenu()">Contact</a>
+</div>
+
+<header class="page-hero">
+  <div class="eyebrow">05 // Bijdragen</div>
+  <h1>Foto's <span class="accent">Uploaden</span>.</h1>
+  <p class="subtitle">Kies het jaar, sleep je foto's en video's erin, en ze verschijnen automatisch in de galerij op de homepage. Geen gedoe met GitHub.</p>
+</header>
+
+<section class="upload-section">
+  <div class="upload-card">
+
+    <div class="field">
+      <label for="naamInput">Jouw naam</label>
+      <input type="text" id="naamInput" placeholder="Bijv. Jip">
+    </div>
+
+    <div class="field">
+      <label for="yearSelect">Jaar</label>
+      <div class="year-row">
+        <select id="yearSelect">
+          <option value="2019">2019</option>
+          <option value="2020">2020</option>
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+          <option value="2026" selected>2026</option>
+          <option value="__new__">+ Nieuw jaar…</option>
+        </select>
+        <input type="text" id="yearCustom" placeholder="Bijv. 2027" inputmode="numeric">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Foto's &amp; video's</label>
+      <div class="dropzone" id="dropzone">
+        <div class="dropzone-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 16V4M12 4l-5 5M12 4l5 5"/>
+            <path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3"/>
+          </svg>
+        </div>
+        <div class="dropzone-text">Klik om te kiezen, of sleep bestanden hierheen</div>
+        <div class="dropzone-sub">JPG · PNG · WEBP · GIF · MP4 · MOV — max 100MB per bestand</div>
+      </div>
+      <input type="file" id="fileInput" multiple accept="image/*,video/*">
+    </div>
+
+    <div class="file-list" id="fileList"></div>
+
+    <button class="btn-upload" id="btnUpload" disabled>Upload</button>
+
+    <div class="banner" id="banner"></div>
+
+    <div class="hint">
+      Uploads komen direct live te staan in de galerij op de homepage onder het gekozen jaar — meestal binnen enkele seconden na het verversen van de pagina.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-title">Tot in <em>november</em>.</div>
+  <div>WKD-WG / EST. 2019 / V8.0</div>
+</footer>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getStorage, ref, uploadBytesResumable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+  import { firebaseConfig } from "./firebase-config.js";
+
+  const app     = initializeApp(firebaseConfig);
+  const auth    = getAuth(app);
+  const storage = getStorage(app);
+
+  signInAnonymously(auth).catch((err) => {
+    console.error('Anoniem inloggen mislukt:', err);
+  });
+
+  const NAAM_KEY = 'ww26_gebruiker';
+  const naamInput = document.getElementById('naamInput');
+  naamInput.value = localStorage.getItem(NAAM_KEY) || '';
+  naamInput.addEventListener('input', () => localStorage.setItem(NAAM_KEY, naamInput.value.trim()));
+
+  const yearSelect  = document.getElementById('yearSelect');
+  const yearCustom  = document.getElementById('yearCustom');
+  yearSelect.addEventListener('change', () => {
+    if (yearSelect.value === '__new__') {
+      yearCustom.style.display = 'block';
+      yearCustom.focus();
+    } else {
+      yearCustom.style.display = 'none';
+    }
+  });
+
+  function getSelectedYear() {
+    if (yearSelect.value === '__new__') {
+      return (yearCustom.value || '').trim();
+    }
+    return yearSelect.value;
+  }
+
+  const dropzone   = document.getElementById('dropzone');
+  const fileInput  = document.getElementById('fileInput');
+  const fileList   = document.getElementById('fileList');
+  const btnUpload  = document.getElementById('btnUpload');
+  const banner     = document.getElementById('banner');
+
+  const MAX_SIZE = 100 * 1024 * 1024; // 100MB
+  const ALLOWED  = /^(image|video)\//;
+
+  let queue = []; // { file, id, rowEl, barEl, statusEl }
+
+  dropzone.addEventListener('click', () => fileInput.click());
+  dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('drag'); });
+  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag'));
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('drag');
+    addFiles(e.dataTransfer.files);
+  });
+  fileInput.addEventListener('change', () => {
+    addFiles(fileInput.files);
+    fileInput.value = '';
+  });
+
+  function showBanner(type, text) {
+    banner.className = `banner show ${type}`;
+    banner.textContent = text;
+  }
+
+  function addFiles(fileListObj) {
+    banner.className = 'banner';
+    for (const file of fileListObj) {
+      if (!ALLOWED.test(file.type)) {
+        showBanner('error', `"${file.name}" wordt overgeslagen: alleen foto's en video's zijn toegestaan.`);
+        continue;
+      }
+      if (file.size > MAX_SIZE) {
+        showBanner('error', `"${file.name}" is groter dan 100MB en wordt overgeslagen.`);
+        continue;
+      }
+
+      const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      const row = document.createElement('div');
+      row.className = 'file-row';
+      row.innerHTML = `
+        <div class="name">${file.name}</div>
+        <div class="bar-track"><div class="bar-fill"></div></div>
+        <div class="status">Klaar</div>
+      `;
+      fileList.appendChild(row);
+
+      queue.push({
+        file,
+        id,
+        rowEl: row,
+        barEl: row.querySelector('.bar-fill'),
+        statusEl: row.querySelector('.status'),
+      });
+    }
+    btnUpload.disabled = queue.length === 0;
+  }
+
+  function sanitize(name) {
+    return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'gast';
+  }
+
+  btnUpload.addEventListener('click', async () => {
+    const year = getSelectedYear();
+    if (!/^20\d{2}$/.test(year)) {
+      showBanner('error', 'Kies een geldig jaar (bijv. 2026) voordat je uploadt.');
+      return;
+    }
+    if (queue.length === 0) return;
+
+    btnUpload.disabled = true;
+    banner.className = 'banner';
+
+    const naam = sanitize(naamInput.value || 'gast');
+    let failures = 0;
+
+    for (const item of queue) {
+      item.statusEl.textContent = 'Bezig…';
+      const ext = item.file.name.includes('.') ? item.file.name.split('.').pop() : '';
+      const safeName = `${Date.now()}-${naam}-${sanitize(item.file.name.replace(/\.[^.]+$/, ''))}${ext ? '.' + ext : ''}`;
+      const path = `${year}/${safeName}`;
+      const storageRef = ref(storage, path);
+      const task = uploadBytesResumable(storageRef, item.file);
+
+      await new Promise((resolve) => {
+        task.on('state_changed',
+          (snap) => {
+            const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+            item.barEl.style.width = pct + '%';
+            item.statusEl.textContent = pct + '%';
+          },
+          (err) => {
+            console.error(err);
+            item.rowEl.classList.add('error');
+            item.statusEl.textContent = 'Mislukt';
+            failures++;
+            resolve();
+          },
+          () => {
+            item.rowEl.classList.add('done');
+            item.statusEl.textContent = 'Klaar ✓';
+            resolve();
+          }
+        );
+      });
+    }
+
+    if (failures === 0) {
+      showBanner('success', `Gelukt! ${queue.length} bestand(en) toegevoegd aan ${year}. Ververs de homepage om ze in de galerij te zien.`);
+      queue = [];
+    } else {
+      showBanner('error', `${failures} van de ${queue.length} bestanden zijn mislukt. Probeer het opnieuw.`);
+      queue = queue.filter((item) => !item.rowEl.classList.contains('done'));
+    }
+    btnUpload.disabled = queue.length === 0;
+  });
+</script>
+
+<script>
+  function toggleMenu() {
+    const btn    = document.getElementById('hamburger');
+    const drawer = document.getElementById('navDrawer');
+    btn.classList.toggle('open');
+    drawer.classList.toggle('open');
+    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+  }
+  function sluitMenu() {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('navDrawer').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
+
+</body>
+</html>

@@ -904,6 +904,8 @@
     <a href="boodschappen.html">Boodschappen</a>
     <a href="corvee.html">Corvee</a>
     <a href="huisje.html">Huisje</a>
+    <a href="team.html">Team</a>
+    <a href="upload.html">Upload</a>
     <a href="contact.html">Contact</a>
   </div>
   <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
@@ -917,6 +919,8 @@
   <a href="boodschappen.html" onclick="sluitMenu()">Boodschappen</a>
   <a href="corvee.html"      onclick="sluitMenu()">Corvee</a>
   <a href="huisje.html"      onclick="sluitMenu()">Huisje</a>
+  <a href="team.html"        onclick="sluitMenu()">Team</a>
+  <a href="upload.html"      onclick="sluitMenu()">Upload</a>
   <a href="contact.html"     onclick="sluitMenu()">Contact</a>
 </div>
 
@@ -1536,6 +1540,92 @@
   document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
 })();
+</script>
+
+<!-- Community uploads: vult de galerij aan met foto's/video's die via upload.html zijn toegevoegd -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getStorage, ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+  import { firebaseConfig } from "./firebase-config.js";
+
+  const IMG_EXTS = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+  const VID_EXTS = ['.mp4', '.mov', '.webm', '.m4v'];
+
+  function extOf(name) {
+    const i = name.lastIndexOf('.');
+    return i >= 0 ? name.slice(i).toLowerCase() : '';
+  }
+
+  async function loadCommunityUploads() {
+    try {
+      const app = initializeApp(firebaseConfig);
+      const storage = getStorage(app);
+      const gallery = document.getElementById('gallery');
+      const filterBar = document.getElementById('filterBar');
+      if (!gallery || !filterBar) return;
+
+      const existingFilters = new Set(
+        Array.from(filterBar.querySelectorAll('.filter-btn')).map(b => b.dataset.filter)
+      );
+      const activeFilter = filterBar.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+
+      const rootList = await listAll(ref(storage));
+
+      for (const yearPrefix of rootList.prefixes) {
+        const year = yearPrefix.name;
+        if (!/^20\d{2}$/.test(year)) continue;
+
+        const yearList = await listAll(yearPrefix);
+        if (yearList.items.length === 0) continue;
+
+        if (!existingFilters.has(year)) {
+          const btn = document.createElement('button');
+          btn.className = 'filter-btn';
+          btn.dataset.filter = year;
+          btn.textContent = `'${year.slice(2)}`;
+          filterBar.appendChild(btn);
+          existingFilters.add(year);
+        }
+
+        let idx = document.querySelectorAll(`#gallery .photo.y${year}`).length;
+
+        for (const itemRef of yearList.items) {
+          const ext = extOf(itemRef.name);
+          const isVideo = VID_EXTS.includes(ext);
+          const isImage = IMG_EXTS.includes(ext);
+          if (!isVideo && !isImage) continue;
+
+          let url;
+          try { url = await getDownloadURL(itemRef); } catch { continue; }
+
+          idx++;
+          const label = `${year} / ${String(idx).padStart(2, '0')}`;
+          const caption = itemRef.name.replace(/\.[^.]+$/, '').replace(/^\d+-[a-z0-9-]+-/, '').replace(/[-_]/g, ' ') || 'Weekendje Weg';
+
+          const div = document.createElement('div');
+          div.className = `photo y${year}${isVideo ? ' has-video' : ''}`;
+          div.dataset.year = year;
+          if (year !== activeFilter && activeFilter !== 'all') div.classList.add('hidden');
+
+          if (isVideo) {
+            div.innerHTML =
+              `<div class="photo-inner"><video class="photo-video" src="${url}" muted playsinline preload="metadata"></video>` +
+              `<div class="photo-overlay"><div class="photo-year">${label}</div><div class="photo-caption">${caption}</div></div></div>` +
+              `<div class="video-badge"><svg viewBox="0 0 10 10"><polygon points="2,1 9,5 2,9"/></svg></div>`;
+          } else {
+            div.innerHTML =
+              `<div class="photo-inner"><img class="photo-img" src="${url}" alt="${caption}" loading="lazy">` +
+              `<div class="photo-overlay"><div class="photo-year">${label}</div><div class="photo-caption">${caption}</div></div></div>`;
+          }
+          gallery.appendChild(div);
+        }
+      }
+    } catch (err) {
+      console.error('Community uploads laden mislukt:', err);
+    }
+  }
+
+  loadCommunityUploads();
 </script>
 
 
