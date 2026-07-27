@@ -9,7 +9,7 @@
 
 export const SPOTIFY_CONFIG = {
   // Client ID uit je Spotify Developer Dashboard (Fase 1 van het stappenplan)
-  CLIENT_ID: "VUL-HIER-JE-SPOTIFY-CLIENT-ID-IN",
+  CLIENT_ID: "a9075e62c35d4c3c9725476009b739a6",
 
   // Moet EXACT overeenkomen met de Redirect URI die je bij Spotify hebt ingesteld.
   // Wordt automatisch goed gezet zolang muziek.html op je eigen domein staat.
