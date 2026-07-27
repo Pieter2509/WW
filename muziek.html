@@ -203,6 +203,52 @@
   .spotify-login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(29,185,84,0.35); }
   .music-intro { color: var(--ink-soft); font-size: 0.98rem; line-height: 1.6; margin-bottom: 24px; }
 
+  /* ACCESS REQUEST */
+  .access-request {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+  .access-request-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--flame);
+    margin-bottom: 8px;
+  }
+  .access-request-desc { color: var(--ink-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 14px; }
+  #accessRequestForm { display: flex; gap: 8px; flex-wrap: wrap; }
+  #accessRequestForm input {
+    flex: 1 1 160px;
+    background: var(--bg-lift);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    padding: 11px 14px;
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.88rem;
+  }
+  #accessRequestForm input:focus { outline: none; border-color: var(--flame); }
+  #accessRequestForm button {
+    background: none;
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    border-radius: 6px;
+    padding: 0 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  #accessRequestForm button:hover { border-color: var(--flame); color: var(--flame); }
+  #accessStatus { margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; }
+  #accessStatus.ok { color: var(--lime); }
+  #accessStatus.error { color: var(--flame); }
+
+
   .logged-in-bar {
     display: flex;
     align-items: center;
@@ -308,6 +354,29 @@
   }
   .feed-item .meta span { color: var(--flame); }
   .feed-empty { color: var(--ink-muted); font-size: 0.85rem; font-style: italic; }
+
+  /* PLAYLIST EMBED */
+  section.playlist-embed-section {
+    padding: 0 48px 100px;
+    position: relative;
+    z-index: 2;
+  }
+  .playlist-embed-box {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 720px;
+  }
+  .playlist-embed-box iframe {
+    display: block;
+    border-radius: 6px;
+  }
+
+  @media (max-width: 900px) {
+    section.playlist-embed-section { padding-left: 24px; padding-right: 24px; }
+  }
+
 
   /* FOOTER */
   footer {
@@ -469,6 +538,17 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
           Inloggen met Spotify
         </button>
+
+        <div class="access-request">
+          <div class="access-request-title">Krijg je een foutmelding van Spotify ("geen toegang")?</div>
+          <p class="access-request-desc">Dan moet Pieter je account nog toevoegen. Geef hieronder je naam en je Spotify-mailadres door, dan krijgt hij dat direct binnen.</p>
+          <div id="accessRequestForm">
+            <input type="text" id="accessName" placeholder="Jouw naam" autocomplete="off">
+            <input type="email" id="accessEmail" placeholder="jouw@spotify-mailadres.nl" autocomplete="off">
+            <button id="accessSubmitBtn">Verstuur</button>
+          </div>
+          <div id="accessStatus"></div>
+        </div>
       </div>
 
       <div id="loggedInView" style="display:none">
@@ -498,20 +578,86 @@
   </div>
 </section>
 
+<div class="section-header">
+  <span class="section-num">// de playlist</span>
+  <h2 class="section-title">alles tot nu toe</h2>
+  <span class="section-sub">scroll erdoorheen</span>
+</div>
+
+<section class="playlist-embed-section">
+  <div class="playlist-embed-box">
+    <iframe
+      src="https://open.spotify.com/embed/playlist/3nBugj023xWJTNueWNqjfd?utm_source=generator&theme=0"
+      width="100%"
+      height="600"
+      frameborder="0"
+      allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+  </div>
+</section>
+
 <footer>
   <div class="footer-title">Tot in <em>november</em>.</div>
   <div>WKD-WG / EST. 2019 / V8.0</div>
 </footer>
+
+<!-- EmailJS: verstuurt de "geen toegang"-melding naar Pieter, geen eigen server nodig -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getDatabase, ref, onValue, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
   import { firebaseConfig } from "./firebase-config.js";
   import { SPOTIFY_CONFIG } from "./spotify-config.js";
+  import { EMAILJS_CONFIG } from "./emailjs-config.js";
 
   const app = initializeApp(firebaseConfig);
   const db  = getDatabase(app);
   const logRef = ref(db, 'muziek_log');
+  const accessRef = ref(db, 'toegang_aanvragen');
+
+  if (EMAILJS_CONFIG.PUBLIC_KEY && !EMAILJS_CONFIG.PUBLIC_KEY.startsWith('VUL-HIER') && window.emailjs) {
+    emailjs.init({ publicKey: EMAILJS_CONFIG.PUBLIC_KEY });
+  }
+
+  const accessStatus = document.getElementById('accessStatus');
+  document.getElementById('accessSubmitBtn').addEventListener('click', async () => {
+    const naam = document.getElementById('accessName').value.trim();
+    const mail = document.getElementById('accessEmail').value.trim();
+    if (!naam || !mail || !mail.includes('@')) {
+      accessStatus.textContent = 'Vul je naam en een geldig mailadres in.';
+      accessStatus.className = 'error';
+      return;
+    }
+
+    accessStatus.textContent = 'Versturen...';
+    accessStatus.className = '';
+
+    // Backup: altijd loggen in Firebase, ook als de mail niet aankomt
+    try {
+      await push(accessRef, { naam, mail, tijd: Date.now() });
+    } catch { /* geen probleem, mail-poging gaat door */ }
+
+    try {
+      if (!EMAILJS_CONFIG.PUBLIC_KEY || EMAILJS_CONFIG.PUBLIC_KEY.startsWith('VUL-HIER') || !window.emailjs) {
+        throw new Error('EmailJS is nog niet ingesteld');
+      }
+      await emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, {
+        from_name: naam,
+        from_email: mail,
+        message: `${naam} (${mail}) wil toegevoegd worden aan de Spotify-app zodat hij/zij liedjes kan toevoegen.`,
+      });
+      accessStatus.textContent = 'Verstuurd! Pieter voegt je zo snel mogelijk toe.';
+      accessStatus.className = 'ok';
+      document.getElementById('accessName').value = '';
+      document.getElementById('accessEmail').value = '';
+    } catch (err) {
+      accessStatus.textContent = 'Opgeslagen, maar de mail kon niet worden verstuurd — Pieter ziet je verzoek bij het beheren van de site.';
+      accessStatus.className = 'error';
+    }
+  });
 
   const TOKEN_KEY    = 'ww26_spotify_token';
   const VERIFIER_KEY = 'ww26_spotify_verifier';
