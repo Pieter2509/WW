@@ -892,6 +892,45 @@
   }
   .fallen-link:hover { color: rgba(255, 94, 31, 0.5); }
 
+  /* SOUNDTRACK */
+  .soundtrack-box {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 720px;
+  }
+  .soundtrack-box iframe {
+    display: block;
+    border-radius: 6px;
+  }
+  .soundtrack-link {
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border: 1px solid var(--line-strong);
+    padding: 12px 20px;
+    border-radius: 100px;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+  }
+  .soundtrack-link:hover {
+    background: var(--flame);
+    color: var(--bg);
+    border-color: var(--flame);
+  }
+  .soundtrack-link svg { width: 14px; height: 14px; }
+
+  @media (max-width: 700px) {
+    .soundtrack-box { padding: 16px; }
+  }
+
 </style>
 </head>
 <body>
@@ -905,6 +944,7 @@
     <a href="corvee.html">Corvee</a>
     <a href="huisje.html">Huisje</a>
     <a href="team.html">Team</a>
+    <a href="awards.html">Awards</a>
     <a href="upload.html">Upload</a>
     <a href="contact.html">Contact</a>
   </div>
@@ -920,6 +960,7 @@
   <a href="corvee.html"      onclick="sluitMenu()">Corvee</a>
   <a href="huisje.html"      onclick="sluitMenu()">Huisje</a>
   <a href="team.html"        onclick="sluitMenu()">Team</a>
+  <a href="awards.html"      onclick="sluitMenu()">Awards</a>
   <a href="upload.html"      onclick="sluitMenu()">Upload</a>
   <a href="contact.html"     onclick="sluitMenu()">Contact</a>
 </div>
@@ -1338,6 +1379,33 @@
     <div class="photo y2026 large" data-year="2026"><div class="photo-inner"><img class="photo-img" src="2026/9a379450-810a-40ef-af3f-46936625fdfa.jpeg" alt="a379450 810a 40ef af3f 46936625fdfa" loading="lazy"><div class="photo-overlay"><div class="photo-year">2026 / 01</div><div class="photo-caption">a379450 810a 40ef af3f 46936625fdfa</div></div></div></div>
 
   <!-- GALLERY-ITEMS-END -->
+  </div>
+</section>
+
+<section class="block" id="soundtrack">
+  <div class="section-header">
+    <span class="section-num">03 //</span>
+    <h2 class="section-title">de soundtrack</h2>
+    <span class="section-sub">gooi je eigen nummers erbij</span>
+  </div>
+
+  <div class="soundtrack-box">
+    <iframe
+      src="https://open.spotify.com/embed/playlist/3nBugj023xWJTNueWNqjfd?utm_source=generator&theme=0"
+      width="100%"
+      height="352"
+      frameborder="0"
+      allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+    <a class="soundtrack-link" href="https://open.spotify.com/playlist/3nBugj023xWJTNueWNqjfd" target="_blank" rel="noopener">
+      Open in Spotify
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7"/>
+        <polyline points="7 7 17 7 17 17"/>
+      </svg>
+    </a>
   </div>
 </section>
 

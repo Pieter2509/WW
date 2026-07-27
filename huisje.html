@@ -428,6 +428,103 @@
   }
   .quote-attr span { color: var(--lime); }
 
+  /* WEATHER */
+  section.weather {
+    padding: 0 48px 100px;
+    position: relative;
+    z-index: 2;
+  }
+  .weather-box {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    padding: 32px;
+  }
+  .weather-loading, .weather-error {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    padding: 24px 0;
+  }
+  .weather-current {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding-bottom: 28px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .weather-current-icon { font-size: 3.4rem; line-height: 1; }
+  .weather-current-temp {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 3rem;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .weather-current-body { flex: 1; }
+  .weather-current-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--flame);
+    margin-bottom: 4px;
+  }
+  .weather-current-desc { color: var(--ink-soft); font-size: 0.95rem; }
+  .weather-current-meta {
+    margin-left: auto;
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    line-height: 1.8;
+  }
+  .weather-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+  }
+  .weather-day {
+    background: var(--bg-lift);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 16px 8px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+  .weather-day.is-trip { border-color: rgba(196, 240, 74, 0.5); background: rgba(196, 240, 74, 0.06); }
+  .weather-day-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+  .weather-day.is-trip .weather-day-name { color: var(--lime); }
+  .weather-day-icon { font-size: 1.6rem; margin-bottom: 8px; }
+  .weather-day-temps { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+  .weather-day-max { color: var(--ink); }
+  .weather-day-min { color: var(--ink-muted); }
+  .weather-footnote {
+    margin-top: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    text-align: right;
+  }
+
+  @media (max-width: 700px) {
+    .weather-days { grid-template-columns: repeat(4, 1fr); }
+    .weather-current { flex-wrap: wrap; }
+    .weather-current-meta { margin-left: 0; text-align: left; }
+  }
+
   /* CTA */
   section.cta {
     padding: 0 48px 120px;
@@ -567,6 +664,7 @@
     section.gallery,
     section.amenities,
     section.info,
+    section.weather,
     section.cta { padding-left: 24px; padding-right: 24px; }
     .page-hero { padding-top: 110px; }
     .eyebrow .coords { display: none; }
@@ -663,6 +761,7 @@
     <a href="corvee.html">Corvee</a>
     <a href="huisje.html" class="active">Huisje</a>
     <a href="team.html">Team</a>
+    <a href="awards.html">Awards</a>
     <a href="upload.html">Upload</a>
     <a href="contact.html">Contact</a>
   </div>
@@ -678,6 +777,7 @@
   <a href="corvee.html"           onclick="sluitMenu()">Corvee</a>
   <a href="huisje.html"           class="active" onclick="sluitMenu()">Huisje</a>
   <a href="team.html"             onclick="sluitMenu()">Team</a>
+  <a href="awards.html"           onclick="sluitMenu()">Awards</a>
   <a href="upload.html"           onclick="sluitMenu()">Upload</a>
   <a href="contact.html"          onclick="sluitMenu()">Contact</a>
 </div>
@@ -869,6 +969,18 @@
   </div>
 </section>
 
+<div class="section-header">
+  <span class="section-num">// vooruitzicht</span>
+  <h2 class="section-title">het weer</h2>
+  <span class="section-sub">live via open-meteo</span>
+</div>
+
+<section class="weather">
+  <div id="weatherWidget" class="weather-box">
+    <div class="weather-loading">Weerbericht voor Ciney wordt opgehaald…</div>
+  </div>
+</section>
+
 <section class="cta">
   <div class="cta-box">
     <div class="cta-text">
@@ -925,6 +1037,91 @@
 </script>
 
 <script>
+  // Weerwidget voor Ciney, Belgische Ardennen — via Open-Meteo (geen API-key nodig)
+  (function () {
+    const LAT = 50.2969;
+    const LON = 5.0989;
+    // Aankomst/vertrek van dit weekend, voor het markeren van de juiste dagen
+    const TRIP_DATES = ['2026-11-12', '2026-11-13', '2026-11-14', '2026-11-15'];
+
+    const WEATHER_ICON = (code) => {
+      if (code === 0) return '☀️';
+      if ([1, 2].includes(code)) return '⛅';
+      if (code === 3) return '☁️';
+      if ([45, 48].includes(code)) return '🌫️';
+      if ([51, 53, 55, 56, 57].includes(code)) return '🌦️';
+      if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return '🌧️';
+      if ([71, 73, 75, 77, 85, 86].includes(code)) return '❄️';
+      if ([95, 96, 99].includes(code)) return '⛈️';
+      return '🌡️';
+    };
+    const WEATHER_DESC = (code) => {
+      if (code === 0) return 'Helder';
+      if ([1, 2].includes(code)) return 'Half bewolkt';
+      if (code === 3) return 'Bewolkt';
+      if ([45, 48].includes(code)) return 'Mistig';
+      if ([51, 53, 55, 56, 57].includes(code)) return 'Motregen';
+      if ([61, 63, 65, 66, 67].includes(code)) return 'Regen';
+      if ([80, 81, 82].includes(code)) return 'Buien';
+      if ([71, 73, 75, 77, 85, 86].includes(code)) return 'Sneeuw';
+      if ([95, 96, 99].includes(code)) return 'Onweer';
+      return 'Onbekend';
+    };
+    const DAY_NAMES = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
+
+    const box = document.getElementById('weatherWidget');
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}` +
+      `&current=temperature_2m,weather_code,wind_speed_10m` +
+      `&daily=weather_code,temperature_2m_max,temperature_2m_min` +
+      `&timezone=Europe%2FBrussels&forecast_days=7`;
+
+    fetch(url)
+      .then(r => {
+        if (!r.ok) throw new Error('Weerdata niet beschikbaar');
+        return r.json();
+      })
+      .then(data => {
+        const cur = data.current;
+        const daily = data.daily;
+
+        const currentHtml = `
+          <div class="weather-current">
+            <div class="weather-current-icon">${WEATHER_ICON(cur.weather_code)}</div>
+            <div class="weather-current-body">
+              <div class="weather-current-label">Nu in Ciney</div>
+              <div class="weather-current-temp">${Math.round(cur.temperature_2m)}°</div>
+              <div class="weather-current-desc">${WEATHER_DESC(cur.weather_code)}</div>
+            </div>
+            <div class="weather-current-meta">
+              Wind ${Math.round(cur.wind_speed_10m)} km/u<br>
+              Belgische Ardennen
+            </div>
+          </div>`;
+
+        const daysHtml = daily.time.map((dateStr, i) => {
+          const d = new Date(dateStr);
+          const isTrip = TRIP_DATES.includes(dateStr);
+          const label = i === 0 ? 'Vandaag' : DAY_NAMES[d.getDay()];
+          return `
+            <div class="weather-day${isTrip ? ' is-trip' : ''}">
+              <div class="weather-day-name">${label}</div>
+              <div class="weather-day-icon">${WEATHER_ICON(daily.weather_code[i])}</div>
+              <div class="weather-day-temps">
+                <span class="weather-day-max">${Math.round(daily.temperature_2m_max[i])}°</span>
+                <span class="weather-day-min"> / ${Math.round(daily.temperature_2m_min[i])}°</span>
+              </div>
+            </div>`;
+        }).join('');
+
+        box.innerHTML = currentHtml +
+          `<div class="weather-days">${daysHtml}</div>` +
+          `<div class="weather-footnote">Groen omrand = weekend van 12–15 nov (indien binnen bereik)</div>`;
+      })
+      .catch(() => {
+        box.innerHTML = '<div class="weather-error">Weerbericht kon niet worden geladen. Probeer het later opnieuw.</div>';
+      });
+  })();
+
   function toggleMenu() {
     const btn    = document.getElementById('hamburger');
     const drawer = document.getElementById('navDrawer');
