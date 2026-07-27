@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Het Huisje / Weekendje Weg '26</title>
+<title>De Route / Weekendje Weg '26</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -428,8 +428,99 @@
   }
   .quote-attr span { color: var(--lime); }
 
+  /* ROUTE MAP */
+  section.route-map-section {
+    padding: 0 48px 100px;
+    position: relative;
+    z-index: 2;
+  }
+  #routeMap {
+    height: 480px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg-elevated);
+  }
+  .leaflet-popup-content-wrapper {
+    background: var(--bg-elevated);
+    color: var(--ink);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+  }
+  .leaflet-popup-tip { background: var(--bg-elevated); }
+  .route-pin-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--flame);
+    border: 2px solid var(--bg);
+    color: var(--bg);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba(255,94,31,0.6);
+  }
+
+  /* STOP CARDS */
+  .stop-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .stop-card {
+    display: flex;
+    gap: 20px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    padding: 28px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .stop-card:hover { transform: translateY(-4px); border-color: rgba(255, 94, 31, 0.4); }
+  .stop-card-num {
+    flex: 0 0 auto;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 2.2rem;
+    color: var(--flame);
+    line-height: 1;
+  }
+  .stop-card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+  .stop-card-name { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.3rem; color: var(--ink); }
+  .stop-card-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--lime);
+    white-space: nowrap;
+  }
+  .stop-card-addr { font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 10px; }
+  .stop-card-addr .tbd { font-style: italic; }
+  .stop-card-desc { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.55; margin-bottom: 14px; }
+  .stop-card-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--flame);
+    text-decoration: none;
+  }
+  .stop-card-link:hover { color: var(--flame-deep); text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .stop-cards { grid-template-columns: 1fr; }
+    #routeMap { height: 360px; }
+  }
+  @media (max-width: 480px) {
+    .stop-card { flex-direction: column; gap: 10px; }
+  }
+
   /* WEATHER */
   section.weather {
+
     padding: 0 48px 100px;
     position: relative;
     z-index: 2;
@@ -664,6 +755,7 @@
     section.gallery,
     section.amenities,
     section.info,
+    section.route-map-section,
     section.weather,
     section.cta { padding-left: 24px; padding-right: 24px; }
     .page-hero { padding-top: 110px; }
@@ -759,8 +851,8 @@
     <a href="index.html#gallerij">Archief</a>
     <a href="boodschappen.html">Boodschappen</a>
     <a href="corvee.html">Corvee</a>
-    <a href="huisje.html" class="active">Huisje</a>
-    <a href="route.html">Route</a>
+    <a href="huisje.html">Huisje</a>
+    <a href="route.html" class="active">Route</a>
     <a href="team.html">Team</a>
     <a href="awards.html">Awards</a>
     <a href="muziek.html">Muziek</a>
@@ -777,8 +869,8 @@
   <a href="index.html#gallerij"   onclick="sluitMenu()">Archief</a>
   <a href="boodschappen.html"     onclick="sluitMenu()">Boodschappen</a>
   <a href="corvee.html"           onclick="sluitMenu()">Corvee</a>
-  <a href="huisje.html"           class="active" onclick="sluitMenu()">Huisje</a>
-  <a href="route.html"           onclick="sluitMenu()">Route</a>
+  <a href="huisje.html"           onclick="sluitMenu()">Huisje</a>
+  <a href="route.html"            class="active" onclick="sluitMenu()">Route</a>
   <a href="team.html"             onclick="sluitMenu()">Team</a>
   <a href="awards.html"           onclick="sluitMenu()">Awards</a>
   <a href="muziek.html"           onclick="sluitMenu()">Muziek</a>
@@ -788,74 +880,120 @@
 
 <header class="page-hero">
   <div class="eyebrow">
-    03 // De Bestemming
-    <span class="coords">Ciney, BE / Ref. 107841-01</span>
+    07 // Op De Kaart
+    <span class="coords">4 stops / 1 weekend</span>
   </div>
-  <h1>Le Nid de <span class="accent">Barcenal</span>.</h1>
-  <p class="subtitle">Het hoofdkwartier voor editie acht. Een gerenoveerd vakantiehuis op het Waalse platteland, omringd door weiden en bos, met alles wat een groep van zes mannen vier dagen lang nodig kan hebben (en nog wat extra).</p>
-
-  <div class="stats">
-    <div class="stat">
-      <div class="v">8<span class="small">/8</span></div>
-      <div class="k">Capaciteit</div>
-    </div>
-    <div class="stat">
-      <div class="v">3<span class="small">kamers</span></div>
-      <div class="k">Slaapruimte</div>
-    </div>
-    <div class="stat">
-      <div class="v">100<span class="small">m²</span></div>
-      <div class="k">Op 3 niveaus</div>
-    </div>
-    <div class="stat rating">
-      <div class="v">9.6</div>
-      <div class="k">Reviewscore</div>
-    </div>
-  </div>
+  <h1>De <span class="accent">Route</span>.</h1>
+  <p class="subtitle">Van lunch onderweg tot de brouwerij van Leffe — alle vaste stops van het weekend op één kaart, met de rijroute ertussen ingetekend.</p>
 </header>
 
-<section class="hero-image">
-  <div class="hero-image-inner">
-    <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2-Maisons-de-vacances-107841-01-Ciney-1606313-1L.jpg" alt="Vooraanzicht van Le Nid de Barcenal" loading="lazy">
-    <div class="hero-image-tag">Geboekt / 12 november 2026</div>
-  </div>
-</section>
-
 <div class="section-header">
-  <span class="section-num">// gallerij</span>
-  <h2 class="section-title">een rondleiding</h2>
-  <span class="section-sub">klik voor groot</span>
+  <span class="section-num">// live kaart</span>
+  <h2 class="section-title">de vier stops</h2>
+  <span class="section-sub" id="mapStatus">route wordt geladen</span>
 </div>
 
-<section class="gallery">
-  <div class="gallery-grid">
-    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606310-1L.jpg">
-      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606310-1L.jpg" alt="Interieur" loading="lazy">
-      <div class="label">Het huis</div>
+<section class="route-map-section">
+  <div id="routeMap"></div>
+</section>
+
+<div class="section-header">
+  <span class="section-num">// programma</span>
+  <h2 class="section-title">de stops in detail</h2>
+  <span class="section-sub">adres &amp; tijd per stop</span>
+</div>
+
+<section class="info">
+  <div class="stop-cards">
+
+    <div class="stop-card">
+      <div class="stop-card-num">01</div>
+      <div class="stop-card-body">
+        <div class="stop-card-top">
+          <div class="stop-card-name">Lunch — Brasserie Peil 5</div>
+          <div class="stop-card-time">Do 13:00</div>
+        </div>
+        <div class="stop-card-addr">Burgemeester Pijlsstraat 5, 6365 CG Schinnen, Nederland</div>
+        <div class="stop-card-desc">Eerste stop op de heenweg. Magen vullen voor de aftrap.</div>
+        <a class="stop-card-link" href="https://maps.google.com/?cid=2730985601406094708" target="_blank" rel="noopener">Route in Google Maps →</a>
+      </div>
     </div>
-    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1608648-1L.jpg">
-      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1608648-1L.jpg" alt="Zwembad" loading="lazy">
-      <div class="label">Het zwembad</div>
+
+    <div class="stop-card">
+      <div class="stop-card-num">02</div>
+      <div class="stop-card-body">
+        <div class="stop-card-top">
+          <div class="stop-card-name">Huisje — Le Nid de Barcenal</div>
+          <div class="stop-card-time">Do 16:00</div>
+        </div>
+        <div class="stop-card-addr">Ciney, Belgische Ardennen <span class="tbd">(exact adres volgt)</span></div>
+        <div class="stop-card-desc">Basiskamp voor het hele weekend. Zie de <a href="huisje.html">huisje-pagina</a> voor alle details.</div>
+        <a class="stop-card-link" href="huisje.html">Bekijk het huisje →</a>
+      </div>
     </div>
-    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606281-1L.jpg">
-      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606281-1L.jpg" alt="Leefruimte" loading="lazy">
-      <div class="label">De leefruimte</div>
+
+    <div class="stop-card">
+      <div class="stop-card-num">03</div>
+      <div class="stop-card-body">
+        <div class="stop-card-top">
+          <div class="stop-card-name">Paintball — Paintballexperience</div>
+          <div class="stop-card-time">Vr 10:00</div>
+        </div>
+        <div class="stop-card-addr">Chemin des Barons de Rosée 9, 5537 Anhée, België</div>
+        <div class="stop-card-desc">Strijd in het bos. Even geen vrienden, alleen tegenstanders.</div>
+        <a class="stop-card-link" href="https://maps.google.com/?cid=7551127982677785261" target="_blank" rel="noopener">Route in Google Maps →</a>
+      </div>
     </div>
-    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606308-1L.jpg">
-      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606308-1L.jpg" alt="Buitenkant" loading="lazy">
-      <div class="label">Buitenruimte</div>
+
+    <div class="stop-card">
+      <div class="stop-card-num">04</div>
+      <div class="stop-card-body">
+        <div class="stop-card-top">
+          <div class="stop-card-name">Bezoek Leffe — Maison Leffe</div>
+          <div class="stop-card-time">Vr 15:00</div>
+        </div>
+        <div class="stop-card-addr">Charreau des Capucins 23, 5500 Dinant, België</div>
+        <div class="stop-card-desc">Rondleiding bij de bron. Proeven verplicht.</div>
+        <a class="stop-card-link" href="https://maps.google.com/?cid=7518585532715741922" target="_blank" rel="noopener">Route in Google Maps →</a>
+      </div>
     </div>
+
   </div>
 </section>
 
 <div class="section-header">
-  <span class="section-num">// inbegrepen</span>
-  <h2 class="section-title">wat zit erin</h2>
-  <span class="section-sub">8 hoogtepunten</span>
+  <span class="section-num">// geen stap te zetten</span>
+  <h2 class="section-title">bij het huisje</h2>
+  <span class="section-sub">activiteiten &amp; voorzieningen op locatie</span>
 </div>
 
 <section class="amenities">
   <div class="amen-grid">
+    <div class="amen">
+      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2l2.4 6.8L21 10l-5 4.6L17.4 22 12 18.2 6.6 22 8 14.6 3 10l6.6-1.2z"/>
+      </svg>
+      <div class="amen-name">Bier Olympics</div>
+      <div class="amen-desc">De officiële opening op donderdagavond. Disciplines geheim tot aanvang.</div>
+    </div>
+    <div class="amen">
+      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="9" width="18" height="8" rx="1"/>
+        <circle cx="12" cy="13" r="1"/>
+        <line x1="3" y1="17" x2="5" y2="20"/>
+        <line x1="21" y1="17" x2="19" y2="20"/>
+      </svg>
+      <div class="amen-name">Biljarttoernooi</div>
+      <div class="amen-desc">Keu in de hand, krijt op de tip, eer op het spel. Vrijdagavond.</div>
+    </div>
+    <div class="amen">
+      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 21c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/>
+        <circle cx="12" cy="8" r="4"/>
+      </svg>
+      <div class="amen-name">Bierspeurtocht</div>
+      <div class="amen-desc">Door het dorp, met de juiste tussenstops onderweg. Zaterdag.</div>
+    </div>
     <div class="amen">
       <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <path d="M2 14c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/>
@@ -864,7 +1002,7 @@
         <path d="M19 10V6a2 2 0 00-2-2h-2"/>
       </svg>
       <div class="amen-name">Binnenzwembad</div>
-      <div class="amen-desc">Verwarmd tot 30°C, 6 bij 3 meter, het hele jaar door beschikbaar.</div>
+      <div class="amen-desc">Verwarmd tot 30°C. Perfect na een dag paintball.</div>
     </div>
     <div class="amen">
       <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -872,33 +1010,8 @@
         <path d="M12 18v3"/>
         <path d="M9 22h6"/>
       </svg>
-      <div class="amen-name">Sauna &amp; infrarood</div>
-      <div class="amen-desc">Eigen wellnessruimte met sauna, infraroodcabine en ligstoelen.</div>
-    </div>
-    <div class="amen">
-      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="6" cy="10" r="1.5"/>
-        <circle cx="12" cy="6" r="1.5"/>
-        <circle cx="18" cy="10" r="1.5"/>
-        <circle cx="9" cy="14" r="1.2"/>
-        <circle cx="15" cy="14" r="1.2"/>
-        <path d="M3 18c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1"/>
-        <path d="M3 21c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1"/>
-      </svg>
-      <div class="amen-name">Jacuzzi</div>
-      <div class="amen-desc">Bubbelbad in dezelfde ruimte. Perfect na een dag paintball.</div>
-    </div>
-    <div class="amen">
-      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="9" width="18" height="8" rx="1"/>
-        <circle cx="12" cy="13" r="1"/>
-        <line x1="3" y1="17" x2="5" y2="20"/>
-        <line x1="21" y1="17" x2="19" y2="20"/>
-        <line x1="3" y1="9" x2="5" y2="6"/>
-        <line x1="21" y1="9" x2="19" y2="6"/>
-      </svg>
-      <div class="amen-name">Biljart</div>
-      <div class="amen-desc">Eigen tafel in de speelkamer, naast een houtpelletkachel.</div>
+      <div class="amen-name">Sauna, infrarood &amp; jacuzzi</div>
+      <div class="amen-desc">Eigen wellnessruimte, direct naast het zwembad.</div>
     </div>
     <div class="amen">
       <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -906,10 +1019,9 @@
         <line x1="3" y1="12" x2="21" y2="12"/>
         <circle cx="8" cy="12" r="0.7" fill="currentColor"/>
         <circle cx="16" cy="12" r="0.7" fill="currentColor"/>
-        <path d="M7 4l2 3M17 4l-2 3"/>
       </svg>
       <div class="amen-name">Tafelvoetbal &amp; darts</div>
-      <div class="amen-desc">Tweede speelkamer met kicker, TV en een dartbord.</div>
+      <div class="amen-desc">Tweede speelkamer, altijd beschikbaar tussendoor.</div>
     </div>
     <div class="amen">
       <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -917,87 +1029,18 @@
         <path d="M12 14c-1 0-2 1-2 2"/>
       </svg>
       <div class="amen-name">Houtgestookte BBQ</div>
-      <div class="amen-desc">Buiten op het terras, naast tuinmeubilair en een petanquebaan.</div>
+      <div class="amen-desc">Op het terras, naast tuinmeubilair en de petanquebaan.</div>
     </div>
     <div class="amen">
       <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 14c4-3 14-3 18 0"/>
-        <path d="M6 10c3-2 9-2 12 0"/>
-        <path d="M9 6c2-1 4-1 6 0"/>
-        <circle cx="12" cy="18" r="1.5" fill="currentColor"/>
+        <circle cx="6" cy="10" r="1.5"/>
+        <circle cx="12" cy="6" r="1.5"/>
+        <circle cx="18" cy="10" r="1.5"/>
+        <path d="M3 18c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1"/>
       </svg>
-      <div class="amen-name">Wifi</div>
-      <div class="amen-desc">Gratis en zonder limieten. Voor wie het even nodig heeft.</div>
+      <div class="amen-name">Petanque &amp; tuin</div>
+      <div class="amen-desc">1000 m² privétuin met uitzicht op weiden en bos.</div>
     </div>
-    <div class="amen">
-      <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 21V10l9-7 9 7v11"/>
-        <path d="M9 21v-7h6v7"/>
-        <path d="M3 21h18"/>
-      </svg>
-      <div class="amen-name">Privétuin 1000 m²</div>
-      <div class="amen-desc">Eigen tuin met uitzicht op weiden, plus bosrijk perceel ernaast.</div>
-    </div>
-  </div>
-</section>
-
-<div class="section-header">
-  <span class="section-num">// dossier</span>
-  <h2 class="section-title">de feiten</h2>
-  <span class="section-sub">in één oogopslag</span>
-</div>
-
-<section class="info">
-  <div class="info-grid">
-    <div class="info-card">
-      <div class="info-card-title">// specs</div>
-      <div class="info-row"><span class="k">Locatie</span><span class="v">Ciney, Belgische Ardennen</span></div>
-      <div class="info-row"><span class="k">Type</span><span class="v">Vrijstaand, op het platteland</span></div>
-      <div class="info-row"><span class="k">Uitzicht</span><span class="v">Weiden &amp; bos</span></div>
-      <div class="info-row"><span class="k">Oriëntatie</span><span class="v">Zuid</span></div>
-      <div class="info-row"><span class="k">Slaapkamers</span><span class="v">3 (3p / 3p / 2p)</span></div>
-      <div class="info-row"><span class="k">Badkamers</span><span class="v">2</span></div>
-      <div class="info-row"><span class="k">Parkeerplaatsen</span><span class="v">4 op privéparking</span></div>
-      <div class="info-row"><span class="k">Gerenoveerd</span><span class="v">2025</span></div>
-      <div class="info-row"><span class="k">Aankomst</span><span class="v">Do 12 nov, vanaf 16:00</span></div>
-      <div class="info-row"><span class="k">Vertrek</span><span class="v">Zo 15 nov, voor 20:00</span></div>
-      <div class="info-row"><span class="k">Status</span><span class="v lime">Geboekt &amp; bevestigd</span></div>
-    </div>
-
-    <div class="info-quote">
-      <div>
-        <div class="quote-text">"Het is een geweldig huis. Meer dan genoeg ruimte. Het zwembad, sauna en bubbelbad waren heerlijk. De pooltafel is veelvuldig gebruikt. Het uitzicht is mooi en rustgevend."</div>
-      </div>
-      <div class="quote-attr">// B. Bennie, <span>9.9 / 10</span></div>
-    </div>
-  </div>
-</section>
-
-<div class="section-header">
-  <span class="section-num">// vooruitzicht</span>
-  <h2 class="section-title">het weer</h2>
-  <span class="section-sub">live via open-meteo</span>
-</div>
-
-<section class="weather">
-  <div id="weatherWidget" class="weather-box">
-    <div class="weather-loading">Weerbericht voor Ciney wordt opgehaald…</div>
-  </div>
-</section>
-
-<section class="cta">
-  <div class="cta-box">
-    <div class="cta-text">
-      <div class="cta-title">Meer foto's, plattegrond, of alles tot in detail?</div>
-      <div class="cta-sub">De volledige listing op Ardennes-étape, met alle voorzieningen, alle slaapkamers en de exacte plattegrond.</div>
-    </div>
-    <a class="cta-link" href="https://www.ardennes-etape.be/vakantiehuizen-ardennen/Ciney/Vakantiehuis-Sauna-Jacuzzi-Zwembad-107841-01/?stay=Weekend-0_1-20261030" target="_blank" rel="noopener">
-      Bekijk de listing
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="7" y1="17" x2="17" y2="7"/>
-        <polyline points="7 7 17 7 17 17"/>
-      </svg>
-    </a>
   </div>
 </section>
 
@@ -1006,124 +1049,67 @@
   <div>WKD-WG / EST. 2019 / V8.0</div>
 </footer>
 
-<div class="lightbox" id="lightbox">
-  <button class="lightbox-close" id="lightboxClose" aria-label="Sluiten">×</button>
-  <img id="lightboxImg" src="" alt="">
-</div>
+<!-- Leaflet (open source kaarten, geen API-key nodig) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script>
-  // Lightbox voor de gallery
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const lightboxClose = document.getElementById('lightboxClose');
-
-  document.querySelectorAll('.gallery-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const src = item.dataset.full || item.querySelector('img').src;
-      lightboxImg.src = src;
-      lightbox.classList.add('show');
-      document.body.style.overflow = 'hidden';
-    });
-  });
-
-  function closeLightbox() {
-    lightbox.classList.remove('show');
-    document.body.style.overflow = '';
-  }
-
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox || e.target === lightboxImg) closeLightbox();
-  });
-  lightboxClose.addEventListener('click', closeLightbox);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightbox.classList.contains('show')) closeLightbox();
-  });
-</script>
-
-<script>
-  // Weerwidget voor Ciney, Belgische Ardennen — via Open-Meteo (geen API-key nodig)
+  // ── Kaart met de vier stops + live rijroute (Leaflet + OSRM, geen API-key) ──
   (function () {
-    const LAT = 50.2969;
-    const LON = 5.0989;
-    // Aankomst/vertrek van dit weekend, voor het markeren van de juiste dagen
-    const TRIP_DATES = ['2026-11-12', '2026-11-13', '2026-11-14', '2026-11-15'];
+    const STOPS = [
+      { name: 'Lunch — Brasserie Peil 5', lat: 50.9418747, lon: 5.8815311, day: 'Do 13:00' },
+      { name: 'Huisje (Ciney)',           lat: 50.2969,    lon: 5.0989,    day: 'Do 16:00' },
+      { name: 'Paintball',                lat: 50.3134697, lon: 4.8591463, day: 'Vr 10:00' },
+      { name: 'Maison Leffe',             lat: 50.2569973, lon: 4.9107713, day: 'Vr 15:00' },
+    ];
 
-    const WEATHER_ICON = (code) => {
-      if (code === 0) return '☀️';
-      if ([1, 2].includes(code)) return '⛅';
-      if (code === 3) return '☁️';
-      if ([45, 48].includes(code)) return '🌫️';
-      if ([51, 53, 55, 56, 57].includes(code)) return '🌦️';
-      if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return '🌧️';
-      if ([71, 73, 75, 77, 85, 86].includes(code)) return '❄️';
-      if ([95, 96, 99].includes(code)) return '⛈️';
-      return '🌡️';
-    };
-    const WEATHER_DESC = (code) => {
-      if (code === 0) return 'Helder';
-      if ([1, 2].includes(code)) return 'Half bewolkt';
-      if (code === 3) return 'Bewolkt';
-      if ([45, 48].includes(code)) return 'Mistig';
-      if ([51, 53, 55, 56, 57].includes(code)) return 'Motregen';
-      if ([61, 63, 65, 66, 67].includes(code)) return 'Regen';
-      if ([80, 81, 82].includes(code)) return 'Buien';
-      if ([71, 73, 75, 77, 85, 86].includes(code)) return 'Sneeuw';
-      if ([95, 96, 99].includes(code)) return 'Onweer';
-      return 'Onbekend';
-    };
-    const DAY_NAMES = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
+    const map = L.map('routeMap', { scrollWheelZoom: false });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      maxZoom: 19,
+    }).addTo(map);
 
-    const box = document.getElementById('weatherWidget');
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}` +
-      `&current=temperature_2m,weather_code,wind_speed_10m` +
-      `&daily=weather_code,temperature_2m_max,temperature_2m_min` +
-      `&timezone=Europe%2FBrussels&forecast_days=7`;
+    const flameIcon = (label) => L.divIcon({
+      className: 'route-pin',
+      html: `<div class="route-pin-dot">${label}</div>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
+    });
 
-    fetch(url)
-      .then(r => {
-        if (!r.ok) throw new Error('Weerdata niet beschikbaar');
-        return r.json();
-      })
-      .then(data => {
-        const cur = data.current;
-        const daily = data.daily;
+    const bounds = [];
+    STOPS.forEach((s, i) => {
+      const marker = L.marker([s.lat, s.lon], { icon: flameIcon(i + 1) }).addTo(map);
+      marker.bindPopup(`<strong>${s.name}</strong><br>${s.day}`);
+      bounds.push([s.lat, s.lon]);
+    });
+    map.fitBounds(bounds, { padding: [40, 40] });
 
-        const currentHtml = `
-          <div class="weather-current">
-            <div class="weather-current-icon">${WEATHER_ICON(cur.weather_code)}</div>
-            <div class="weather-current-body">
-              <div class="weather-current-label">Nu in Ciney</div>
-              <div class="weather-current-temp">${Math.round(cur.temperature_2m)}°</div>
-              <div class="weather-current-desc">${WEATHER_DESC(cur.weather_code)}</div>
-            </div>
-            <div class="weather-current-meta">
-              Wind ${Math.round(cur.wind_speed_10m)} km/u<br>
-              Belgische Ardennen
-            </div>
-          </div>`;
+    const statusEl = document.getElementById('mapStatus');
 
-        const daysHtml = daily.time.map((dateStr, i) => {
-          const d = new Date(dateStr);
-          const isTrip = TRIP_DATES.includes(dateStr);
-          const label = i === 0 ? 'Vandaag' : DAY_NAMES[d.getDay()];
-          return `
-            <div class="weather-day${isTrip ? ' is-trip' : ''}">
-              <div class="weather-day-name">${label}</div>
-              <div class="weather-day-icon">${WEATHER_ICON(daily.weather_code[i])}</div>
-              <div class="weather-day-temps">
-                <span class="weather-day-max">${Math.round(daily.temperature_2m_max[i])}°</span>
-                <span class="weather-day-min"> / ${Math.round(daily.temperature_2m_min[i])}°</span>
-              </div>
-            </div>`;
-        }).join('');
+    async function drawRoute(a, b) {
+      try {
+        const url = `https://router.project-osrm.org/route/v1/driving/${a.lon},${a.lat};${b.lon},${b.lat}?overview=full&geometries=geojson`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('routing failed');
+        const data = await res.json();
+        const coords = data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+        L.polyline(coords, { color: '#ff5e1f', weight: 3, opacity: 0.85 }).addTo(map);
+        return data.routes[0].duration; // seconds
+      } catch {
+        // Fallback: rechte stippellijn als de routeservice niet reageert
+        L.polyline([[a.lat, a.lon], [b.lat, b.lon]], { color: '#ff5e1f', weight: 2, opacity: 0.5, dashArray: '6 8' }).addTo(map);
+        return null;
+      }
+    }
 
-        box.innerHTML = currentHtml +
-          `<div class="weather-days">${daysHtml}</div>` +
-          `<div class="weather-footnote">Groen omrand = weekend van 12–15 nov (indien binnen bereik)</div>`;
-      })
-      .catch(() => {
-        box.innerHTML = '<div class="weather-error">Weerbericht kon niet worden geladen. Probeer het later opnieuw.</div>';
-      });
+    (async function () {
+      let allOk = true;
+      for (let i = 0; i < STOPS.length - 1; i++) {
+        const dur = await drawRoute(STOPS[i], STOPS[i + 1]);
+        if (dur === null) allOk = false;
+      }
+      statusEl.textContent = allOk ? 'live route ingetekend' : 'route gedeeltelijk beschikbaar';
+    })();
   })();
 
   function toggleMenu() {
