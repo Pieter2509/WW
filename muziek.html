@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muziek / Weekendje Weg '26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d100c;
+    --bg-elevated: #161a13;
+    --bg-lift: #1d2218;
+    --ink: #f0ebe0;
+    --ink-soft: #a8a294;
+    --ink-muted: #6a6557;
+    --flame: #ff5e1f;
+    --flame-deep: #d94715;
+    --lime: #c4f04a;
+    --moss: #4a8a6a;
+    --line: rgba(240, 235, 224, 0.08);
+    --line-strong: rgba(240, 235, 224, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    z-index: 1;
+    mix-blend-mode: screen;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(16px);
+    background: rgba(13, 16, 12, 0.7);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo { display: flex; align-items: center; text-decoration: none; }
+  .logo img {
+    height: 44px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 94, 31, 0.35));
+    transition: filter 0.3s, transform 0.3s;
+  }
+  .logo img:hover {
+    filter: drop-shadow(0 0 18px rgba(255, 94, 31, 0.6));
+    transform: scale(1.04);
+  }
+  .nav-links { display: flex; gap: 26px; }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--flame); }
+  .nav-links a.active { color: var(--flame); }
+
+  /* HERO */
+  .page-hero {
+    padding: 140px 48px 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--flame);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    animation: fadeUp 0.8s 0.1s both;
+  }
+  .eyebrow::before { content: ""; width: 40px; height: 1px; background: var(--flame); }
+  .eyebrow .coords { margin-left: auto; color: var(--ink-muted); letter-spacing: 0.15em; }
+  .page-hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(3rem, 10vw, 7.5rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.2s both;
+  }
+  .page-hero h1 .accent { color: var(--flame); }
+  .page-hero .subtitle {
+    max-width: 720px;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    animation: fadeUp 0.8s 0.3s both;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    padding: 0 48px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--flame);
+  }
+  .section-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    color: var(--ink);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .section-sub {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-muted);
+  }
+
+  /* MUZIEK */
+  section.music {
+    padding: 0 48px 80px;
+    position: relative;
+    z-index: 2;
+  }
+  .music-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .music-grid { grid-template-columns: 1fr; }
+  }
+
+  .music-panel {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    padding: 32px;
+  }
+
+  /* Login state */
+  .spotify-login-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #1DB954;
+    color: #0d100c;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    padding: 16px 26px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .spotify-login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(29,185,84,0.35); }
+  .music-intro { color: var(--ink-soft); font-size: 0.98rem; line-height: 1.6; margin-bottom: 24px; }
+
+  .logged-in-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .logged-in-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: #1DB954; box-shadow: 0 0 10px #1DB954; }
+  .logged-in-bar .who { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-soft); }
+  .logged-in-bar .who span { color: var(--lime); }
+  .logout-link { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--ink-muted); text-decoration: underline; cursor: pointer; background: none; border: none; }
+  .logout-link:hover { color: var(--flame); }
+
+  /* Search */
+  .search-row { display: flex; gap: 10px; margin-bottom: 20px; }
+  .search-row input {
+    flex: 1;
+    background: var(--bg-lift);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    padding: 14px 16px;
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.95rem;
+  }
+  .search-row input:focus { outline: none; border-color: var(--flame); }
+  .search-row button {
+    background: var(--flame);
+    color: var(--bg);
+    border: none;
+    border-radius: 6px;
+    padding: 0 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .search-row button:hover { background: var(--flame-deep); }
+
+  .track-result {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+  .track-result:hover { background: var(--bg-lift); }
+  .track-result img { width: 48px; height: 48px; border-radius: 4px; object-fit: cover; flex: 0 0 48px; }
+  .track-result-body { flex: 1; min-width: 0; }
+  .track-result-name { color: var(--ink); font-size: 0.92rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .track-result-artist { color: var(--ink-muted); font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .track-add-btn {
+    flex: 0 0 auto;
+    background: none;
+    border: 1px solid var(--line-strong);
+    color: var(--lime);
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .track-add-btn:hover { background: rgba(196,240,74,0.12); border-color: var(--lime); }
+  .track-add-btn:disabled { opacity: 0.4; cursor: default; }
+
+  .music-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    text-align: center;
+    padding: 10px 0;
+  }
+  .music-status.error { color: var(--flame); }
+  .music-status.ok { color: var(--lime); }
+
+  /* Feed */
+  .feed-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  .feed-list { display: flex; flex-direction: column; gap: 4px; max-height: 520px; overflow-y: auto; }
+  .feed-item {
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.88rem;
+  }
+  .feed-item:last-child { border-bottom: none; }
+  .feed-item .track { color: var(--ink); font-weight: 600; }
+  .feed-item .artist { color: var(--ink-soft); }
+  .feed-item .meta {
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+  }
+  .feed-item .meta span { color: var(--flame); }
+  .feed-empty { color: var(--ink-muted); font-size: 0.85rem; font-style: italic; }
+
+  /* FOOTER */
+  footer {
+    padding: 80px 48px 32px;
+    border-top: 1px solid var(--line-strong);
+    color: var(--ink-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer .footer-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--ink);
+    text-transform: none;
+    letter-spacing: -0.01em;
+  }
+  footer .footer-title em { color: var(--flame); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 0.68rem; letter-spacing: 0.1em; }
+    .page-hero, .section-header, section.music { padding-left: 24px; padding-right: 24px; }
+    .page-hero { padding-top: 110px; }
+    .eyebrow .coords { display: none; }
+    footer { padding: 60px 24px 28px; }
+  }
+
+  /* HAMBURGER MENU (mobiel) */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 110;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: all 0.3s;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-drawer {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(13,16,12,0.97);
+    backdrop-filter: blur(20px);
+    z-index: 105;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a {
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    transition: color 0.2s;
+  }
+  .nav-drawer a:hover { color: var(--flame); }
+  .nav-drawer a.active { color: var(--flame); }
+
+  @media (max-width: 700px) {
+    .hamburger { display: flex; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo"><img src="logo.png" alt="Weekendje Weg"></a>
+  <div class="nav-links">
+    <a href="index.html#agenda">Agenda</a>
+    <a href="index.html#gallerij">Archief</a>
+    <a href="boodschappen.html">Boodschappen</a>
+    <a href="corvee.html">Corvee</a>
+    <a href="huisje.html">Huisje</a>
+    <a href="team.html">Team</a>
+    <a href="awards.html">Awards</a>
+    <a href="muziek.html" class="active">Muziek</a>
+    <a href="upload.html">Upload</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <a href="index.html#agenda"   onclick="sluitMenu()">Agenda</a>
+  <a href="index.html#gallerij" onclick="sluitMenu()">Archief</a>
+  <a href="boodschappen.html"   onclick="sluitMenu()">Boodschappen</a>
+  <a href="corvee.html"         onclick="sluitMenu()">Corvee</a>
+  <a href="huisje.html"         onclick="sluitMenu()">Huisje</a>
+  <a href="team.html"           onclick="sluitMenu()">Team</a>
+  <a href="awards.html"           onclick="sluitMenu()">Awards</a>
+  <a href="muziek.html"           class="active" onclick="sluitMenu()">Muziek</a>
+  <a href="upload.html"         onclick="sluitMenu()">Upload</a>
+  <a href="contact.html"        onclick="sluitMenu()">Contact</a>
+</div>
+
+<header class="page-hero">
+  <div class="eyebrow">
+    06 // De Soundtrack
+    <span class="coords">jouw nummer, hun playlist</span>
+  </div>
+  <h1>Voeg een <span class="accent">liedje</span> toe.</h1>
+  <p class="subtitle">Log in met je eigen Spotify-account en zet een nummer direct op de gedeelde playlist voor het weekend. Geen appjes heen en weer — gewoon zoeken, klikken, toegevoegd.</p>
+</header>
+
+<div class="section-header">
+  <span class="section-num">// bijdragen</span>
+  <h2 class="section-title">zoek &amp; voeg toe</h2>
+  <span class="section-sub" id="sectionSub">nog niet ingelogd</span>
+</div>
+
+<section class="music">
+  <div class="music-grid">
+
+    <div class="music-panel">
+      <div id="loggedOutView">
+        <p class="music-intro">Je hebt een gratis of premium Spotify-account nodig. We vragen alleen toestemming om nummers aan deze ene playlist toe te voegen — verder raken we niks aan.</p>
+        <button class="spotify-login-btn" id="loginBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          Inloggen met Spotify
+        </button>
+      </div>
+
+      <div id="loggedInView" style="display:none">
+        <div class="logged-in-bar">
+          <span class="dot"></span>
+          <span class="who">Ingelogd als <span id="whoName">—</span></span>
+          <button class="logout-link" id="logoutBtn">uitloggen</button>
+        </div>
+
+        <div class="search-row">
+          <input type="text" id="searchInput" placeholder="Zoek op titel of artiest..." autocomplete="off">
+          <button id="searchBtn">Zoek</button>
+        </div>
+
+        <div id="musicStatus"></div>
+        <div id="searchResults"></div>
+      </div>
+    </div>
+
+    <div class="music-panel">
+      <div class="feed-title">Laatst toegevoegd</div>
+      <div class="feed-list" id="feedList">
+        <div class="feed-empty">Nog niemand heeft iets toegevoegd via de site.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-title">Tot in <em>november</em>.</div>
+  <div>WKD-WG / EST. 2019 / V8.0</div>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { firebaseConfig } from "./firebase-config.js";
+  import { SPOTIFY_CONFIG } from "./spotify-config.js";
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+  const logRef = ref(db, 'muziek_log');
+
+  const TOKEN_KEY    = 'ww26_spotify_token';
+  const VERIFIER_KEY = 'ww26_spotify_verifier';
+
+  const loggedOutView = document.getElementById('loggedOutView');
+  const loggedInView  = document.getElementById('loggedInView');
+  const whoName       = document.getElementById('whoName');
+  const sectionSub    = document.getElementById('sectionSub');
+  const statusBox     = document.getElementById('musicStatus');
+  const resultsBox    = document.getElementById('searchResults');
+  const searchInput   = document.getElementById('searchInput');
+
+  function randomString(len) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    return Array.from(crypto.getRandomValues(new Uint8Array(len))).map(x => chars[x % chars.length]).join('');
+  }
+  async function codeChallengeFromVerifier(verifier) {
+    const data = new TextEncoder().encode(verifier);
+    const digest = await crypto.subtle.digest('SHA-256', data);
+    return btoa(String.fromCharCode(...new Uint8Array(digest)))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+
+  function getStoredToken() {
+    try { return JSON.parse(localStorage.getItem(TOKEN_KEY) || 'null'); } catch { return null; }
+  }
+  function storeToken(tokenObj) {
+    localStorage.setItem(TOKEN_KEY, JSON.stringify(tokenObj));
+  }
+  function clearToken() { localStorage.removeItem(TOKEN_KEY); }
+
+  async function login() {
+    const verifier = randomString(64);
+    localStorage.setItem(VERIFIER_KEY, verifier);
+    const challenge = await codeChallengeFromVerifier(verifier);
+    const params = new URLSearchParams({
+      client_id: SPOTIFY_CONFIG.CLIENT_ID,
+      response_type: 'code',
+      redirect_uri: SPOTIFY_CONFIG.REDIRECT_URI,
+      scope: SPOTIFY_CONFIG.SCOPES,
+      code_challenge_method: 'S256',
+      code_challenge: challenge,
+    });
+    window.location.href = `https://accounts.spotify.com/authorize?${params.toString()}`;
+  }
+
+  async function exchangeCodeForToken(code) {
+    const verifier = localStorage.getItem(VERIFIER_KEY);
+    const body = new URLSearchParams({
+      client_id: SPOTIFY_CONFIG.CLIENT_ID,
+      grant_type: 'authorization_code',
+      code,
+      redirect_uri: SPOTIFY_CONFIG.REDIRECT_URI,
+      code_verifier: verifier,
+    });
+    const res = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
+    });
+    if (!res.ok) throw new Error('Inloggen bij Spotify is mislukt.');
+    const data = await res.json();
+    storeToken({ access_token: data.access_token, refresh_token: data.refresh_token, expires_at: Date.now() + data.expires_in * 1000 });
+  }
+
+  async function refreshTokenFn(refresh_token) {
+    const body = new URLSearchParams({
+      client_id: SPOTIFY_CONFIG.CLIENT_ID,
+      grant_type: 'refresh_token',
+      refresh_token,
+    });
+    const res = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
+    });
+    if (!res.ok) throw new Error('refresh failed');
+    const data = await res.json();
+    storeToken({ access_token: data.access_token, refresh_token: data.refresh_token || refresh_token, expires_at: Date.now() + data.expires_in * 1000 });
+  }
+
+  async function validAccessToken() {
+    let tok = getStoredToken();
+    if (!tok) return null;
+    if (Date.now() > tok.expires_at - 60000) {
+      try { await refreshTokenFn(tok.refresh_token); tok = getStoredToken(); }
+      catch { clearToken(); return null; }
+    }
+    return tok.access_token;
+  }
+
+  function setStatus(msg, type = '') {
+    statusBox.innerHTML = msg ? `<div class="music-status ${type}">${msg}</div>` : '';
+  }
+
+  async function showLoggedIn(token) {
+    loggedOutView.style.display = 'none';
+    loggedInView.style.display = 'block';
+    sectionSub.textContent = 'ingelogd';
+    try {
+      const res = await fetch('https://api.spotify.com/v1/me', { headers: { Authorization: `Bearer ${token}` } });
+      const me = await res.json();
+      whoName.textContent = me.display_name || me.id;
+    } catch { whoName.textContent = '—'; }
+  }
+
+  function showLoggedOut() {
+    loggedOutView.style.display = 'block';
+    loggedInView.style.display = 'none';
+    sectionSub.textContent = 'nog niet ingelogd';
+  }
+
+  document.getElementById('loginBtn').addEventListener('click', login);
+  document.getElementById('logoutBtn').addEventListener('click', () => { clearToken(); showLoggedOut(); });
+
+  async function doSearch() {
+    const q = searchInput.value.trim();
+    if (!q) return;
+    const token = await validAccessToken();
+    if (!token) { showLoggedOut(); return; }
+
+    setStatus('Zoeken...', '');
+    resultsBox.innerHTML = '';
+    try {
+      const res = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(q)}&type=track&limit=8`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error('Zoeken is mislukt.');
+      const data = await res.json();
+      setStatus('');
+      const tracks = data.tracks?.items || [];
+      if (!tracks.length) { setStatus('Geen resultaten gevonden.'); return; }
+      resultsBox.innerHTML = tracks.map(t => {
+        const img = t.album?.images?.[t.album.images.length - 1]?.url || '';
+        const artists = t.artists.map(a => a.name).join(', ');
+        return `
+          <div class="track-result">
+            ${img ? `<img src="${img}" alt="">` : ''}
+            <div class="track-result-body">
+              <div class="track-result-name">${t.name}</div>
+              <div class="track-result-artist">${artists}</div>
+            </div>
+            <button class="track-add-btn" data-uri="${t.uri}" data-name="${t.name.replace(/"/g,'&quot;')}" data-artist="${artists.replace(/"/g,'&quot;')}" title="Toevoegen aan playlist">+</button>
+          </div>`;
+      }).join('');
+    } catch (err) {
+      setStatus(err.message || 'Er ging iets mis.', 'error');
+    }
+  }
+  document.getElementById('searchBtn').addEventListener('click', doSearch);
+  searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+
+  resultsBox.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.track-add-btn');
+    if (!btn || btn.disabled) return;
+    const token = await validAccessToken();
+    if (!token) { showLoggedOut(); return; }
+
+    btn.disabled = true;
+    btn.textContent = '…';
+    try {
+      const res = await fetch(`https://api.spotify.com/v1/playlists/${SPOTIFY_CONFIG.PLAYLIST_ID}/tracks`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uris: [btn.dataset.uri] }),
+      });
+      if (res.status === 403) throw new Error('Geen toestemming — vraag Pieter om de playlist collaborative te zetten.');
+      if (!res.ok) throw new Error('Toevoegen is mislukt.');
+
+      btn.textContent = '✓';
+      setStatus(`"${btn.dataset.name}" toegevoegd aan de playlist.`, 'ok');
+
+      push(logRef, {
+        naam: whoName.textContent || 'iemand',
+        track: btn.dataset.name,
+        artiest: btn.dataset.artist,
+        tijd: Date.now(),
+      });
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = '+';
+      setStatus(err.message, 'error');
+    }
+  });
+
+  onValue(logRef, snapshot => {
+    const data = snapshot.val();
+    const feedList = document.getElementById('feedList');
+    if (!data) { feedList.innerHTML = '<div class="feed-empty">Nog niemand heeft iets toegevoegd via de site.</div>'; return; }
+    const items = Object.values(data).sort((a, b) => b.tijd - a.tijd).slice(0, 30);
+    feedList.innerHTML = items.map(it => {
+      const d = new Date(it.tijd);
+      const when = d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' }) + ' · ' + d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+      return `<div class="feed-item"><span class="track">${it.track}</span> — <span class="artist">${it.artiest}</span><div class="meta"><span>${it.naam}</span> · ${when}</div></div>`;
+    }).join('');
+  });
+
+  (async function init() {
+    if (!SPOTIFY_CONFIG.CLIENT_ID || SPOTIFY_CONFIG.CLIENT_ID.startsWith('VUL-HIER')) {
+      loggedOutView.innerHTML = '<p class="music-intro">De Spotify-koppeling is nog niet ingesteld. Pieter moet eerst SPOTIFY-STAPPENPLAN.md volgen en zijn Client ID in <code>spotify-config.js</code> zetten.</p>';
+      return;
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    if (code) {
+      try {
+        await exchangeCodeForToken(code);
+        window.history.replaceState({}, '', window.location.pathname);
+      } catch (err) {
+        setStatus(err.message, 'error');
+      }
+    }
+    const token = await validAccessToken();
+    if (token) showLoggedIn(token); else showLoggedOut();
+  })();
+
+  function toggleMenu() {
+    const btn    = document.getElementById('hamburger');
+    const drawer = document.getElementById('navDrawer');
+    btn.classList.toggle('open');
+    drawer.classList.toggle('open');
+    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+  }
+  function sluitMenu() {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('navDrawer').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  window.toggleMenu = toggleMenu;
+  window.sluitMenu = sluitMenu;
+</script>
+
+</body>
+</html>
+
+</body>
+</html>

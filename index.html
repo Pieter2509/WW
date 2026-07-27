@@ -926,6 +926,7 @@
     border-color: var(--flame);
   }
   .soundtrack-link svg { width: 14px; height: 14px; }
+  .soundtrack-link + .soundtrack-link { margin-left: 12px; }
 
   @media (max-width: 700px) {
     .soundtrack-box { padding: 16px; }
@@ -945,6 +946,7 @@
     <a href="huisje.html">Huisje</a>
     <a href="team.html">Team</a>
     <a href="awards.html">Awards</a>
+    <a href="muziek.html">Muziek</a>
     <a href="upload.html">Upload</a>
     <a href="contact.html">Contact</a>
   </div>
@@ -961,6 +963,7 @@
   <a href="huisje.html"      onclick="sluitMenu()">Huisje</a>
   <a href="team.html"        onclick="sluitMenu()">Team</a>
   <a href="awards.html"      onclick="sluitMenu()">Awards</a>
+  <a href="muziek.html"           onclick="sluitMenu()">Muziek</a>
   <a href="upload.html"      onclick="sluitMenu()">Upload</a>
   <a href="contact.html"     onclick="sluitMenu()">Contact</a>
 </div>
@@ -1401,6 +1404,13 @@
     </iframe>
     <a class="soundtrack-link" href="https://open.spotify.com/playlist/3nBugj023xWJTNueWNqjfd" target="_blank" rel="noopener">
       Open in Spotify
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7"/>
+        <polyline points="7 7 17 7 17 17"/>
+      </svg>
+    </a>
+    <a class="soundtrack-link" href="muziek.html">
+      Voeg zelf een liedje toe
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <line x1="7" y1="17" x2="17" y2="7"/>
         <polyline points="7 7 17 7 17 17"/>
