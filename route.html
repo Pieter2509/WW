@@ -448,6 +448,16 @@
     border-radius: 6px;
   }
   .leaflet-popup-tip { background: var(--bg-elevated); }
+  .popup-activities {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    max-height: 160px;
+    overflow-y: auto;
+  }
+  .popup-activities div { padding: 2px 0; }
   .route-pin-dot {
     width: 28px; height: 28px;
     border-radius: 50%;
@@ -509,6 +519,39 @@
     text-decoration: none;
   }
   .stop-card-link:hover { color: var(--flame-deep); text-decoration: underline; }
+
+  .stop-card-wide { grid-column: 1 / -1; }
+  .house-activities {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px 20px;
+    margin: 18px 0;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .house-activity {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-size: 0.86rem;
+  }
+  .ha-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--flame);
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+  .ha-title { color: var(--ink-soft); }
+
+  @media (max-width: 700px) {
+    .house-activities { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .house-activities { grid-template-columns: 1fr; }
+  }
+
 
   @media (max-width: 900px) {
     .stop-cards { grid-template-columns: 1fr; }
@@ -919,15 +962,30 @@
       </div>
     </div>
 
-    <div class="stop-card">
+    <div class="stop-card stop-card-wide">
       <div class="stop-card-num">02</div>
       <div class="stop-card-body">
         <div class="stop-card-top">
           <div class="stop-card-name">Huisje — Le Nid de Barcenal</div>
-          <div class="stop-card-time">Do 16:00</div>
+          <div class="stop-card-time">Do 16:00 — Zo 20:00</div>
         </div>
         <div class="stop-card-addr">Ciney, Belgische Ardennen <span class="tbd">(exact adres volgt)</span></div>
-        <div class="stop-card-desc">Basiskamp voor het hele weekend. Zie de <a href="huisje.html">huisje-pagina</a> voor alle details.</div>
+        <div class="stop-card-desc">Basiskamp voor het hele weekend — en waar het gros van het programma plaatsvindt. Zie de <a href="huisje.html">huisje-pagina</a> voor foto's en alle voorzieningen.</div>
+
+        <div class="house-activities">
+          <div class="house-activity"><span class="ha-time">Do 16:00</span><span class="ha-title">Aankomst huisje</span></div>
+          <div class="house-activity"><span class="ha-time">Do 19:00</span><span class="ha-title">Avondeten</span></div>
+          <div class="house-activity"><span class="ha-time">Do 21:00</span><span class="ha-title">Bier Olympics</span></div>
+          <div class="house-activity"><span class="ha-time">Vr 10:00</span><span class="ha-title">Ontbijt</span></div>
+          <div class="house-activity"><span class="ha-time">Vr 19:00</span><span class="ha-title">Avondeten</span></div>
+          <div class="house-activity"><span class="ha-time">Vr 20:00</span><span class="ha-title">Biljarttoernooi</span></div>
+          <div class="house-activity"><span class="ha-time">Za 10:00</span><span class="ha-title">Ontbijt</span></div>
+          <div class="house-activity"><span class="ha-time">Za 13:00</span><span class="ha-title">Bierspeurtocht</span></div>
+          <div class="house-activity"><span class="ha-time">Za 19:00</span><span class="ha-title">Avondeten</span></div>
+          <div class="house-activity"><span class="ha-time">Zo 10:00</span><span class="ha-title">Ontbijt</span></div>
+          <div class="house-activity"><span class="ha-time">Zo 16:00/20:00</span><span class="ha-title">Vertrek</span></div>
+        </div>
+
         <a class="stop-card-link" href="huisje.html">Bekijk het huisje →</a>
       </div>
     </div>
@@ -937,7 +995,7 @@
       <div class="stop-card-body">
         <div class="stop-card-top">
           <div class="stop-card-name">Paintball — Paintballexperience</div>
-          <div class="stop-card-time">Vr 10:00</div>
+          <div class="stop-card-time">Vr 12:00</div>
         </div>
         <div class="stop-card-addr">Chemin des Barons de Rosée 9, 5537 Anhée, België</div>
         <div class="stop-card-desc">Strijd in het bos. Even geen vrienden, alleen tegenstanders.</div>
@@ -1058,8 +1116,16 @@
   (function () {
     const STOPS = [
       { name: 'Lunch — Brasserie Peil 5', lat: 50.9418747, lon: 5.8815311, day: 'Do 13:00' },
-      { name: 'Huisje (Ciney)',           lat: 50.2969,    lon: 5.0989,    day: 'Do 16:00' },
-      { name: 'Paintball',                lat: 50.3134697, lon: 4.8591463, day: 'Vr 10:00' },
+      {
+        name: 'Huisje (Ciney)', lat: 50.2969, lon: 5.0989, day: 'Do 16:00 – Zo 20:00',
+        extra: [
+          'Do 16:00 Aankomst huisje', 'Do 19:00 Avondeten', 'Do 21:00 Bier Olympics',
+          'Vr 10:00 Ontbijt', 'Vr 19:00 Avondeten', 'Vr 20:00 Biljarttoernooi',
+          'Za 10:00 Ontbijt', 'Za 13:00 Bierspeurtocht', 'Za 19:00 Avondeten',
+          'Zo 10:00 Ontbijt', 'Zo 16:00/20:00 Vertrek',
+        ],
+      },
+      { name: 'Paintball',                lat: 50.3134697, lon: 4.8591463, day: 'Vr 12:00' },
       { name: 'Maison Leffe',             lat: 50.2569973, lon: 4.9107713, day: 'Vr 15:00' },
     ];
 
@@ -1079,7 +1145,10 @@
     const bounds = [];
     STOPS.forEach((s, i) => {
       const marker = L.marker([s.lat, s.lon], { icon: flameIcon(i + 1) }).addTo(map);
-      marker.bindPopup(`<strong>${s.name}</strong><br>${s.day}`);
+      const extraHtml = s.extra
+        ? `<div class="popup-activities">${s.extra.map(a => `<div>${a}</div>`).join('')}</div>`
+        : '';
+      marker.bindPopup(`<strong>${s.name}</strong><br>${s.day}${extraHtml}`, { maxWidth: 260 });
       bounds.push([s.lat, s.lon]);
     });
     map.fitBounds(bounds, { padding: [40, 40] });
