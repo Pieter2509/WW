@@ -264,6 +264,55 @@
     color: var(--ink-muted);
   }
 
+  /* ACHIEVEMENTS */
+  section.achievements {
+    padding: 0 48px 120px;
+    position: relative;
+    z-index: 2;
+  }
+  .achievements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .achievement {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    padding: 22px 28px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .achievement:hover { transform: translateY(-3px); border-color: rgba(196, 240, 74, 0.4); }
+  .achievement-icon { font-size: 2rem; flex: 0 0 auto; }
+  .achievement-body { flex: 1; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .achievement-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--ink);
+  }
+  .achievement-winner {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--lime);
+  }
+  .achievement-year {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-muted);
+  }
+
+  @media (max-width: 480px) {
+    .achievement { flex-direction: column; align-items: flex-start; text-align: left; gap: 8px; }
+    .achievement-year { margin-left: 0; }
+  }
+
   /* FOOTER */
   footer {
     padding: 80px 48px 32px;
@@ -301,7 +350,7 @@
     nav { padding: 16px 24px; }
     .nav-links { gap: 14px; }
     .nav-links a { font-size: 0.68rem; letter-spacing: 0.1em; }
-    .page-hero, .section-header, section.awards { padding-left: 24px; padding-right: 24px; }
+    .page-hero, .section-header, section.awards, section.achievements { padding-left: 24px; padding-right: 24px; }
     .page-hero { padding-top: 110px; }
     .eyebrow .coords { display: none; }
     footer { padding: 60px 24px 28px; }
@@ -407,10 +456,10 @@
 <header class="page-hero">
   <div class="eyebrow">
     05 // De Eregalerij
-    <span class="coords">7 categorieën / editie '26</span>
+    <span class="coords">7 awards + achievements</span>
   </div>
-  <h1>De <span class="accent">Awards</span>.</h1>
-  <p class="subtitle">Aan het eind van elk weekendje weg worden de rekeningen vereffend. Hier komen de winnaars te staan — met naam, toenaam en de reden waarom.</p>
+  <h1>Awards &amp; <span class="accent">Achievements</span>.</h1>
+  <p class="subtitle">Aan het eind van elk weekendje weg worden de rekeningen vereffend. De Awards zijn voor dit jaar, de Achievements blijven voor altijd staan.</p>
 </header>
 
 <div class="section-header">
@@ -522,6 +571,34 @@
           <span class="label">Winnaar</span>
           <span class="name">Bryan</span>
         </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-header">
+  <span class="section-num">// voor altijd</span>
+  <h2 class="section-title">achievements</h2>
+  <span class="section-sub">titels die je meeneemt, jaar na jaar</span>
+</div>
+
+<section class="achievements">
+  <div class="achievements-list">
+
+    <!-- ================================================================
+         ACHIEVEMENTS BEWERKEN:
+         Voeg hier per gewonnen titel een nieuw blokje toe (kopieer het
+         onderstaande blok). Deze lijst is anders dan de Awards hierboven:
+         Awards worden elk jaar opnieuw bepaald, Achievements blijven staan.
+    ================================================================ -->
+
+    <div class="achievement">
+      <div class="achievement-icon">🍺</div>
+      <div class="achievement-body">
+        <div class="achievement-title">Bier Olympics Kampioen</div>
+        <div class="achievement-winner">Daan van Ommen</div>
+        <div class="achievement-year">2025</div>
       </div>
     </div>
 
