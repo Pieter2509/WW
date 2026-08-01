@@ -105,17 +105,39 @@
     overflow: hidden;
   }
 
+  /* achtergrondvideo op het startscherm */
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-video-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(180deg, rgba(13,16,12,0.55) 0%, rgba(13,16,12,0.55) 45%, rgba(13,16,12,0.85) 100%),
+      linear-gradient(90deg, rgba(13,16,12,0.35) 0%, rgba(13,16,12,0.1) 40%, rgba(13,16,12,0.1) 60%, rgba(13,16,12,0.35) 100%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video { display: none; }
+    .hero-video-overlay { background: var(--bg); }
+  }
+
   /* topografische lijnen */
   .topo {
     position: absolute;
     inset: 0;
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
     opacity: 0.35;
   }
   .topo svg { width: 100%; height: 100%; }
 
-  .hero > *:not(.topo) { position: relative; z-index: 2; }
+  .hero > *:not(.topo):not(.hero-video):not(.hero-video-overlay) { position: relative; z-index: 2; }
 
   .hero-eyebrow {
     font-family: 'JetBrains Mono', monospace;
@@ -971,6 +993,11 @@
 </div>
 
 <header class="hero">
+  <video class="hero-video" autoplay muted loop playsinline poster="hero-bg-poster.jpg">
+    <source src="hero-bg.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
+
   <div class="topo">
     <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
       <g fill="none" stroke="#c4f04a" stroke-width="0.6" opacity="0.5">
