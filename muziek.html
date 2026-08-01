@@ -158,31 +158,20 @@
     color: var(--ink-muted);
   }
 
-  /* MUZIEK */
-  section.music {
-    padding: 0 48px 80px;
+  /* JOIN */
+  section.join-section {
+    padding: 0 48px 100px;
     position: relative;
     z-index: 2;
   }
-  .music-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 24px;
-    align-items: start;
-  }
-  @media (max-width: 900px) {
-    .music-grid { grid-template-columns: 1fr; }
-  }
-
-  .music-panel {
+  .join-box {
     background: var(--bg-elevated);
     border: 1px solid var(--line-strong);
     border-radius: 8px;
     padding: 32px;
+    max-width: 560px;
   }
-
-  /* Login state */
-  .spotify-login-btn {
+  .join-btn {
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -196,120 +185,23 @@
     text-decoration: none;
     padding: 16px 26px;
     border-radius: 100px;
-    border: none;
-    cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
   }
-  .spotify-login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(29,185,84,0.35); }
-  .music-intro { color: var(--ink-soft); font-size: 0.98rem; line-height: 1.6; margin-bottom: 24px; }
+  .join-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(29,185,84,0.35); }
+  .join-steps {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    padding-left: 20px;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    line-height: 1.8;
+  }
+  .join-steps strong { color: var(--ink); }
 
-
-
-  .logged-in-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--line);
+  @media (max-width: 900px) {
+    section.join-section { padding-left: 24px; padding-right: 24px; }
   }
-  .logged-in-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: #1DB954; box-shadow: 0 0 10px #1DB954; }
-  .logged-in-bar .who { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-soft); }
-  .logged-in-bar .who span { color: var(--lime); }
-  .logout-link { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--ink-muted); text-decoration: underline; cursor: pointer; background: none; border: none; }
-  .logout-link:hover { color: var(--flame); }
-
-  /* Search */
-  .search-row { display: flex; gap: 10px; margin-bottom: 20px; }
-  .search-row input {
-    flex: 1;
-    background: var(--bg-lift);
-    border: 1px solid var(--line-strong);
-    border-radius: 6px;
-    padding: 14px 16px;
-    color: var(--ink);
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.95rem;
-  }
-  .search-row input:focus { outline: none; border-color: var(--flame); }
-  .search-row button {
-    background: var(--flame);
-    color: var(--bg);
-    border: none;
-    border-radius: 6px;
-    padding: 0 22px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .search-row button:hover { background: var(--flame-deep); }
-
-  .track-result {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px;
-    border-radius: 6px;
-    transition: background 0.2s;
-  }
-  .track-result:hover { background: var(--bg-lift); }
-  .track-result img { width: 48px; height: 48px; border-radius: 4px; object-fit: cover; flex: 0 0 48px; }
-  .track-result-body { flex: 1; min-width: 0; }
-  .track-result-name { color: var(--ink); font-size: 0.92rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .track-result-artist { color: var(--ink-muted); font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .track-add-btn {
-    flex: 0 0 auto;
-    background: none;
-    border: 1px solid var(--line-strong);
-    color: var(--lime);
-    width: 34px; height: 34px;
-    border-radius: 50%;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .track-add-btn:hover { background: rgba(196,240,74,0.12); border-color: var(--lime); }
-  .track-add-btn:disabled { opacity: 0.4; cursor: default; }
-
-  .music-status {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--ink-muted);
-    text-align: center;
-    padding: 10px 0;
-  }
-  .music-status.error { color: var(--flame); }
-  .music-status.ok { color: var(--lime); }
-
-  /* Feed */
-  .feed-title {
-    font-family: 'Instrument Serif', serif;
-    font-style: italic;
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-  }
-  .feed-list { display: flex; flex-direction: column; gap: 4px; max-height: 520px; overflow-y: auto; }
-  .feed-item {
-    padding: 14px 4px;
-    border-bottom: 1px solid var(--line);
-    font-size: 0.88rem;
-  }
-  .feed-item:last-child { border-bottom: none; }
-  .feed-item .track { color: var(--ink); font-weight: 600; }
-  .feed-item .artist { color: var(--ink-soft); }
-  .feed-item .meta {
-    margin-top: 4px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink-muted);
-  }
-  .feed-item .meta span { color: var(--flame); }
-  .feed-empty { color: var(--ink-muted); font-size: 0.85rem; font-style: italic; }
 
   /* PLAYLIST EMBED */
   section.playlist-embed-section {
@@ -474,52 +366,27 @@
     06 // De Soundtrack
     <span class="coords">jouw nummer, hun playlist</span>
   </div>
-  <h1>Voeg een <span class="accent">liedje</span> toe.</h1>
-  <p class="subtitle">Log in met je eigen Spotify-account en zet een nummer direct op de gedeelde playlist voor het weekend. Geen appjes heen en weer — gewoon zoeken, klikken, toegevoegd.</p>
+  <h1>Doe mee met de <span class="accent">playlist</span>.</h1>
+  <p class="subtitle">Word lid van de gedeelde playlist en zet zelf nummers erop via je eigen Spotify-app — geen inloggen op de site nodig.</p>
 </header>
 
 <div class="section-header">
-  <span class="section-num">// bijdragen</span>
-  <h2 class="section-title">zoek &amp; voeg toe</h2>
-  <span class="section-sub" id="sectionSub">nog niet ingelogd</span>
+  <span class="section-num">// meedoen</span>
+  <h2 class="section-title">word lid</h2>
+  <span class="section-sub">1 keer, dan kan je altijd toevoegen</span>
 </div>
 
-<section class="music">
-  <div class="music-grid">
-
-    <div class="music-panel">
-      <div id="loggedOutView">
-        <p class="music-intro">Je hebt een gratis of premium Spotify-account nodig. We vragen alleen toestemming om nummers aan deze ene playlist toe te voegen — verder raken we niks aan.</p>
-        <button class="spotify-login-btn" id="loginBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-          Inloggen met Spotify
-        </button>
-      </div>
-
-      <div id="loggedInView" style="display:none">
-        <div class="logged-in-bar">
-          <span class="dot"></span>
-          <span class="who">Ingelogd als <span id="whoName">—</span></span>
-          <button class="logout-link" id="logoutBtn">uitloggen</button>
-        </div>
-
-        <div class="search-row">
-          <input type="text" id="searchInput" placeholder="Zoek op titel of artiest..." autocomplete="off">
-          <button id="searchBtn">Zoek</button>
-        </div>
-
-        <div id="musicStatus"></div>
-        <div id="searchResults"></div>
-      </div>
-    </div>
-
-    <div class="music-panel">
-      <div class="feed-title">Laatst toegevoegd</div>
-      <div class="feed-list" id="feedList">
-        <div class="feed-empty">Nog niemand heeft iets toegevoegd via de site.</div>
-      </div>
-    </div>
-
+<section class="join-section">
+  <div class="join-box">
+    <a class="join-btn" href="https://open.spotify.com/playlist/3nBugj023xWJTNueWNqjfd?si=833470862b724930&pt=05af22d30c3963d038777e3344fdae61" target="_blank" rel="noopener">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      Word lid van de playlist
+    </a>
+    <ol class="join-steps">
+      <li>Klik op de knop hierboven — die opent de playlist in Spotify</li>
+      <li>Tik op <strong>"Start met samenwerken"</strong> / <strong>"Join as collaborator"</strong></li>
+      <li>Klaar — voeg vanaf nu zelf nummers toe, gewoon via de Spotify-app zelf</li>
+    </ol>
   </div>
 </section>
 
@@ -548,272 +415,7 @@
   <div>WKD-WG / EST. 2019 / V8.0</div>
 </footer>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, onValue, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-  import { firebaseConfig } from "./firebase-config.js";
-  import { SPOTIFY_CONFIG } from "./spotify-config.js";
-
-  const app = initializeApp(firebaseConfig);
-  const db  = getDatabase(app);
-  const logRef = ref(db, 'muziek_log');
-
-  const TOKEN_KEY    = 'ww26_spotify_token';
-  const VERIFIER_KEY = 'ww26_spotify_verifier';
-
-  const loggedOutView = document.getElementById('loggedOutView');
-  const loggedInView  = document.getElementById('loggedInView');
-  const whoName       = document.getElementById('whoName');
-  const sectionSub    = document.getElementById('sectionSub');
-  const statusBox     = document.getElementById('musicStatus');
-  const resultsBox    = document.getElementById('searchResults');
-  const searchInput   = document.getElementById('searchInput');
-
-  function randomString(len) {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    return Array.from(crypto.getRandomValues(new Uint8Array(len))).map(x => chars[x % chars.length]).join('');
-  }
-  async function codeChallengeFromVerifier(verifier) {
-    const data = new TextEncoder().encode(verifier);
-    const digest = await crypto.subtle.digest('SHA-256', data);
-    return btoa(String.fromCharCode(...new Uint8Array(digest)))
-      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  }
-
-  function getStoredToken() {
-    try { return JSON.parse(localStorage.getItem(TOKEN_KEY) || 'null'); } catch { return null; }
-  }
-  function storeToken(tokenObj) {
-    localStorage.setItem(TOKEN_KEY, JSON.stringify(tokenObj));
-  }
-  function clearToken() { localStorage.removeItem(TOKEN_KEY); }
-
-  async function login() {
-    const verifier = randomString(64);
-    localStorage.setItem(VERIFIER_KEY, verifier);
-    const challenge = await codeChallengeFromVerifier(verifier);
-    const params = new URLSearchParams({
-      client_id: SPOTIFY_CONFIG.CLIENT_ID,
-      response_type: 'code',
-      redirect_uri: SPOTIFY_CONFIG.REDIRECT_URI,
-      scope: SPOTIFY_CONFIG.SCOPES,
-      code_challenge_method: 'S256',
-      code_challenge: challenge,
-    });
-    window.location.href = `https://accounts.spotify.com/authorize?${params.toString()}`;
-  }
-
-  async function exchangeCodeForToken(code) {
-    const verifier = localStorage.getItem(VERIFIER_KEY);
-    const body = new URLSearchParams({
-      client_id: SPOTIFY_CONFIG.CLIENT_ID,
-      grant_type: 'authorization_code',
-      code,
-      redirect_uri: SPOTIFY_CONFIG.REDIRECT_URI,
-      code_verifier: verifier,
-    });
-    const res = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body,
-    });
-    if (!res.ok) throw new Error('Inloggen bij Spotify is mislukt.');
-    const data = await res.json();
-    storeToken({ access_token: data.access_token, refresh_token: data.refresh_token, expires_at: Date.now() + data.expires_in * 1000 });
-  }
-
-  async function refreshTokenFn(refresh_token) {
-    const body = new URLSearchParams({
-      client_id: SPOTIFY_CONFIG.CLIENT_ID,
-      grant_type: 'refresh_token',
-      refresh_token,
-    });
-    const res = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body,
-    });
-    if (!res.ok) {
-      const body = await res.text();
-      console.error('Spotify token-refresh faalde:', res.status, body);
-      throw new Error('refresh failed');
-    }
-    const data = await res.json();
-    storeToken({ access_token: data.access_token, refresh_token: data.refresh_token || refresh_token, expires_at: Date.now() + data.expires_in * 1000 });
-  }
-
-  async function validAccessToken() {
-    let tok = getStoredToken();
-    if (!tok) return null;
-    if (Date.now() > tok.expires_at - 60000) {
-      try { await refreshTokenFn(tok.refresh_token); tok = getStoredToken(); }
-      catch { clearToken(); return null; }
-    }
-    return tok.access_token;
-  }
-
-  function setStatus(msg, type = '') {
-    statusBox.innerHTML = msg ? `<div class="music-status ${type}">${msg}</div>` : '';
-  }
-
-  async function showLoggedIn(token) {
-    loggedOutView.style.display = 'none';
-    loggedInView.style.display = 'block';
-    sectionSub.textContent = 'ingelogd';
-    try {
-      const res = await fetch('https://api.spotify.com/v1/me', { headers: { Authorization: `Bearer ${token}` } });
-      if (res.status === 401) {
-        console.error('Spotify: token afgewezen (401) bij /v1/me — opnieuw inloggen nodig.');
-        clearToken();
-        showLoggedOut();
-        setStatus('Je sessie is verlopen. Log opnieuw in.', 'error');
-        return;
-      }
-      if (!res.ok) {
-        const body = await res.text();
-        console.error('Spotify /v1/me faalde:', res.status, body);
-        whoName.textContent = '—';
-        return;
-      }
-      const me = await res.json();
-      whoName.textContent = me.display_name || me.id;
-    } catch (err) {
-      console.error('Netwerkfout bij /v1/me (mogelijk CORS of geen internet):', err);
-      whoName.textContent = '—';
-    }
-  }
-
-  function showLoggedOut() {
-    loggedOutView.style.display = 'block';
-    loggedInView.style.display = 'none';
-    sectionSub.textContent = 'nog niet ingelogd';
-  }
-
-  document.getElementById('loginBtn').addEventListener('click', login);
-  document.getElementById('logoutBtn').addEventListener('click', () => { clearToken(); showLoggedOut(); });
-
-  async function doSearch() {
-    const q = searchInput.value.trim();
-    if (!q) return;
-    const token = await validAccessToken();
-    if (!token) { showLoggedOut(); setStatus('Je bent niet (meer) ingelogd. Log opnieuw in.', 'error'); return; }
-
-    setStatus('Zoeken...', '');
-    resultsBox.innerHTML = '';
-    try {
-      const res = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(q)}&type=track&limit=8`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.status === 401) {
-        clearToken();
-        showLoggedOut();
-        setStatus('Je sessie is verlopen. Log opnieuw in.', 'error');
-        return;
-      }
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        const detail = body?.error?.message ? ` (${body.error.message})` : '';
-        console.error('Spotify search faalde:', res.status, body);
-        throw new Error(`Zoeken is mislukt — Spotify gaf status ${res.status}${detail}.`);
-      }
-      const data = await res.json();
-      setStatus('');
-      const tracks = data.tracks?.items || [];
-      if (!tracks.length) { setStatus('Geen resultaten gevonden.'); return; }
-      resultsBox.innerHTML = tracks.map(t => {
-        const img = t.album?.images?.[t.album.images.length - 1]?.url || '';
-        const artists = t.artists.map(a => a.name).join(', ');
-        return `
-          <div class="track-result">
-            ${img ? `<img src="${img}" alt="">` : ''}
-            <div class="track-result-body">
-              <div class="track-result-name">${t.name}</div>
-              <div class="track-result-artist">${artists}</div>
-            </div>
-            <button class="track-add-btn" data-uri="${t.uri}" data-name="${t.name.replace(/"/g,'&quot;')}" data-artist="${artists.replace(/"/g,'&quot;')}" title="Toevoegen aan playlist">+</button>
-          </div>`;
-      }).join('');
-    } catch (err) {
-      console.error('doSearch fout:', err);
-      setStatus(err.message || 'Er ging iets mis (zie console voor details).', 'error');
-    }
-  }
-  document.getElementById('searchBtn').addEventListener('click', doSearch);
-  searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
-
-  resultsBox.addEventListener('click', async (e) => {
-    const btn = e.target.closest('.track-add-btn');
-    if (!btn || btn.disabled) return;
-    const token = await validAccessToken();
-    if (!token) { showLoggedOut(); return; }
-
-    btn.disabled = true;
-    btn.textContent = '…';
-    try {
-      const res = await fetch(`https://api.spotify.com/v1/playlists/${SPOTIFY_CONFIG.PLAYLIST_ID}/tracks`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uris: [btn.dataset.uri] }),
-      });
-      if (res.status === 401) {
-        clearToken();
-        showLoggedOut();
-        throw new Error('Je sessie is verlopen. Log opnieuw in.');
-      }
-      if (res.status === 403) throw new Error('Geen toestemming — vraag Pieter om de playlist collaborative te zetten.');
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        console.error('Spotify toevoegen faalde:', res.status, body);
-        throw new Error(`Toevoegen is mislukt — status ${res.status}${body?.error?.message ? ' (' + body.error.message + ')' : ''}.`);
-      }
-
-      btn.textContent = '✓';
-      setStatus(`"${btn.dataset.name}" toegevoegd aan de playlist.`, 'ok');
-
-      push(logRef, {
-        naam: whoName.textContent || 'iemand',
-        track: btn.dataset.name,
-        artiest: btn.dataset.artist,
-        tijd: Date.now(),
-      });
-    } catch (err) {
-      btn.disabled = false;
-      btn.textContent = '+';
-      setStatus(err.message, 'error');
-    }
-  });
-
-  onValue(logRef, snapshot => {
-    const data = snapshot.val();
-    const feedList = document.getElementById('feedList');
-    if (!data) { feedList.innerHTML = '<div class="feed-empty">Nog niemand heeft iets toegevoegd via de site.</div>'; return; }
-    const items = Object.values(data).sort((a, b) => b.tijd - a.tijd).slice(0, 30);
-    feedList.innerHTML = items.map(it => {
-      const d = new Date(it.tijd);
-      const when = d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' }) + ' · ' + d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
-      return `<div class="feed-item"><span class="track">${it.track}</span> — <span class="artist">${it.artiest}</span><div class="meta"><span>${it.naam}</span> · ${when}</div></div>`;
-    }).join('');
-  });
-
-  (async function init() {
-    if (!SPOTIFY_CONFIG.CLIENT_ID || SPOTIFY_CONFIG.CLIENT_ID.startsWith('VUL-HIER')) {
-      loggedOutView.innerHTML = '<p class="music-intro">De Spotify-koppeling is nog niet ingesteld. Pieter moet eerst SPOTIFY-STAPPENPLAN.md volgen en zijn Client ID in <code>spotify-config.js</code> zetten.</p>';
-      return;
-    }
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    if (code) {
-      try {
-        await exchangeCodeForToken(code);
-        window.history.replaceState({}, '', window.location.pathname);
-      } catch (err) {
-        setStatus(err.message, 'error');
-      }
-    }
-    const token = await validAccessToken();
-    if (token) showLoggedIn(token); else showLoggedOut();
-  })();
-
+<script>
   function toggleMenu() {
     const btn    = document.getElementById('hamburger');
     const drawer = document.getElementById('navDrawer');
@@ -826,12 +428,7 @@
     document.getElementById('navDrawer').classList.remove('open');
     document.body.style.overflow = '';
   }
-  window.toggleMenu = toggleMenu;
-  window.sluitMenu = sluitMenu;
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
