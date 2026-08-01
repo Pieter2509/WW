@@ -264,6 +264,89 @@
     color: var(--ink-muted);
   }
 
+  /* VOTING */
+  .award-vote {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .vote-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .vote-btn {
+    background: var(--bg-lift);
+    border: 1px solid var(--line-strong);
+    color: var(--ink-soft);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 14px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .vote-btn:hover { border-color: var(--flame); color: var(--ink); }
+  .vote-btn.mine { background: var(--flame); border-color: var(--flame); color: var(--bg); }
+  .vote-tally { display: flex; flex-direction: column; gap: 6px; }
+  .vote-row { display: flex; align-items: center; gap: 10px; }
+  .vote-row-name {
+    flex: 0 0 64px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+  }
+  .vote-row-bar-bg {
+    flex: 1;
+    height: 8px;
+    background: var(--bg-lift);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .vote-row-bar {
+    height: 100%;
+    background: var(--lime);
+    border-radius: 100px;
+    transition: width 0.4s ease;
+  }
+  .vote-row-count {
+    flex: 0 0 auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    min-width: 14px;
+    text-align: right;
+  }
+
+  /* NAAM MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(6px); z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal {
+    background: var(--bg-elevated); border: 1px solid var(--line-strong);
+    border-radius: 16px; padding: 36px; max-width: 380px; width: 90%;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5); animation: fadeUp 0.3s both;
+  }
+  .modal h2 { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 1.5rem; margin-bottom: 8px; }
+  .modal p { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 24px; }
+  .modal input {
+    width: 100%; background: var(--bg-lift); border: 1px solid var(--line-strong);
+    color: var(--ink); font-family: 'Manrope', sans-serif; font-size: 0.95rem;
+    padding: 13px 16px; border-radius: 8px; outline: none; margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .modal input:focus { border-color: var(--flame); }
+  .modal input::placeholder { color: var(--ink-muted); }
+  .btn-modal {
+    width: 100%; background: var(--flame); color: #0d100c; border: none;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em; padding: 14px; border-radius: 8px; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-modal:hover { background: var(--flame-deep); }
+
   /* ACHIEVEMENTS */
   section.achievements {
     padding: 0 48px 120px;
@@ -489,6 +572,17 @@
         <div class="award-item-name">MVP van het Weekend</div>
         <div class="award-item-tag">Droeg de groep dit jaar echt</div>
         <div class="award-item-desc">Voor wie het weekend maakte tot wat het was — de organisatie, de energie, de goede sfeer, of gewoon de beste grappen op het juiste moment.</div>
+        <div class="award-vote">
+          <div class="vote-buttons" data-category="mvp">
+          <button class="vote-btn" data-name="Jip">Jip</button>
+          <button class="vote-btn" data-name="Daan">Daan</button>
+          <button class="vote-btn" data-name="Max">Max</button>
+          <button class="vote-btn" data-name="Vince">Vince</button>
+          <button class="vote-btn" data-name="Roel">Roel</button>
+          <button class="vote-btn" data-name="Pieter">Pieter</button>
+          </div>
+          <div class="vote-tally" data-category="mvp"></div>
+        </div>
         <div class="award-winner pending">
           <span class="label">Winnaar</span>
           <span class="name">Wordt onthuld na het weekend</span>
@@ -502,6 +596,17 @@
         <div class="award-item-name">De Chaos Factor</div>
         <div class="award-item-tag">Meeste onrust veroorzaakt</div>
         <div class="award-item-desc">Voor de man die het weekend net dat beetje extra chaos gaf — op de goede of de slechte manier.</div>
+        <div class="award-vote">
+          <div class="vote-buttons" data-category="chaos">
+          <button class="vote-btn" data-name="Jip">Jip</button>
+          <button class="vote-btn" data-name="Daan">Daan</button>
+          <button class="vote-btn" data-name="Max">Max</button>
+          <button class="vote-btn" data-name="Vince">Vince</button>
+          <button class="vote-btn" data-name="Roel">Roel</button>
+          <button class="vote-btn" data-name="Pieter">Pieter</button>
+          </div>
+          <div class="vote-tally" data-category="chaos"></div>
+        </div>
         <div class="award-winner pending">
           <span class="label">Winnaar</span>
           <span class="name">Wordt onthuld na het weekend</span>
@@ -515,6 +620,17 @@
         <div class="award-item-name">Citaat van het Weekend</div>
         <div class="award-item-tag">Beste uitspraak, verkeerd of niet</div>
         <div class="award-item-desc">De zin die iedereen zich over een jaar nog herinnert — uit context gerukt of niet.</div>
+        <div class="award-vote">
+          <div class="vote-buttons" data-category="citaat">
+          <button class="vote-btn" data-name="Jip">Jip</button>
+          <button class="vote-btn" data-name="Daan">Daan</button>
+          <button class="vote-btn" data-name="Max">Max</button>
+          <button class="vote-btn" data-name="Vince">Vince</button>
+          <button class="vote-btn" data-name="Roel">Roel</button>
+          <button class="vote-btn" data-name="Pieter">Pieter</button>
+          </div>
+          <div class="vote-tally" data-category="citaat"></div>
+        </div>
         <div class="award-winner pending">
           <span class="label">Winnaar</span>
           <span class="name">Wordt onthuld na het weekend</span>
@@ -528,6 +644,17 @@
         <div class="award-item-name">Corvee-Ontwijker van het Jaar</div>
         <div class="award-item-tag">Verdwijnt zodra het bord vies wordt</div>
         <div class="award-item-desc">Voor wie zich het handigst wist te onttrekken aan het corvee-schema — met of zonder smoesje.</div>
+        <div class="award-vote">
+          <div class="vote-buttons" data-category="corvee">
+          <button class="vote-btn" data-name="Jip">Jip</button>
+          <button class="vote-btn" data-name="Daan">Daan</button>
+          <button class="vote-btn" data-name="Max">Max</button>
+          <button class="vote-btn" data-name="Vince">Vince</button>
+          <button class="vote-btn" data-name="Roel">Roel</button>
+          <button class="vote-btn" data-name="Pieter">Pieter</button>
+          </div>
+          <div class="vote-tally" data-category="corvee"></div>
+        </div>
         <div class="award-winner pending">
           <span class="label">Winnaar</span>
           <span class="name">Wordt onthuld na het weekend</span>
@@ -541,6 +668,17 @@
         <div class="award-item-name">Meest Verrassende Moment</div>
         <div class="award-item-tag">Niemand zag het aankomen</div>
         <div class="award-item-desc">De plot twist van het weekend — iets wat écht niemand had zien aankomen.</div>
+        <div class="award-vote">
+          <div class="vote-buttons" data-category="verrassing">
+          <button class="vote-btn" data-name="Jip">Jip</button>
+          <button class="vote-btn" data-name="Daan">Daan</button>
+          <button class="vote-btn" data-name="Max">Max</button>
+          <button class="vote-btn" data-name="Vince">Vince</button>
+          <button class="vote-btn" data-name="Roel">Roel</button>
+          <button class="vote-btn" data-name="Pieter">Pieter</button>
+          </div>
+          <div class="vote-tally" data-category="verrassing"></div>
+        </div>
         <div class="award-winner pending">
           <span class="label">Winnaar</span>
           <span class="name">Wordt onthuld na het weekend</span>
@@ -554,6 +692,17 @@
         <div class="award-item-name">Grootste Blunder</div>
         <div class="award-item-tag">Legendarisch misser</div>
         <div class="award-item-desc">Voor de misser van het weekend — gênant genoeg om nog jarenlang aangehaald te worden.</div>
+        <div class="award-vote">
+          <div class="vote-buttons" data-category="blunder">
+          <button class="vote-btn" data-name="Jip">Jip</button>
+          <button class="vote-btn" data-name="Daan">Daan</button>
+          <button class="vote-btn" data-name="Max">Max</button>
+          <button class="vote-btn" data-name="Vince">Vince</button>
+          <button class="vote-btn" data-name="Roel">Roel</button>
+          <button class="vote-btn" data-name="Pieter">Pieter</button>
+          </div>
+          <div class="vote-tally" data-category="blunder"></div>
+        </div>
         <div class="award-winner pending">
           <span class="label">Winnaar</span>
           <span class="name">Wordt onthuld na het weekend</span>
@@ -605,10 +754,101 @@
   </div>
 </section>
 
+<!-- Naam modal: nodig om te weten wie er stemt (en om een stem te kunnen wijzigen) -->
+<div class="modal-overlay" id="modalOverlay" style="display:none">
+  <div class="modal">
+    <h2>Wie ben jij?</h2>
+    <p>Zo weten we wie op wie heeft gestemd, en kun je je stem later nog aanpassen.</p>
+    <input type="text" id="modalNaam" placeholder="Jouw naam..." maxlength="20" autocomplete="off">
+    <button class="btn-modal" id="modalBtn">Doorgaan →</button>
+  </div>
+</div>
+
 <footer>
   <div class="footer-title">Tot in <em>november</em>.</div>
   <div>WKD-WG / EST. 2019 / V8.0</div>
 </footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { firebaseConfig } from "./firebase-config.js";
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+
+  const NAAM_KEY = 'ww26_gebruiker';
+  let gebruiker = localStorage.getItem(NAAM_KEY) || '';
+
+  const overlay    = document.getElementById('modalOverlay');
+  const modalInput = document.getElementById('modalNaam');
+  let pendingVoteCallback = null;
+
+  function slaNaamOp() {
+    const v = modalInput.value.trim();
+    if (!v) { modalInput.focus(); return; }
+    gebruiker = v;
+    localStorage.setItem(NAAM_KEY, gebruiker);
+    overlay.style.display = 'none';
+    if (pendingVoteCallback) {
+      const cb = pendingVoteCallback;
+      pendingVoteCallback = null;
+      cb();
+    }
+  }
+  document.getElementById('modalBtn').addEventListener('click', slaNaamOp);
+  modalInput.addEventListener('keydown', e => { if (e.key === 'Enter') slaNaamOp(); });
+
+  function vraagNaamIndienNodig(callback) {
+    if (gebruiker) { callback(); return; }
+    pendingVoteCallback = callback;
+    overlay.style.display = 'flex';
+    modalInput.focus();
+  }
+
+  // ── Stemmen per categorie ──────────────────────────────
+  document.querySelectorAll('.vote-buttons').forEach(container => {
+    const category = container.dataset.category;
+    const stemRef = ref(db, `awards_stemmen/${category}`);
+    const tallyEl = document.querySelector(`.vote-tally[data-category="${category}"]`);
+
+    // Live tellen + eigen stem highlighten
+    onValue(stemRef, snapshot => {
+      const data = snapshot.val() || {};
+      const counts = {};
+      Object.values(data).forEach(naam => { counts[naam] = (counts[naam] || 0) + 1; });
+      const totaal = Object.values(counts).reduce((a, b) => a + b, 0);
+
+      const rows = Array.from(container.querySelectorAll('.vote-btn')).map(btn => btn.dataset.name);
+      tallyEl.innerHTML = rows
+        .map(naam => ({ naam, aantal: counts[naam] || 0 }))
+        .sort((a, b) => b.aantal - a.aantal)
+        .map(({ naam, aantal }) => {
+          const pct = totaal ? Math.round((aantal / totaal) * 100) : 0;
+          return `
+            <div class="vote-row">
+              <span class="vote-row-name">${naam}</span>
+              <span class="vote-row-bar-bg"><span class="vote-row-bar" style="width:${pct}%"></span></span>
+              <span class="vote-row-count">${aantal}</span>
+            </div>`;
+        }).join('');
+
+      // Highlight mijn eigen stem
+      container.querySelectorAll('.vote-btn').forEach(btn => {
+        btn.classList.toggle('mine', gebruiker && data[gebruiker] === btn.dataset.name);
+      });
+    });
+
+    // Klikken om te stemmen (of stem te wijzigen)
+    container.querySelectorAll('.vote-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        vraagNaamIndienNodig(() => {
+          set(ref(db, `awards_stemmen/${category}/${gebruiker}`), btn.dataset.name);
+        });
+      });
+    });
+  });
+</script>
 
 <script>
   function toggleMenu() {
