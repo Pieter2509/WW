@@ -448,6 +448,7 @@
     border-radius: 6px;
   }
   .leaflet-popup-tip { background: var(--bg-elevated); }
+  .osm-dark { filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) grayscale(0.4); }
   .popup-activities {
     margin-top: 8px;
     padding-top: 8px;
@@ -1130,10 +1131,26 @@
     ];
 
     const map = L.map('routeMap', { scrollWheelZoom: false });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-      maxZoom: 19,
+    // CARTO vraagt sinds kort een API-key; daarom Esri Dark Gray (gratis, geen key),
+    // met OpenStreetMap als terugval als Esri niet laadt.
+    const esriBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap',
+      maxZoom: 16,
     }).addTo(map);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 16,
+    }).addTo(map);
+    let tileErrors = 0, switched = false;
+    esriBase.on('tileerror', () => {
+      if (switched || ++tileErrors < 4) return;
+      switched = true;
+      map.eachLayer(l => { if (l instanceof L.TileLayer) map.removeLayer(l); });
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap',
+        maxZoom: 19,
+        className: 'osm-dark',
+      }).addTo(map);
+    });
 
     const flameIcon = (label) => L.divIcon({
       className: 'route-pin',
@@ -1152,6 +1169,8 @@
       bounds.push([s.lat, s.lon]);
     });
     map.fitBounds(bounds, { padding: [40, 40] });
+    // Opnieuw passend maken zodra fonts/layout klaar zijn (anders valt stop 1 buiten beeld)
+    window.addEventListener('load', () => { map.invalidateSize(); map.fitBounds(bounds, { padding: [40, 40] }); });
 
     const statusEl = document.getElementById('mapStatus');
 

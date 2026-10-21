@@ -749,6 +749,24 @@
     .nav-links { display: none; }
   }
 </style>
+<script>
+  // Foto's van het huisje: eerst de eigen kopie in /huisje, anders de site van de verhuurder
+  // (zonder referrer, zodat hotlink-blokkade niet afgaat). Lukt beide niet: nette lege tegel.
+  function huisjeFoto(img) {
+    if (!img.dataset.triedRemote && img.dataset.remote) {
+      img.dataset.triedRemote = '1';
+      img.referrerPolicy = 'no-referrer';
+      img.src = img.dataset.remote;
+    } else {
+      img.onerror = null;
+      img.style.visibility = 'hidden';
+      img.parentElement.classList.add('foto-missing');
+    }
+  }
+</script>
+<style>
+  .foto-missing { background: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 12px, transparent 12px 24px); }
+</style>
 </head>
 <body>
 
@@ -816,7 +834,7 @@
 
 <section class="hero-image">
   <div class="hero-image-inner">
-    <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2-Maisons-de-vacances-107841-01-Ciney-1606313-1L.jpg" alt="Vooraanzicht van Le Nid de Barcenal" loading="lazy">
+    <img src="huisje/voorkant.jpg" data-remote="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2-Maisons-de-vacances-107841-01-Ciney-1606313-1L.jpg" onerror="huisjeFoto(this)" alt="Vooraanzicht van Le Nid de Barcenal" loading="lazy">
     <div class="hero-image-tag">Geboekt / 12 november 2026</div>
   </div>
 </section>
@@ -829,20 +847,20 @@
 
 <section class="gallery">
   <div class="gallery-grid">
-    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606310-1L.jpg">
-      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606310-1L.jpg" alt="Interieur" loading="lazy">
+    <div class="gallery-item">
+      <img src="huisje/interieur.jpg" data-remote="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606310-1L.jpg" onerror="huisjeFoto(this)" alt="Interieur" loading="lazy">
       <div class="label">Het huis</div>
     </div>
-    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1608648-1L.jpg">
-      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1608648-1L.jpg" alt="Zwembad" loading="lazy">
+    <div class="gallery-item">
+      <img src="huisje/zwembad.jpg" data-remote="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1608648-1L.jpg" onerror="huisjeFoto(this)" alt="Zwembad" loading="lazy">
       <div class="label">Het zwembad</div>
     </div>
-    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606281-1L.jpg">
-      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606281-1L.jpg" alt="Leefruimte" loading="lazy">
+    <div class="gallery-item">
+      <img src="huisje/leefruimte.jpg" data-remote="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606281-1L.jpg" onerror="huisjeFoto(this)" alt="Leefruimte" loading="lazy">
       <div class="label">De leefruimte</div>
     </div>
-    <div class="gallery-item" data-full="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606308-1L.jpg">
-      <img src="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606308-1L.jpg" alt="Buitenkant" loading="lazy">
+    <div class="gallery-item">
+      <img src="huisje/buiten.jpg" data-remote="https://fr.ardennes-etape.be/maisons-de-vacances-ardennes/Ciney/Maison-de-vacances-Sauna-Piscine-107841-01/Maison_FicheV2Carre-Maisons-de-vacances-107841-01-Ciney-1606308-1L.jpg" onerror="huisjeFoto(this)" alt="Buitenkant" loading="lazy">
       <div class="label">Buitenruimte</div>
     </div>
   </div>
