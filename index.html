@@ -488,7 +488,7 @@
     content: '';
     position: absolute;
     bottom: -3px;
-    left: 50%;
+    left: calc(50% + var(--arrow-shift, 0px));
     transform: translateX(-50%) rotate(45deg);
     width: 7px;
     height: 7px;
@@ -1535,8 +1535,9 @@
     const timeline = document.querySelector('.timeline');
     if (!stops.length || !vanMarker || !timeline) return;
 
-    function getActiveIndex() {
-      const now = new Date();
+    const STAY_MS = 60 * 60 * 1000; // na het begin van een stop blijft het busje 1 uur "ter plaatse"
+
+    function getActiveIndex(now) {
       let idx = 0;
       for (let i = 0; i < events.length; i++) {
         if (now >= events[i].date) idx = i;
@@ -1544,49 +1545,98 @@
       return idx;
     }
 
-    function getStatus(activeIdx) {
-      const now = new Date();
+    function timeLeft(ms) {
+      const min = Math.max(0, Math.round(ms / 60000));
+      const d = Math.floor(min / 1440), h = Math.floor((min % 1440) / 60), m = min % 60;
+      if (d > 0) return 'nog ' + d + 'd ' + h + 'u';
+      if (h > 0) return 'nog ' + h + 'u ' + m + 'm';
+      return 'nog ' + m + ' min';
+    }
+
+    // Bepaalt waar het busje staat: bij een stop (ter plaatse) of rijdend naar de volgende stop
+    function getState(now) {
       const first = events[0].date;
       const last = events[events.length - 1].date;
-
       if (now < first) {
-        return { pin: 'In de startblokken', label: 'Klaar voor vertrek', detail: 'Eerste stop: ' + events[0].title + ' op ' + events[0].day + ' ' + events[0].time };
+        return { idx: 0, frac: 0, mode: 'before' };
       }
       if (now >= last) {
+        return { idx: events.length - 1, frac: 0, mode: 'after' };
+      }
+      const idx = getActiveIndex(now);
+      const ev = events[idx];
+      const next = events[idx + 1];
+      const leave = ev.date.getTime() + STAY_MS;
+      if (now.getTime() < leave || !next) {
+        return { idx, frac: 0, mode: 'at' };
+      }
+      const frac = (now.getTime() - leave) / (next.date.getTime() - leave);
+      return { idx, frac: Math.min(1, Math.max(0, frac)), mode: 'driving' };
+    }
+
+    function getStatus(state, now) {
+      const ev = events[state.idx];
+      const next = events[state.idx + 1];
+      if (state.mode === 'before') {
+        return { pin: 'In de startblokken', label: 'Klaar voor vertrek', detail: 'Eerste stop: ' + ev.title + ' op ' + ev.day + ' ' + ev.time };
+      }
+      if (state.mode === 'after') {
         return { pin: 'Thuisgekomen', label: 'Weekendje afgelopen', detail: 'Tot bij editie 9' };
       }
-      const ev = events[activeIdx];
-      const next = events[activeIdx + 1];
-      const detail = next
-        ? 'Hierna: ' + next.title + ' om ' + next.time
-        : '';
-      return { pin: ev.title, label: 'Onderweg', detail: ev.day + ' ' + ev.time + ' / ' + ev.title + (detail ? ' / ' + detail : '') };
+      if (state.mode === 'at') {
+        return {
+          pin: ev.title,
+          label: 'Nu bezig',
+          detail: ev.day + ' ' + ev.time + ' / ' + ev.title + (next ? ' / Hierna: ' + next.title + ' om ' + next.time : '')
+        };
+      }
+      return {
+        pin: '→ ' + next.title,
+        label: 'Onderweg',
+        detail: ev.title + ' ✓ / Volgende: ' + next.title + ' op ' + next.day + ' ' + next.time + ' / ' + timeLeft(next.date - now)
+      };
+    }
+
+    function centerX(el, timelineRect) {
+      const r = el.getBoundingClientRect();
+      return r.left - timelineRect.left + r.width / 2;
     }
 
     function update() {
-      const activeIdx = getActiveIndex();
+      const now = new Date();
+      const state = getState(now);
 
       stops.forEach((el, i) => {
         el.classList.remove('passed', 'active', 'upcoming');
-        if (i < activeIdx) el.classList.add('passed');
-        else if (i === activeIdx) el.classList.add('active');
+        if (state.mode === 'after' || i < state.idx) el.classList.add('passed');
+        else if (i === state.idx) el.classList.add(state.mode === 'driving' ? 'passed' : 'active');
         else el.classList.add('upcoming');
       });
 
-      const activeStop = stops[activeIdx];
       const timelineRect = timeline.getBoundingClientRect();
-      const stopRect = activeStop.getBoundingClientRect();
       if (timelineRect.width > 0) {
-        const x = stopRect.left - timelineRect.left + stopRect.width / 2;
+        let x = centerX(stops[state.idx], timelineRect);
+        if (state.mode === 'driving' && stops[state.idx + 1]) {
+          const x2 = centerX(stops[state.idx + 1], timelineRect);
+          x = x + (x2 - x) * state.frac;
+        }
         vanMarker.style.left = x + 'px';
         const padLeft = parseFloat(getComputedStyle(timeline).paddingLeft) || 30;
         progress.style.width = Math.max(0, x - padLeft) + 'px';
-      }
 
-      const status = getStatus(activeIdx);
-      vanPin.textContent = status.pin;
-      statusBar.innerHTML = 'Status<span class="sep">/</span><strong>' + status.label + '</strong>' +
-        (status.detail ? '<span class="sep">/</span>' + status.detail : '');
+        // Houd het label binnen de tijdlijn (anders valt het aan de rand weg)
+        const status = getStatus(state, now);
+        vanPin.textContent = status.pin;
+        vanPin.style.transform = 'translateX(-50%)';
+        const half = vanPin.offsetWidth / 2;
+        const minX = half + 4, maxX = timelineRect.width - half - 4;
+        const shift = x < minX ? (minX - x) : (x > maxX ? (maxX - x) : 0);
+        vanPin.style.transform = 'translateX(calc(-50% + ' + shift + 'px))';
+        vanPin.style.setProperty('--arrow-shift', (-shift) + 'px');
+
+        statusBar.innerHTML = 'Status<span class="sep">/</span><strong>' + status.label + '</strong>' +
+          (status.detail ? '<span class="sep">/</span>' + status.detail : '');
+      }
     }
 
     update();
