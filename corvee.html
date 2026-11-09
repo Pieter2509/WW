@@ -318,6 +318,71 @@
   }
   .corvee-tag span { color: var(--flame); }
 
+
+  /* MOBIEL: OVERZICHT PER DAG */
+  .corvee-days { display: none; }
+  .day-card {
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    background: var(--bg-elevated);
+    overflow: hidden;
+  }
+  .day-card + .day-card { margin-top: 20px; }
+  .day-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line-strong);
+    background: var(--bg-lift);
+  }
+  .day-card-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.7rem;
+    line-height: 1;
+    color: var(--flame);
+  }
+  .day-card-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-muted);
+  }
+  .day-meal { padding: 14px 20px 16px; }
+  .day-meal + .day-meal { border-top: 1px solid var(--line); }
+  .day-meal-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .day-meal-name .task-icon { width: 20px; height: 20px; }
+  .day-row {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    align-items: baseline;
+    gap: 12px;
+    padding: 4px 0 4px 30px;
+  }
+  .day-row .task-sub { font-size: 0.62rem; }
+  .day-row-names { font-size: 0.98rem; font-weight: 500; color: var(--ink); }
+  .day-note {
+    padding: 14px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+  .day-note + .day-meal, .day-meal + .day-note { border-top: 1px solid var(--line); }
+
   /* FOOTER */
   footer {
     padding: 80px 48px 32px;
@@ -426,6 +491,8 @@
       display: inline-block;
     }
     .corvee-cell.muted { font-size: 0.8rem; }
+    .corvee-grid { display: none; }
+    .corvee-days { display: block; animation: fadeUp 0.8s 0.5s both; }
     footer { padding: 60px 24px 28px; }
   }
 </style>
@@ -578,6 +645,9 @@
     <div class="corvee-cell names muted" data-day="Zo">vertrek</div>
   </div>
 
+  <!-- Mobiel: overzicht per dag (wordt opgebouwd uit de tabel hierboven) -->
+  <div class="corvee-days" id="corveeDays"></div>
+
   <div class="corvee-notes">
     <div class="corvee-note">Pieter regelt elke ochtend ontbijt en lunch met steeds een wisselende helper. Voor en na elke maaltijd is er een ander koppel verantwoordelijk.</div>
     <div class="corvee-tag">// crew of <span>six</span></div>
@@ -615,6 +685,61 @@
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') close();
+    });
+  })();
+
+  // Bouw het mobiele overzicht per dag op uit de tabel, zodat de planning maar op één plek staat
+  (function() {
+    const grid = document.querySelector('.corvee-grid');
+    const out = document.getElementById('corveeDays');
+    if (!grid || !out) return;
+
+    const days = [...grid.querySelectorAll('.day-header')].map(d => d.textContent.trim());
+    const meals = []; // [{name, icon, tasks:[{sub, subClass, cells:[]}]}]
+    let current = null;
+    [...grid.children].forEach(cell => {
+      if (cell.classList.contains('task-label')) {
+        const name = cell.querySelector('.task-label-main').textContent.trim();
+        const subEl = cell.querySelector('.task-sub');
+        let meal = meals.find(m => m.name === name);
+        if (!meal) {
+          meal = { name, icon: cell.querySelector('.task-icon').outerHTML, tasks: [] };
+          meals.push(meal);
+        }
+        current = { sub: subEl.textContent.trim(), subClass: subEl.className, cells: [] };
+        meal.tasks.push(current);
+      } else if (cell.classList.contains('names') && current) {
+        current.cells.push({ text: cell.innerHTML.trim(), muted: cell.classList.contains('muted') });
+      }
+    });
+
+    days.forEach((day, i) => {
+      const card = document.createElement('article');
+      card.className = 'day-card';
+      let body = '';
+      let lastNote = null;
+      let mealCount = 0;
+      meals.forEach(meal => {
+        const cells = meal.tasks.map(t => t.cells[i]).filter(Boolean);
+        if (cells.length && cells.every(c => c.muted)) {
+          if (cells[0].text !== lastNote) {
+            body += `<div class="day-note">${cells[0].text}</div>`;
+            lastNote = cells[0].text;
+          }
+          return;
+        }
+        lastNote = null;
+        mealCount++;
+        body += `<div class="day-meal"><div class="day-meal-name">${meal.icon}<span>${meal.name}</span></div>`;
+        meal.tasks.forEach(t => {
+          const c = t.cells[i];
+          if (!c) return;
+          body += `<div class="day-row"><span class="${t.subClass}">${t.sub}</span><span class="day-row-names">${c.text}</span></div>`;
+        });
+        body += `</div>`;
+      });
+      card.innerHTML = `<div class="day-card-head"><span class="day-card-title">${day.charAt(0) + day.slice(1).toLowerCase()}</span><span class="day-card-count">${mealCount} ${mealCount === 1 ? 'maaltijd' : 'maaltijden'}</span></div>` + body;
+      out.appendChild(card);
     });
   })();
 </script>
